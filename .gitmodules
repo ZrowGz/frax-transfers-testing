@@ -1,0 +1,8 @@
+[submodule "lib/frax-solidity"]
+	path = lib/frax-solidity
+	url = https://github.com/ZrowGz/frax-solidity
+	branch = locked-transfers
+[submodule "lib/frax-cvx-platform"]
+	path = lib/frax-cvx-platform
+	url = https://github.com/ZrowGz/frax-cvx-platform
+	branch = stake-transfers
