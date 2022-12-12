@@ -14,7 +14,7 @@ pragma solidity >=0.8.0;
 // For ERC20 Tokens
 // Uses FraxUnifiedFarmTemplate.sol
 
-import "./FraxUnifiedFarmTemplate.sol";
+import "@frax/FraxUnifiedFarmTemplate.sol";
 
 // -------------------- VARIES --------------------
 
@@ -25,7 +25,7 @@ import "./FraxUnifiedFarmTemplate.sol";
 // import "../Misc_AMOs/curve/I2poolToken.sol";
 
 // Fraxswap
-import '../Fraxswap/core/interfaces/IFraxswapPair.sol';
+import '@frax/../Fraxswap/core/interfaces/IFraxswapPair.sol';
 
 // G-UNI
 // import "../Misc_AMOs/gelato/IGUniPool.sol";

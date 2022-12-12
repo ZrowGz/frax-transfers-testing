@@ -3,13 +3,20 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 remappings = [
-    '@mocks/=lib/frax-solidity/src/hardhat/contracts/mocks/',
-    '@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/'
+    '@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/',
+    '@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/',
+    '@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/',
+    '@convex/=lib/frax-cvx-platform/contracts/contracts/',
+    '@mocks/=test/mocks/',
+    '@frax_testing/=lib/frax_testing/src/',
+    '@openzeppelin-contracts/=lib/openzeppelin-contracts/',
+    'openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/',
+    '@openzeppelin/=lib/openzeppelin-contracts/'
 ]
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
 
-solc_version = "0.8.17"
+solc_version = "0.8.10"
 gas_reports = ["*"]
 
 # settings for coverage reports
