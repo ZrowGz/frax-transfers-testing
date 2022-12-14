@@ -3016,8 +3016,8 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1670976827678,
-      "contentHash": "db6ef9b003bbff57dad0c9c2eabfddc9",
+      "lastModificationDate": 1670977187858,
+      "contentHash": "ecd26aa7ca317391f09db9c07f390e4e",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
         "settings": {
@@ -3077,8 +3077,7 @@
         "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate.sol",
         "lib/frax-solidity/src/hardhat/contracts/Staking/Owned.sol",
         "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelper.sol",
-        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuard.sol",
-        "src/TransferHelper.sol"
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuard.sol"
       ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
@@ -3087,57 +3086,6 @@
         },
         "ILockTransfers": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/ILockTransfers.json"
-        }
-      }
-    },
-    "src/TransferHelper.sol": {
-      "lastModificationDate": 1670957349358,
-      "contentHash": "65422f9ca853112aed75f337cf08390b",
-      "sourceName": "src/TransferHelper.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 100000,
-            "details": {
-              "constantOptimizer": true,
-              "yul": true,
-              "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
-              }
-            }
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [
-        "lib/forge-std/src/console2.sol"
-      ],
-      "versionRequirement": ">=0.6.11",
-      "artifacts": {
-        "HelpsTransfer": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferHelper.sol/HelpsTransfer.json"
         }
       }
     },
@@ -3310,8 +3258,8 @@
       }
     },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1670976299096,
-      "contentHash": "a74670e3460d56491f2057adccb289df",
+      "lastModificationDate": 1670980291848,
+      "contentHash": "dfc7595bf454edb5d806c875ebb66bd2",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -3408,7 +3356,6 @@
         "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
         "src/ConvexVaultTransferrable.sol",
         "src/FraxFarmERC20Transferrable.sol",
-        "src/TransferHelper.sol",
         "src/interfaces/IFraxFarm.sol"
       ],
       "versionRequirement": ">=0.8.0",
@@ -3418,153 +3365,6 @@
         },
         "IDeposits": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20TransfersTest.t.sol/IDeposits.json"
-        }
-      }
-    },
-    "test/mocks/MockConvexRegistry.sol": {
-      "lastModificationDate": 1670963339831,
-      "contentHash": "9404762e22a8ecb789749fd7b0258e71",
-      "sourceName": "test/mocks/MockConvexRegistry.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 100000,
-            "details": {
-              "constantOptimizer": true,
-              "yul": true,
-              "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
-              }
-            }
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "^0.8.10",
-      "artifacts": {
-        "MockConvexRegistry": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockConvexRegistry.sol/MockConvexRegistry.json"
-        }
-      }
-    },
-    "test/mocks/MockConvexStakingWrapper.sol": {
-      "lastModificationDate": 1670884420310,
-      "contentHash": "971c8f48a2d558f00d863e5a4baaa848",
-      "sourceName": "test/mocks/MockConvexStakingWrapper.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 100000,
-            "details": {
-              "constantOptimizer": true,
-              "yul": true,
-              "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
-              }
-            }
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "^0.8.10",
-      "artifacts": {
-        "MockConvexStakingWrapper": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockConvexStakingWrapper.sol/MockConvexStakingWrapper.json"
-        }
-      }
-    },
-    "test/mocks/MockConvexVault.sol": {
-      "lastModificationDate": 1670963332604,
-      "contentHash": "65151ae45fabf6f14436f68426558fa0",
-      "sourceName": "test/mocks/MockConvexVault.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 100000,
-            "details": {
-              "constantOptimizer": true,
-              "yul": true,
-              "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
-              }
-            }
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "^0.8.10",
-      "artifacts": {
-        "MockConvexVault": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockConvexVault.sol/MockConvexVault.json"
         }
       }
     },
