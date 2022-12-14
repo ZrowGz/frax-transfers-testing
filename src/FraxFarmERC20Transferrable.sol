@@ -447,7 +447,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         console2.logBytes32(locked_stake.kek_id);
         require(locked_stake.kek_id == kek_id, "StakerNotFound:(");
         console2.log("require passed");
-        if (locked_stake.kek_id != kek_id) revert StakerNotFound();
+        // if (locked_stake.kek_id != kek_id) revert StakerNotFound();
     } 
         //if (locked_stake.kek_id != kek_id) revert StakerNotFound();
         
