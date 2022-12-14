@@ -1,20 +1,733 @@
 {
-  "abi": [],
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "name": "beforeLockTransfer",
+      "outputs": [
+        {
+          "internalType": "bytes4",
+          "name": "",
+          "type": "bytes4"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "name": "onLockReceived",
+      "outputs": [
+        {
+          "internalType": "bytes4",
+          "name": "",
+          "type": "bytes4"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
   "bytecode": {
-    "object": "0x",
+    "object": "0x60806040523461001b575b6040516102f161002982396102f190f35b610023600080fd5b61000a56fe60806040526004361015610018575b610016600080fd5b005b60003560e01c80634fb07105146100405763c42d8b950361000e5761003b6101d0565b61000e565b5061003b61016b565b600080fd5b73ffffffffffffffffffffffffffffffffffffffff1690565b90565b73ffffffffffffffffffffffffffffffffffffffff81165b0361004957565b905035906100968261006a565b565b80610082565b9050359061009682610098565b909182601f830112156100ef575b602082359267ffffffffffffffff84116100e2575b0192828401116100da57565b610096600080fd5b6100ea600080fd5b6100ce565b6100f7600080fd5b6100b9565b60808183031261015e575b6101118282610089565b9261014d6101228460208501610089565b93610130816040860161009e565b9360608101359067ffffffffffffffff8211610151575b016100ab565b9091565b610159600080fd5b610147565b610166600080fd5b610107565b50346101c3575b6101bf61018c6101833660046100fc565b93929092610271565b604051918291827fffffffff00000000000000000000000000000000000000000000000000000000909116815260200190565b0390f35b6101cb600080fd5b610172565b50346101f1575b6101bf61018c6101e83660046100fc565b93929092610296565b6101f9600080fd5b6101d7565b61004e6100676100679273ffffffffffffffffffffffffffffffffffffffff1690565b610067906101fe565b61006790610221565b61024c6102466100679263ffffffff1690565b60e01b90565b7fffffffff000000000000000000000000000000000000000000000000000000001690565b505050505061027e600090565b506102883061022a565b50610067634fb07105610233565b50505050506102a3600090565b506102ad3061022a565b5061006763c42d8b9561023356fea264697066735822122091763e1f3bbb208ae2328f027cf9377ac3086068b163037aa0bb090c2d0a325c64736f6c63430008110033",
+    "sourceMap": "159:421:82:-:0;;;;;;-1:-1:-1;159:421:82;;;;;;;;;;;;;;;;",
     "linkReferences": {}
   },
   "deployedBytecode": {
-    "object": "0x",
+    "object": "0x60806040526004361015610018575b610016600080fd5b005b60003560e01c80634fb07105146100405763c42d8b950361000e5761003b6101d0565b61000e565b5061003b61016b565b600080fd5b73ffffffffffffffffffffffffffffffffffffffff1690565b90565b73ffffffffffffffffffffffffffffffffffffffff81165b0361004957565b905035906100968261006a565b565b80610082565b9050359061009682610098565b909182601f830112156100ef575b602082359267ffffffffffffffff84116100e2575b0192828401116100da57565b610096600080fd5b6100ea600080fd5b6100ce565b6100f7600080fd5b6100b9565b60808183031261015e575b6101118282610089565b9261014d6101228460208501610089565b93610130816040860161009e565b9360608101359067ffffffffffffffff8211610151575b016100ab565b9091565b610159600080fd5b610147565b610166600080fd5b610107565b50346101c3575b6101bf61018c6101833660046100fc565b93929092610271565b604051918291827fffffffff00000000000000000000000000000000000000000000000000000000909116815260200190565b0390f35b6101cb600080fd5b610172565b50346101f1575b6101bf61018c6101e83660046100fc565b93929092610296565b6101f9600080fd5b6101d7565b61004e6100676100679273ffffffffffffffffffffffffffffffffffffffff1690565b610067906101fe565b61006790610221565b61024c6102466100679263ffffffff1690565b60e01b90565b7fffffffff000000000000000000000000000000000000000000000000000000001690565b505050505061027e600090565b506102883061022a565b50610067634fb07105610233565b50505050506102a3600090565b506102ad3061022a565b5061006763c42d8b9561023356fea264697066735822122091763e1f3bbb208ae2328f027cf9377ac3086068b163037aa0bb090c2d0a325c64736f6c63430008110033",
+    "sourceMap": "159:421:82:-:0;;;;;;;;;-1:-1:-1;159:421:82;;;;;-1:-1:-1;159:421:82;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;:::o;:::-;;:::o;:::-;;;;;;;;:::o;:::-;;;;;;;;:::i;:::-;:::o;:::-;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;:::i;:::-;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;189:196;;;;;;321:6;159:421;;;321:6;346:4;:23;:4;:23;:::i;:::-;;:32;:23;:32;:::i;390:188::-;;;;;;518:6;159:421;;;518:6;543:4;:19;:4;:19;:::i;:::-;;:28;:19;:28;:::i",
     "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "beforeLockTransfer(address,address,bytes32,bytes)": "4fb07105",
+    "onLockReceived(address,address,bytes32,bytes)": "c42d8b95"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"beforeLockTransfer\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"onLockReceived\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Spoofs a code-containing vault owner, so that it can return the onLockReceived selector\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"test/mocks/MockVaultOwner.sol\":\"MockVaultOwner\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"test/mocks/MockVaultOwner.sol\":{\"keccak256\":\"0x09731f716e00267efccbf100e945e44a4aa33186b69bf3a1e3945046131bb4ec\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a83ddfbbc71cc706c219e6fc67b33294d53a7b3d24468a2acd4f34dd8066a226\",\"dweb:/ipfs/QmYzZsU1hmrsDimz4E2dw7FoFHtJcD9rwNxArWYkbHMgxf\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function",
+          "name": "beforeLockTransfer",
+          "outputs": [
+            {
+              "internalType": "bytes4",
+              "name": "",
+              "type": "bytes4"
+            }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function",
+          "name": "onLockReceived",
+          "outputs": [
+            {
+              "internalType": "bytes4",
+              "name": "",
+              "type": "bytes4"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":@convex/=lib/frax-cvx-platform/contracts/contracts/",
+        ":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/",
+        ":@frax_testing/=lib/frax_testing/src/",
+        ":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/",
+        ":@interfaces/=src/interfaces/",
+        ":@mocks/=test/mocks/",
+        ":@openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        ":@openzeppelin/=lib/openzeppelin-contracts/",
+        ":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/",
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+        ":forge-std/=lib/forge-std/src/",
+        ":frax-cvx-platform/=lib/frax-cvx-platform/contracts/",
+        ":frax-solidity/=lib/frax-solidity/src/",
+        ":frax_testing/=lib/frax_testing/src/",
+        ":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
+        ":solmate/=lib/frax_testing/lib/solmate/src/"
+      ],
+      "optimizer": {
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "test/mocks/MockVaultOwner.sol": "MockVaultOwner"
+      },
+      "libraries": {},
+      "viaIR": true
+    },
+    "sources": {
+      "test/mocks/MockVaultOwner.sol": {
+        "keccak256": "0x09731f716e00267efccbf100e945e44a4aa33186b69bf3a1e3945046131bb4ec",
+        "urls": [
+          "bzz-raw://a83ddfbbc71cc706c219e6fc67b33294d53a7b3d24468a2acd4f34dd8066a226",
+          "dweb:/ipfs/QmYzZsU1hmrsDimz4E2dw7FoFHtJcD9rwNxArWYkbHMgxf"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
   },
   "ast": {
     "absolutePath": "test/mocks/MockVaultOwner.sol",
-    "id": 45949,
-    "exportedSymbols": {},
+    "id": 46662,
+    "exportedSymbols": {
+      "MockVaultOwner": [
+        46661
+      ]
+    },
     "nodeType": "SourceUnit",
-    "src": "0:0:84",
-    "nodes": []
+    "src": "32:548:82",
+    "nodes": [
+      {
+        "id": 46623,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:82",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".0"
+        ]
+      },
+      {
+        "id": 46661,
+        "nodeType": "ContractDefinition",
+        "src": "159:421:82",
+        "nodes": [
+          {
+            "id": 46642,
+            "nodeType": "FunctionDefinition",
+            "src": "189:196:82",
+            "nodes": [],
+            "body": {
+              "id": 46641,
+              "nodeType": "Block",
+              "src": "329:56:82",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "expression": {
+                      "expression": {
+                        "id": 46637,
+                        "name": "this",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": -28,
+                        "src": "346:4:82",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_MockVaultOwner_$46661",
+                          "typeString": "contract MockVaultOwner"
+                        }
+                      },
+                      "id": 46638,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "351:18:82",
+                      "memberName": "beforeLockTransfer",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 46642,
+                      "src": "346:23:82",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_pure$_t_address_$_t_address_$_t_bytes32_$_t_bytes_memory_ptr_$returns$_t_bytes4_$",
+                        "typeString": "function (address,address,bytes32,bytes memory) pure external returns (bytes4)"
+                      }
+                    },
+                    "id": 46639,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "lValueRequested": false,
+                    "memberLocation": "370:8:82",
+                    "memberName": "selector",
+                    "nodeType": "MemberAccess",
+                    "src": "346:32:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "functionReturnParameters": 46636,
+                  "id": 46640,
+                  "nodeType": "Return",
+                  "src": "339:39:82"
+                }
+              ]
+            },
+            "functionSelector": "4fb07105",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "beforeLockTransfer",
+            "nameLocation": "198:18:82",
+            "parameters": {
+              "id": 46633,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 46626,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46642,
+                  "src": "226:7:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 46625,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "226:7:82",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 46628,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46642,
+                  "src": "243:7:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 46627,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "243:7:82",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 46630,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46642,
+                  "src": "260:7:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 46629,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "260:7:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 46632,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46642,
+                  "src": "277:14:82",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 46631,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "277:5:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "216:81:82"
+            },
+            "returnParameters": {
+              "id": 46636,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 46635,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46642,
+                  "src": "321:6:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 46634,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "321:6:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "320:8:82"
+            },
+            "scope": 46661,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 46660,
+            "nodeType": "FunctionDefinition",
+            "src": "390:188:82",
+            "nodes": [],
+            "body": {
+              "id": 46659,
+              "nodeType": "Block",
+              "src": "526:52:82",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "expression": {
+                      "expression": {
+                        "id": 46655,
+                        "name": "this",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": -28,
+                        "src": "543:4:82",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_MockVaultOwner_$46661",
+                          "typeString": "contract MockVaultOwner"
+                        }
+                      },
+                      "id": 46656,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "548:14:82",
+                      "memberName": "onLockReceived",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 46660,
+                      "src": "543:19:82",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_pure$_t_address_$_t_address_$_t_bytes32_$_t_bytes_memory_ptr_$returns$_t_bytes4_$",
+                        "typeString": "function (address,address,bytes32,bytes memory) pure external returns (bytes4)"
+                      }
+                    },
+                    "id": 46657,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "lValueRequested": false,
+                    "memberLocation": "563:8:82",
+                    "memberName": "selector",
+                    "nodeType": "MemberAccess",
+                    "src": "543:28:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "functionReturnParameters": 46654,
+                  "id": 46658,
+                  "nodeType": "Return",
+                  "src": "536:35:82"
+                }
+              ]
+            },
+            "functionSelector": "c42d8b95",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "onLockReceived",
+            "nameLocation": "399:14:82",
+            "parameters": {
+              "id": 46651,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 46644,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46660,
+                  "src": "423:7:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 46643,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "423:7:82",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 46646,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46660,
+                  "src": "440:7:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 46645,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "440:7:82",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 46648,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46660,
+                  "src": "457:7:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 46647,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "457:7:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 46650,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46660,
+                  "src": "474:14:82",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 46649,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "474:5:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "413:81:82"
+            },
+            "returnParameters": {
+              "id": 46654,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 46653,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 46660,
+                  "src": "518:6:82",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 46652,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "518:6:82",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "517:8:82"
+            },
+            "scope": 46661,
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "MockVaultOwner",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 46624,
+          "nodeType": "StructuredDocumentation",
+          "src": "58:100:82",
+          "text": "@notice Spoofs a code-containing vault owner, so that it can return the onLockReceived selector"
+        },
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          46661
+        ],
+        "name": "MockVaultOwner",
+        "nameLocation": "168:14:82",
+        "scope": 46662,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
   },
-  "id": 84
+  "id": 82
 }
