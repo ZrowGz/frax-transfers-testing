@@ -156,55 +156,54 @@ contract FraxFarmERC20TransfersTest is Test {
         console2.logBytes32(t.senderKek);
         t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         console2.log("post-add # locks", t.senderPostAdd);
-        assertEq(t.senderPostAdd, t.senderPreAdd + 1, "invalid # of locks");
+        assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");
 
         ///// transfer the lockKek to receiverVault /////
         skip(1 days);
 
-        /// get receiver's pre-transfer number of locks
+        /// get receiver's pre-transfer number of locks, should be 0
         t.receiverPreTransfer1 = frxFarm.lockedStakesOfLength(address(receiverVault));
-        console2.log("PreTransfer1 RE # locks", t.receiverPreTransfer1);
+        console2.log("Receiver before receiving transfer1 # locks", t.receiverPreTransfer1);
 
-        ///// transfer the lockKek to receiverVault /////
-        /// TODO might need to overwrite their address to have onReceived & onTransferred 
+        ///// Transfer part of the LockedStake to receiverVault - creates new kekId ///// 
         (, t.destKek1) = senderVault.transferLocked(address(receiverVault), t.senderKek, 10 ether, bytes32(0));
         
-        /// Double check that this stake exists now
+        /// Double check that this stake exists now & that sender didn't lose or add a LockedStake
         t.senderPostTransfer1 = frxFarm.lockedStakesOfLength(address(senderVault));
-        console2.log("PostTransfer1SE # locks", t.senderPostTransfer1);
-        assertEq(t.senderPostTransfer1, t.senderPostAdd, "sender should have same # locks");        
         t.receiverPostTransfer1 = frxFarm.lockedStakesOfLength(address(receiverVault));
-        console2.log("PostTransfer1RE # locks", t.receiverPostTransfer1);
+        console2.log("Sender after sending transfer1 # locks", t.senderPostTransfer1);
+        console2.log("Receiver After receiving transfer1 # locks", t.receiverPostTransfer1);
+        assertEq(t.senderPostTransfer1, t.senderPostAdd, "sender should have same # locks");
         assertEq(t.receiverPostTransfer1, (t.receiverPreTransfer1 + 1), "receiver should have 1 more lock");
-        
-        /** TODO TODO TODO
-        * All the logic between the first `getStake` and the update balances plus the event emit are not happening. 
-        */
 
 
         //// NOTE: Commented out until able to get receiver locked stake to update.
-        // ///// Try sending to a kekId (69420) that receiver doesn't have - SHOULD FAIL /////
-        // vm.expectRevert();
-        // senderVault.transferLocked(address(receiverVault), t.senderKek, 10 ether, 0x0000000000000000000000000000000000000000000000000000000000010f2c);
+        ///// Try sending to a kekId (69420) that receiver doesn't have - SHOULD FAIL /////
+        vm.expectRevert();
+        senderVault.transferLocked(address(receiverVault), t.senderKek, 10 ether, 0x0000000000000000000000000000000000000000000000000000000000010f2c);
 
-        // ///// Send more to same kek_id /////
-        // skip(1 days);
-        // /// TODO Commented out due to stack too deep with all the placeholders above while troubleshooting.
-        // /// transfer to a specific receiver lockKek (the same as was created last time)
-        // assertEq(frxFarm.lockedStakesOfLength(address(receiverVault)), t.receiverPostTransfer1, "receiver should still have same number locks");
-        // assertEq(frxFarm.lockedStakesOfLength(address(senderVault)), t.senderPostTransfer1, "sender should still have same number locks");
+        ///// Send more to same kek_id /////
+        skip(1 days);
+        /// TODO Commented out due to stack too deep with all the placeholders above while troubleshooting.
+        /// transfer to a specific receiver lockKek (the same as was created last time)
+        assertEq(frxFarm.lockedStakesOfLength(address(receiverVault)), t.receiverPostTransfer1, "receiver should still have same number locks");
+        assertEq(frxFarm.lockedStakesOfLength(address(senderVault)), t.senderPostTransfer1, "sender should still have same number locks");
 
-        // //// transfer to the previous added kekId
-        // (, t.destKek2) = senderVault.transferLocked(address(receiverVault), t.senderKek, 10 ether, t.destKek1);
+        //// transfer to the previous added kekId
+        (, t.destKek2) = senderVault.transferLocked(address(receiverVault), t.senderKek, 10 ether, t.destKek1);
 
-        // //// check that the number of locks for both sender & receiver are unchanged
-        // console2.log("Both kekIds");
-        // console2.logBytes32(t.destKek1);
-        // console2.logBytes32(t.destKek2);
-        // assertEq(t.destKek1, t.destKek2, "failed to send to same kekId");
-        // t.receiverPostTransfer2 = frxFarm.lockedStakesOfLength(address(receiverVault));
-        // console2.log("PostTransfer1RE # locks", t.receiverPostTransfer2);
-        // assertEq(t.receiverPostTransfer2, t.receiverPreTransfer1, "receiver should have same num locks");
+        //// Compare the returned destination kek_ids and ensure they're the same value
+        console2.log("Both kekIds");
+        console2.logBytes32(t.destKek1);
+        console2.logBytes32(t.destKek2);
+        assertEq(t.destKek1, t.destKek2, "failed to send to same kekId");
+        /// Check that the total number of both sender & receiver LockedStakes remained the same
+        t.senderPostTransfer2 = frxFarm.lockedStakesOfLength(address(senderVault));
+        t.receiverPostTransfer2 = frxFarm.lockedStakesOfLength(address(receiverVault));
+        console2.log("Sender after sending transfer2 # locks", t.senderPostTransfer2);
+        console2.log("Receiver post transfer 2, # locks", t.receiverPostTransfer2);
+        assertEq(t.senderPostTransfer2, t.senderPostTransfer1, "Sender should have same num locks");
+        assertEq(t.receiverPostTransfer2, t.receiverPostTransfer1, "Receiver should have same num locks");
 
         vm.stopPrank();    
     }
