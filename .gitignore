@@ -1,9 +1,9 @@
+# .gitignore
 cache/
 out/
 bin/
 broadcast/
-node_modules/
+
+
 .env
-*.txt
-*.log
-lcov.info
+.DS_Store
