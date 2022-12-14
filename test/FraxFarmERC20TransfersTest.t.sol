@@ -9,6 +9,8 @@ import {StakingProxyConvex as Vault} from "../src/ConvexVaultTransferrable.sol";
 import {FRAXStablecoin} from "@frax/../Frax/Frax.sol";
 import {IFraxFarmTransfers, IFraxFarmERC20} from "@interfaces/IFraxFarm.sol";
 import "@frax_testing/gauges/Curve/IFraxGaugeController.sol";
+// import {MockConvexPoolRegistry as PoolRegistry} from "@mocks/MockConvexPoolRegistry.sol";
+import {MockVaultOwner as VaultOwner} from "@mocks/MockVaultOwner.sol";
 
 interface IDeposits {
     function add_liquidity(uint256[2] memory _amounts, uint256 _min_mint_amount) external returns (uint256);
@@ -22,6 +24,9 @@ interface IDeposits {
 contract FraxFarmERC20TransfersTest is Test {
     FraxUnifiedFarm_ERC20 public frxEthFarm;
     Vault public cvxVault;
+    
+    // PoolRegistry public poolRegistry;
+    VaultOwner public vaultOwner;
 
     address public alice;
     address public bob;
@@ -35,18 +40,22 @@ contract FraxFarmERC20TransfersTest is Test {
     address public vaultRewardsAddress = address(0x3465B8211278505ae9C6b5ba08ECD9af951A6896);
     address public frxEthMinter = address(0xbAFA44EFE7901E04E39Dad13167D089C559c1138);
     address public convexOperator = address(0xF403C135812408BFbE8713b5A23a04b3D48AAE31);
-    address public eth = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+    // address public eth = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     // address public convexRegistry = address(0x7413bFC877B5573E29f964d572f421554d8EDF86); // not being used
     // address public convexPoolRegistry = 0x41a5881c17185383e19Df6FA4EC158a6F4851A69; // This one is being used
     // PID is 36 at convexPoolRegistry
     address public convexBooster = address(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
     address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
 
+    /// @notice The sending vault
     Vault public senderVault = Vault(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41);
+    /// @notice The sending vault owner - IS NOT A CONTRACT
     address public senderOwner = address(0x712cABaE569B54222BfB8E02A83AD98cc6D2Fb30);
     Vault public receiverVault = Vault(0x7e39FacaC567c8B48b0Ea88E7a5021391Eb848D0);
+    /// @notice The receiving vault owner - IS A CONTRACT
     address public receiverOwner = address(0xaf0FDd39e5D92499B0eD9F68693DA99C0ec1e92e);
-    Vault public myVault;
+    Vault public nonCompliantVault;
+    Vault public compliantVault;
 
     address public fraxToken = 0x853d955aCEf822Db058eb8505911ED77F175b99e; // FRAX
     address public fxsToken = address(0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0); // FXS
@@ -103,8 +112,23 @@ contract FraxFarmERC20TransfersTest is Test {
         // deploy our own convex vault 
         (bool success, bytes memory retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         require(success, "createVault failed");
-        myVault = Vault(abi.decode(retBytes, (address)));
-        console2.log("MyVault", address(myVault));
+        nonCompliantVault = Vault(abi.decode(retBytes, (address)));
+        console2.log("nonCompliantVault", address(nonCompliantVault));
+
+        console2.log("VAULTOWNER PREDEPLOY CODE LENGTH", address(vaultOwner).code.length);
+        ///// Deploy the compliant vault owner logic /////
+        vaultOwner = new VaultOwner();
+        vm.etch(address(vaultOwner), address(vaultOwner).code);
+        vm.deal(address(vaultOwner), 1e10 ether);
+        console2.log("VAULTOWNER POSTDEPLOY CODE LENGTH", address(vaultOwner).code.length);
+
+        // deploy a vault owned by a a compliant contract
+        vm.prank(address(vaultOwner));
+        (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
+        require(success, "createVault failed");
+        compliantVault = Vault(abi.decode(retBytes, (address)));
+        console2.log("nonCompliantVault", address(compliantVault));
+        console2.log("SETUP VAULT DEPLOY POST PRANK OWNER LENGTH", (compliantVault.owner()).code.length);
 
     }
 
@@ -205,35 +229,151 @@ contract FraxFarmERC20TransfersTest is Test {
         assertEq(t.senderPostTransfer2, t.senderPostTransfer1, "Sender should have same num locks");
         assertEq(t.receiverPostTransfer2, t.receiverPostTransfer1, "Receiver should have same num locks");
 
-        vm.stopPrank();    
+        vm.stopPrank();
+
+        console2.log("E2E Test Success!");
     }
 
-    // /// TODO To be used for next test
     // function testDepositAndSendToUnusedVault() public {
-        // vm.startPrank(senderOwner);
-        // frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        // (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
-        // uint256 retbal = abi.decode(retval, (uint256));
-        // assertEq(retbal, 1000 ether, "invalid mint amount frxETH");
-        // console2.log("frxEth balance", retbal);
-        // // deposit it as LP into the curve pool
-        // IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        // IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        // retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
-        // console2.log("frxETHCRV balance", retbal);
-        // assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-        // // create a known kekId
-        // bytes32 lockKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
-        // console2.log("lockKek");
-        // console2.logBytes32(lockKek);
 
-        // skip(30 days);
-        // vm.expectRevert();
-        // senderVault.transferLocked(address(myVault), lockKek, 10 ether, 0x0000000000000000000000000000000000000000000000000000000000010f2c);
+    //     ///// Test transfering to a compliant vault owner /////
+    //     vm.startPrank(senderOwner);
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertEq(retbal, 1000 ether, "invalid mint amount frxETH");
 
-        // // transfer the lockKek to receiverVault
-        // (,bytes32 destKek1) = senderVault.transferLocked(address(myVault), lockKek, 10 ether, bytes32(0));
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+    //     console2.log("frxETHCRV balance", retbal);
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // vm.stopPrank();    
+    //     // create a known kekId
+    //     bytes32 lockKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     console2.log("lockKek");
+    //     console2.logBytes32(lockKek);
+
+    //     skip(1 days);
+
+
+    //     /// Test sending to a non-compliant vault owner ///// 
+    //     vm.expectRevert();
+    //     (, t.destKek1) = senderVault.transferLocked(address(receiverVault), t.senderKek, 10 ether, "");
+
+    //     ///// Deploy the compliant vault owner logic /////
+    //     VaultOwner receiverVaultOwner = new VaultOwner();
+    //     vm.etch(receiverOwner, address(receiverVaultOwner).code);
+    //     /// Try calling on lock received
+    //     console.logBytes4(VaultOwner(receiverOwner).onLockReceived(address(receiverVault), address(senderVault), t.senderKek, ""));
+
+    //     /// Test transfering to a compliant vault owner /////
+
+    //     // ensure that it cannot be transferred to a lock that doesn't exist, even on a fresh vault
+    //     vm.expectRevert();
+    //     senderVault.transferLocked(address(nonCompliantVault), lockKek, 10 ether, 0x0000000000000000000000000000000000000000000000000000000000010f2c);
+
+    //     // test that running the updateRewardsAndBalances modifer on a never before used account works (both sender & receiver)
+    //     (,bytes32 destKek1) = senderVault.transferLocked(address(nonCompliantVault), lockKek, 10 ether, bytes32(0));
+
+    //     vm.stopPrank();    
     // }
+
+    function testNonOnLockReceivedCompliance() public {
+        vm.startPrank(senderOwner);
+
+        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        uint256 retbal = abi.decode(retval, (uint256));
+        assertEq(retbal, 1000 ether, "invalid mint amount frxETH");
+
+        // deposit it as LP into the curve pool
+        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        console2.log("frxETHCRV balance", retbal);
+        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+
+        // create a known kekId
+        bytes32 lockKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        console2.log("lockKek");
+        console2.logBytes32(lockKek);
+
+        /// Try calling on lock received
+        // vm.expectRevert();
+        // address(this).onLockReceived(address(nonCompliantVault), address(senderVault), lockKek, "");
+        // cvxVault.onLockReceived(address(cvxVault), address(senderVault), lockKek, "");
+        
+        skip(1 days);
+
+        bytes32 destKek;
+
+        /// Test sending to a non-compliant vault owner ///// 
+        vm.expectRevert();
+        (, destKek) = senderVault.transferLocked(address(nonCompliantVault), lockKek, 10 ether, "");
+        
+        // /// Test transfering to a compliant vault owner /////
+        // (, destKek) = compliantVault.transferLocked(address(vaultOwner), lockKek, 10 ether, "");
+
+        vm.stopPrank();
+
+        console2.log("PASS = non-compliant vault FAILS on onLockReceived check");
+    }
+
+    function testMeetsOnLockReceivedCompliance() public {
+        vm.startPrank(address(senderOwner));
+
+        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        uint256 retbal = abi.decode(retval, (uint256));
+        assertEq(retbal, 1000 ether, "invalid mint amount frxETH");
+
+        // deposit it as LP into the curve pool
+        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        console2.log("frxETHCRV balance", retbal);
+        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+
+        // create a known kekId
+        bytes32 lockKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        console2.log("lockKek");
+        console2.logBytes32(lockKek);
+
+        /// Try calling on lock received
+        // console2.log("CALL ONLOCKRECEIVED AT COMPLIANT VAULT OWNER");
+        // console2.logBytes4(VaultOwner(compliantVault.owner()).onLockReceived(address(compliantVault), address(senderVault), lockKek, ""));
+        // // console2.logBytes4(vaultOwner.onLockReceived(address(compliantVault), address(senderVault), lockKek, ""));
+        // console2.log("CALL ONLOCKRECEIVED AT COMPLIANT VAULT"); 
+        // console2.logBytes4(compliantVault.onLockReceived(address(compliantVault), address(senderVault), lockKek, ""));
+        
+        /// TODO TODO TODO
+        /// @dev This is reverting, because it calls the actual convex vault implementation at 0x03fb8543E933624b45abdd31987548c0D9892F07
+
+
+        skip(1 days);
+
+        bytes32 destKek;
+
+        // /// Test sending to a non-compliant vault owner ///// 
+        // vm.expectRevert();
+        // (, destKek) = nonCompliantVault.transferLocked(address(nonCompliantVault), lockKek, 10 ether, "");
+        console2.log("RECHECK COMPLIANT VAULT OWNER CODE LENGTH", (compliantVault.owner()).code.length);
+        /// Test transfering to a compliant vault owner /////
+        (, destKek) = senderVault.transferLocked(address(compliantVault), lockKek, 10 ether, "");
+
+        vm.stopPrank();
+
+        console2.log("PASS = compliant vault PASSES on onLockReceived check");
+    }
+
+    function testVaultPermanance() public {
+        console2.log("CompliantVault & Owner", address(compliantVault), address(compliantVault.owner()));
+        console2.log("CompliantVaultOwner", address(vaultOwner));
+        console2.log("NonCompliantVault & Owner", address(nonCompliantVault), address(nonCompliantVault.owner()));
+        console2.log("NonCompliantVaultOwner", nonCompliantVault.owner());
+        assertEq(address(vaultOwner), compliantVault.owner(), "vault owner should be vault owner");
+        assertEq(address(this), nonCompliantVault.owner(), "vault owner should be this contract");
+    }
 }

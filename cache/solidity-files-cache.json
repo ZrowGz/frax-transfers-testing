@@ -3016,8 +3016,8 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1671042775521,
-      "contentHash": "071d2004e3913b10e79c26a3de6343ea",
+      "lastModificationDate": 1671060321318,
+      "contentHash": "765b347e8e423b742ac5cd08158ae682",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
         "settings": {
@@ -3077,7 +3077,8 @@
         "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate.sol",
         "lib/frax-solidity/src/hardhat/contracts/Staking/Owned.sol",
         "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelper.sol",
-        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuard.sol"
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuard.sol",
+        "src/interfaces/ILockReceiver.sol"
       ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
@@ -3257,9 +3258,58 @@
         }
       }
     },
+    "src/interfaces/ILockReceiver.sol": {
+      "lastModificationDate": 1671060044553,
+      "contentHash": "a3ea1efd3a72f8b09e3b3b54f38d14b5",
+      "sourceName": "src/interfaces/ILockReceiver.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "ILockReceiver": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ILockReceiver.sol/ILockReceiver.json"
+        }
+      }
+    },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1671043238873,
-      "contentHash": "97f60037e35d03efe45e140500958544",
+      "lastModificationDate": 1671060591291,
+      "contentHash": "0bfb0efa05d6173a23bb06d301a74998",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -3356,7 +3406,9 @@
         "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
         "src/ConvexVaultTransferrable.sol",
         "src/FraxFarmERC20Transferrable.sol",
-        "src/interfaces/IFraxFarm.sol"
+        "src/interfaces/IFraxFarm.sol",
+        "src/interfaces/ILockReceiver.sol",
+        "test/mocks/MockVaultOwner.sol"
       ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
@@ -3424,8 +3476,8 @@
       }
     },
     "test/mocks/MockVaultOwner.sol": {
-      "lastModificationDate": 1670963289584,
-      "contentHash": "d41d8cd98f00b204e9800998ecf8427e",
+      "lastModificationDate": 1671051721186,
+      "contentHash": "f7a33016c5b6455c0c84ccc1908dde2d",
       "sourceName": "test/mocks/MockVaultOwner.sol",
       "solcConfig": {
         "settings": {
@@ -3465,7 +3517,7 @@
         }
       },
       "imports": [],
-      "versionRequirement": null,
+      "versionRequirement": ">=0.8.0",
       "artifacts": {
         "MockVaultOwner": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockVaultOwner.sol/MockVaultOwner.json"
