@@ -14,8 +14,17 @@ pragma solidity >=0.8.0;
 // For ERC20 Tokens
 // Uses FraxUnifiedFarmTemplate.sol
 
+import "forge-std/console2.sol";
+
 import "@frax/FraxUnifiedFarmTemplate.sol";
 
+import "@frax/../Oracle/AggregatorV3Interface.sol";
+// import "./FraxFarmERC20Transferrable.sol";
+import "@frax/../Curve/ICurvefrxETHETHPool.sol";
+import "@frax/../Misc_AMOs/convex/IConvexStakingWrapperFrax.sol";
+import "@frax/../Misc_AMOs/convex/IDepositToken.sol";
+import "@frax/../Misc_AMOs/curve/I2pool.sol";
+import "@frax/../Misc_AMOs/curve/I2poolToken.sol";
 // -------------------- VARIES --------------------
 
 // Convex wrappers
@@ -62,7 +71,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     // I2pool public curvePool;
 
     // Fraxswap
-    IFraxswapPair public stakingToken;
+    IConvexStakingWrapperFrax public stakingToken = IConvexStakingWrapperFrax(0x4659d5fF63A1E1EDD6D5DD9CC315e063c95947d0);
 
     // G-UNI
     // IGUniPool public stakingToken;
@@ -97,7 +106,11 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         uint256 ending_timestamp;
         uint256 lock_multiplier; // 6 decimals of precision. 1x = 1000000
     }
-    
+
+    I2poolToken public curveToken = I2poolToken(0xf43211935C781D5ca1a41d2041F397B8A7366C7A);
+    ICurvefrxETHETHPool public curvePool = ICurvefrxETHETHPool(0xa1F8A6807c402E4A15ef4EBa36528A3FED24E577); 
+    AggregatorV3Interface public priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+
     /* ========== CONSTRUCTOR ========== */
 
     constructor (
@@ -141,6 +154,16 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
 
         // Vesper
         // stakingToken = IVPool(_stakingToken);
+                // COMMENTED OUT SO COMPILER DOESNT COMPLAIN. UNCOMMENT WHEN DEPLOYING
+
+        // Convex frxETHETH only
+        // stakingToken = IConvexStakingWrapperFrax(_stakingToken);
+        // //curveToken = I2poolToken(stakingToken.curveToken());
+        // curveToken = I2poolToken(0xf43211935C781D5ca1a41d2041F397B8A7366C7A);
+        // //curvePool = ICurvefrxETHETHPool(curveToken.minter());
+        // curvePool = ICurvefrxETHETHPool(0xa1F8A6807c402E4A15ef4EBa36528A3FED24E577);
+        // address token0 = curvePool.coins(0);
+        // frax_is_token0 = false; // Doesn't matter for frxETH
     }
 
     /* ============= VIEWS ============= */
@@ -237,9 +260,31 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         // ============================================
         // frax_per_lp_token = stakingToken.pricePerShare();
 
+        // Convex frxETH/ETH
+        // ============================================
+        {
+            // Assume frxETH = ETH for pricing purposes
+            // Get the USD value of the frxETH per LP token
+            uint256 frxETH_in_pool = IERC20(0x5E8422345238F34275888049021821E8E08CAa1f).balanceOf(address(0xa1F8A6807c402E4A15ef4EBa36528A3FED24E577));
+            uint256 frxETH_usd_val_per_lp_e8 = (frxETH_in_pool * uint256(getLatestETHPriceE8())) / I2poolToken(0xf43211935C781D5ca1a41d2041F397B8A7366C7A).totalSupply();// = I2poolToken(0xf43211935C781D5ca1a41d2041F397B8A7366C7A);//curveToken.totalSupply();
+            frax_per_lp_token = frxETH_usd_val_per_lp_e8 * (1e10); // We use USD as "Frax" here
+        }
         return frax_per_lp_token;
     }
 
+    function getLatestETHPriceE8() public view returns (int) {
+        // Returns in E8
+        (uint80 roundID, int price, , uint256 updatedAt, uint80 answeredInRound) = priceFeedETHUSD.latestRoundData();
+        require(price >= 0 && updatedAt!= 0 && answeredInRound >= roundID, "Invalid chainlink price");
+        
+        return price;
+    }
+
+    function setETHUSDOracle(address _eth_usd_oracle_address) public onlyByOwnGov {
+        require(_eth_usd_oracle_address != address(0), "Zero address detected");
+
+        priceFeedETHUSD = AggregatorV3Interface(_eth_usd_oracle_address);
+    }
     // ------ LIQUIDITY AND WEIGHTS ------
 
     function calcCurrLockMultiplier(address account, uint256 stake_idx) public view returns (uint256 midpoint_lock_multiplier) {
@@ -351,6 +396,10 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         return lockedStakes[account].length;
     }
 
+    function getStake(address staker_address, bytes32 kek_id) external view returns (uint256 arr_idx) {
+        (,arr_idx) = _getStake(staker_address, kek_id);
+    }
+
     // // All the locked stakes for a given account [old-school method]
     // function lockedStakesOfMultiArr(address account) external view returns (
     //     bytes32[] memory kek_ids,
@@ -374,16 +423,35 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     // ------ STAKING ------
 
     function _getStake(address staker_address, bytes32 kek_id) internal view returns (LockedStake memory locked_stake, uint256 arr_idx) {
-        for (uint256 i = 0; i < lockedStakes[staker_address].length; i++){ 
+        console2.log("getting stake", staker_address);
+        console2.logBytes32(kek_id);
+        for (uint256 i; i < lockedStakes[staker_address].length; i++){ 
+            console2.log("looping", i);
             if (kek_id == lockedStakes[staker_address][i].kek_id){
+                console2.log("found kek_id", i);
+                console2.logBytes32(lockedStakes[staker_address][i].kek_id);
+                console2.logBytes32(kek_id);
                 locked_stake = lockedStakes[staker_address][i];
                 arr_idx = i;
+                console2.logBytes32(locked_stake.kek_id);
+                console2.log("The winning number is!:", arr_idx);
                 break;
-            }
+            } //else {
+            //     console2.log("not found", i);
+            //     console2.logBytes32(lockedStakes[staker_address][i].kek_id);
+            //     console2.logBytes32(kek_id);
+            //     revert StakerNotFound();
+            // }
         }
+        console2.log("before Require");
+        console2.logBytes32(locked_stake.kek_id);
+        require(locked_stake.kek_id == kek_id, "StakerNotFound:(");
+        console2.log("require passed");
         if (locked_stake.kek_id != kek_id) revert StakerNotFound();
+    } 
+        //if (locked_stake.kek_id != kek_id) revert StakerNotFound();
         
-    }
+    //}
 
     // Add additional LPs to an existing locked stake
     function lockAdditional(bytes32 kek_id, uint256 addl_liq) nonReentrant updateRewardAndBalanceMdf(msg.sender, true) public {
@@ -479,7 +547,6 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         // Pull in the required token(s)
         // Varies per farm
         TransferHelper.safeTransferFrom(address(stakingToken), source_address, address(this), liquidity);
-
         // Get the lock multiplier and kek_id
         uint256 lock_multiplier = lockMultiplier(secs);
 
@@ -641,7 +708,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         bytes32 source_kek_id,
         uint256 transfer_amount,
         bytes32 destination_kek_id
-    ) external nonReentrant returns (bytes32) {
+    ) external nonReentrant returns (bytes32, bytes32) {
         // check approvals
         if (!isApproved(staker_address, source_kek_id, transfer_amount)) revert TransferLockNotAllowed(msg.sender, source_kek_id);
 
@@ -651,7 +718,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         // do the transfer
         /// @dev the approval check is done in modifier, so to reach here caller is permitted, thus OK 
         //       to supply both staker & receiver here (no msg.sender)
-        _safeTransferLocked(staker_address, receiver_address, source_kek_id, transfer_amount, destination_kek_id);
+        return(_safeTransferLocked(staker_address, receiver_address, source_kek_id, transfer_amount, destination_kek_id));
     }
 
     // called by the staker to transfer a lock position to another address
@@ -661,10 +728,10 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         bytes32 source_kek_id,
         uint256 transfer_amount,
         bytes32 destination_kek_id
-    ) external nonReentrant returns (bytes32) {
+    ) external nonReentrant returns (bytes32, bytes32) {
         // do the transfer
         /// @dev approval/owner check not needed here as msg.sender is the staker
-        _safeTransferLocked(msg.sender, receiver_address, source_kek_id, transfer_amount, destination_kek_id);
+        return(_safeTransferLocked(msg.sender, receiver_address, source_kek_id, transfer_amount, destination_kek_id));
     }
 
     /**
@@ -690,10 +757,13 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         }
 
         // Get the stake and its index
+        //// TODO THIS IS BEING RAN
         (LockedStake memory thisStake, uint256 theArrayIndex) = _getStake(
             staker_address,
             source_kek_id
         );
+
+        /// TODO NOTHING BELOW HERE IS RUNNING OTHER THAN THE CONSOLE LOGS & THE ONRECEIVED & EVENT EMITTING
 
         // perform checks
         if (receiver_address == address(0) || receiver_address == staker_address) {
@@ -709,30 +779,35 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         // Update the liquidities
         _locked_liquidity[staker_address] -= transfer_amount;
         _locked_liquidity[receiver_address] += transfer_amount;
-        {
+        
             //address the_proxy = getProxyFor(staker_address);
-            if (getProxyFor(staker_address) != address(0))
+        if (getProxyFor(staker_address) != address(0)) {
+            console2.log("Staker address proxy CHECK", getProxyFor(staker_address));
                 proxy_lp_balances[getProxyFor(staker_address)] -= transfer_amount;
         }
-        {
+        
             //address the_proxy = getProxyFor(receiver_address);
-            if (getProxyFor(receiver_address) != address(0))
+        if (getProxyFor(receiver_address) != address(0)) {
                 proxy_lp_balances[getProxyFor(receiver_address)] += transfer_amount;
         }
 
         // if sent amount was all the liquidity, delete the stake, otherwise decrease the balance
         if (transfer_amount == thisStake.liquidity) {
+            console2.log("DELETE");
             delete lockedStakes[staker_address][theArrayIndex];
         } else {
+            console2.log("DEDUCT");
             lockedStakes[staker_address][theArrayIndex].liquidity -= transfer_amount;
         }
 
         // if destination kek is 0, create a new kek_id, otherwise update the balances & ending timestamp (longer of the two)
         if (destination_kek_id == bytes32(0)) {
+            console2.log("CREATE NEW");
             // create the new kek_id
             destination_kek_id = _createNewKekId(staker_address, thisStake.start_timestamp, transfer_amount, thisStake.ending_timestamp, thisStake.lock_multiplier);
             
         } else {
+            console2.log("UPDATE EXISTING");
             // get the target 
             (LockedStake memory thisStake2, uint256 theArrayIndex2) = _getStake(
                 receiver_address,
@@ -754,6 +829,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
 
             // check & update ending timestamp to whichever is farthest out
             if (thisStake2.ending_timestamp < thisStake.ending_timestamp) {
+                console2.log("EXTEND TIMESTAMP");
                 // update the lock expiration to the later timestamp
                 lockedStakes[receiver_address][theArrayIndex2].ending_timestamp = thisStake.ending_timestamp;
                 // update the lock multiplier since we are effectively extending the lock
@@ -761,7 +837,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
             }
             //}
         }
-
+        console2.log("UPDATE REWARDS AND BALANCES");
         // Need to call again to make sure everything is correct
         updateRewardAndBalance(staker_address, true); 
         updateRewardAndBalance(receiver_address, true);
@@ -773,10 +849,11 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
             source_kek_id,
             destination_kek_id
         );
-
+        console2.log("CALL ONLOCKRECEIVED");
         // call the receiver with the destination kek_id to verify receiving is ok
         require(_checkOnLockReceived(staker_address, receiver_address, destination_kek_id, ""));
 
+        console2.log("Very nice, I like, great success!!!");
         return (source_kek_id, destination_kek_id);
     }
 
@@ -802,10 +879,14 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     function _checkOnLockReceived(address from, address to, bytes32 kek_id, bytes memory data)
         internal returns (bool)
     {
+        console2.log("Checking onLockReceived", from, to);
         if (to.code.length > 0) {
-            try ILockTransfers(to).onLockReceived(msg.sender, from, kek_id, data) returns (bytes4 retval) {
+            console2.log("receiver has code");
+            try ILockTransfers(to).onLockReceived(from, to, kek_id, data) returns (bytes4 retval) {
+                console2.log("trying");
                 return retval == ILockTransfers(to).onLockReceived.selector;
             } catch (bytes memory reason) {
+                console2.log("failed");
                 if (reason.length == 0) {
                     revert InvalidReceiver();
                 } else {
@@ -816,6 +897,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
                 }
             }
         } else {
+            console2.log("receiver has no code");
             return true;
         }
     }
@@ -834,5 +916,4 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
 interface ILockTransfers {
     function beforeLockTransfer(address operator, address from, bytes32 kek_id, bytes calldata data) external returns (bytes4);
     function onLockReceived(address operator, address from, bytes32 kek_id, bytes memory data) external returns (bytes4);
-
 }

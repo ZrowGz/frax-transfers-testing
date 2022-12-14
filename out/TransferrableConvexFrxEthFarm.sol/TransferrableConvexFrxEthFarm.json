@@ -1,0 +1,34 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "src/TransferrableConvexFrxEthFarm.sol",
+    "id": 44772,
+    "exportedSymbols": {},
+    "nodeType": "SourceUnit",
+    "src": "45:3304:80",
+    "nodes": [
+      {
+        "id": 44771,
+        "nodeType": "PragmaDirective",
+        "src": "45:24:80",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".0"
+        ]
+      }
+    ],
+    "license": "GPL-2.0-or-later"
+  },
+  "id": 80
+}
