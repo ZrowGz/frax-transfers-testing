@@ -1,0 +1,636 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "weeks_elapsed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "reward_tally",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "gauge_address",
+          "type": "address"
+        }
+      ],
+      "name": "distributeReward",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "weeks_elapsed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "reward_tally",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x60806040523461002c575b61001b6100156100c1565b90610104565b60405161011961011f823961011990f35b610034600080fd5b61000a565b50634e487b7160e01b600052604160045260246000fd5b90601f01601f191681019081106001600160401b0382111761007157604052565b610079610039565b604052565b9061009261008b60405190565b9283610050565b565b91906100b1906040848203126100b4575b83519360200190505190565b90565b6100bc600080fd5b6100a5565b6100df610238803803806100d48161007e565b928339810190610094565b9091565b6100b16100b16100b19290565b906100b16100b1610100926100e3565b9055565b61010f8160006100f0565b5061011b8160016100f0565b5056fe608060405260043610156016575b6014600080fd5b005b60003560e01c63092193ab03600d57602b608c565b600d565b600080fd5b90565b73ffffffffffffffffffffffffffffffffffffffff811603602f57565b90503590605f826037565b565b90603491602081830312156054576076600080fd5b6054565b908152604081019291605f9160200152565b503460b8575b60a1609d3660046061565b60d1565b9060b460ac60405190565b92839283607a565b0390f35b60bf600080fd5b6092565b60349081565b6034905460c3565b5060da600060c9565b906034600160c956fea264697066735822122034a99ae1f35a2e2a6e93500efbeccd00e5498de7d57876cb199dffcfcf661a0364736f6c63430008110033",
+    "sourceMap": "58:467:48:-:0;;;;;;-1:-1:-1;58:467:48;;;:::i;:::-;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;58:467:48;;;;;;-1:-1:-1;;;;;58:467:48;;;;;;;:::o;:::-;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;:::i;:::-;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;:::i;:::-;;;:::o;152:142::-;219:30;;;;:::i;:::-;275:12;259:28;;;;:::i;:::-;152:142;:::o",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x608060405260043610156016575b6014600080fd5b005b60003560e01c63092193ab03600d57602b608c565b600d565b600080fd5b90565b73ffffffffffffffffffffffffffffffffffffffff811603602f57565b90503590605f826037565b565b90603491602081830312156054576076600080fd5b6054565b908152604081019291605f9160200152565b503460b8575b60a1609d3660046061565b60d1565b9060b460ac60405190565b92839283607a565b0390f35b60bf600080fd5b6092565b60349081565b6034905460c3565b5060da600060c9565b906034600160c956fea264697066735822122034a99ae1f35a2e2a6e93500efbeccd00e5498de7d57876cb199dffcfcf661a0364736f6c63430008110033",
+    "sourceMap": "58:467:48:-:0;;;;;;;;;-1:-1:-1;58:467:48;;;;;-1:-1:-1;58:467:48;;;;;;;;;;;:::i;:::-;;;;;;;;;:::o;:::-;;;;;;;:::o;:::-;;;;;;;;:::i;:::-;:::o;:::-;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;:::i;300:223::-;486:14;;;;:::i;:::-;;502:13;;;:::i",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "distributeReward(address)": "092193ab"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"weeks_elapsed\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"reward_tally\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"gauge_address\",\"type\":\"address\"}],\"name\":\"distributeReward\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"weeks_elapsed\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"reward_tally\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"test/mocks/MockRewardsDistributor.sol\":\"MockRewardsDistributor\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"test/mocks/MockRewardsDistributor.sol\":{\"keccak256\":\"0x43bddafe62b5addea12d358f6b6bcd1e51b9fce87c16c8eb9fed8974a6a2a391\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://155df1e861a1380425f79a67035d4b364c15a2e6640a12735a0a3b54cbd3ef34\",\"dweb:/ipfs/Qmd9v8jNER8kNBxoiRCzFUBAw3U7DLiy973PuW4hd9Lx5z\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "weeks_elapsed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reward_tally",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "gauge_address",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "distributeReward",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "weeks_elapsed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reward_tally",
+              "type": "uint256"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":@convex/=lib/frax-cvx-platform/contracts/contracts/",
+        ":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/",
+        ":@frax_testing/=lib/frax_testing/src/",
+        ":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/",
+        ":@interfaces/=src/interfaces/",
+        ":@mocks/=test/mocks/",
+        ":@openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        ":@openzeppelin/=lib/openzeppelin-contracts/",
+        ":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/",
+        ":ds-test/=lib/forge-std/lib/ds-test/src/",
+        ":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+        ":forge-std/=lib/forge-std/src/",
+        ":frax-solidity/=lib/frax-solidity/src/",
+        ":frax_testing/=lib/frax_testing/src/",
+        ":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
+        ":solmate/=lib/frax_testing/lib/solmate/src/"
+      ],
+      "optimizer": {
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "test/mocks/MockRewardsDistributor.sol": "MockRewardsDistributor"
+      },
+      "libraries": {},
+      "viaIR": true
+    },
+    "sources": {
+      "test/mocks/MockRewardsDistributor.sol": {
+        "keccak256": "0x43bddafe62b5addea12d358f6b6bcd1e51b9fce87c16c8eb9fed8974a6a2a391",
+        "urls": [
+          "bzz-raw://155df1e861a1380425f79a67035d4b364c15a2e6640a12735a0a3b54cbd3ef34",
+          "dweb:/ipfs/Qmd9v8jNER8kNBxoiRCzFUBAw3U7DLiy973PuW4hd9Lx5z"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "test/mocks/MockRewardsDistributor.sol",
+    "id": 34361,
+    "exportedSymbols": {
+      "MockRewardsDistributor": [
+        34360
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:494:48",
+    "nodes": [
+      {
+        "id": 34323,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:48",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".0"
+        ]
+      },
+      {
+        "id": 34360,
+        "nodeType": "ContractDefinition",
+        "src": "58:467:48",
+        "nodes": [
+          {
+            "id": 34325,
+            "nodeType": "VariableDeclaration",
+            "src": "96:22:48",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "_weeks_elapsed",
+            "nameLocation": "104:14:48",
+            "scope": 34360,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 34324,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "96:7:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 34327,
+            "nodeType": "VariableDeclaration",
+            "src": "124:21:48",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "_reward_tally",
+            "nameLocation": "132:13:48",
+            "scope": 34360,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 34326,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "124:7:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 34343,
+            "nodeType": "FunctionDefinition",
+            "src": "152:142:48",
+            "nodes": [],
+            "body": {
+              "id": 34342,
+              "nodeType": "Block",
+              "src": "209:85:48",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "id": 34336,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 34334,
+                      "name": "_weeks_elapsed",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 34325,
+                      "src": "219:14:48",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 34335,
+                      "name": "weeks_elapsed",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 34329,
+                      "src": "236:13:48",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "219:30:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 34337,
+                  "nodeType": "ExpressionStatement",
+                  "src": "219:30:48"
+                },
+                {
+                  "expression": {
+                    "id": 34340,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 34338,
+                      "name": "_reward_tally",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 34327,
+                      "src": "259:13:48",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 34339,
+                      "name": "reward_tally",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 34331,
+                      "src": "275:12:48",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "259:28:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 34341,
+                  "nodeType": "ExpressionStatement",
+                  "src": "259:28:48"
+                }
+              ]
+            },
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 34332,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 34329,
+                  "mutability": "mutable",
+                  "name": "weeks_elapsed",
+                  "nameLocation": "172:13:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 34343,
+                  "src": "164:21:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 34328,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "164:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 34331,
+                  "mutability": "mutable",
+                  "name": "reward_tally",
+                  "nameLocation": "195:12:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 34343,
+                  "src": "187:20:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 34330,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "187:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "163:45:48"
+            },
+            "returnParameters": {
+              "id": 34333,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "209:0:48"
+            },
+            "scope": 34360,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "id": 34359,
+            "nodeType": "FunctionDefinition",
+            "src": "300:223:48",
+            "nodes": [],
+            "body": {
+              "id": 34358,
+              "nodeType": "Block",
+              "src": "445:78:48",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "id": 34352,
+                    "name": "gauge_address",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 34345,
+                    "src": "455:13:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 34353,
+                  "nodeType": "ExpressionStatement",
+                  "src": "455:13:48"
+                },
+                {
+                  "expression": {
+                    "components": [
+                      {
+                        "id": 34354,
+                        "name": "_weeks_elapsed",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 34325,
+                        "src": "486:14:48",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "id": 34355,
+                        "name": "_reward_tally",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 34327,
+                        "src": "502:13:48",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 34356,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "485:31:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                      "typeString": "tuple(uint256,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 34351,
+                  "id": 34357,
+                  "nodeType": "Return",
+                  "src": "478:38:48"
+                }
+              ]
+            },
+            "functionSelector": "092193ab",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "distributeReward",
+            "nameLocation": "309:16:48",
+            "parameters": {
+              "id": 34346,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 34345,
+                  "mutability": "mutable",
+                  "name": "gauge_address",
+                  "nameLocation": "334:13:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 34359,
+                  "src": "326:21:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 34344,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "326:7:48",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "325:23:48"
+            },
+            "returnParameters": {
+              "id": 34351,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 34348,
+                  "mutability": "mutable",
+                  "name": "weeks_elapsed",
+                  "nameLocation": "404:13:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 34359,
+                  "src": "396:21:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 34347,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "396:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 34350,
+                  "mutability": "mutable",
+                  "name": "reward_tally",
+                  "nameLocation": "427:12:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 34359,
+                  "src": "419:20:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 34349,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "419:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "395:45:48"
+            },
+            "scope": 34360,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "MockRewardsDistributor",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          34360
+        ],
+        "name": "MockRewardsDistributor",
+        "nameLocation": "67:22:48",
+        "scope": 34361,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 48
+}

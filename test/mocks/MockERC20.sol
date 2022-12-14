@@ -221,7 +221,7 @@ contract MockERC20 is ERC20 {
     }
 }
 
-contract MockFraxswapLP is MockERC20 {
+contract MockLp is MockERC20 {
     address _token0; // = address(0x0a92aC70B5A187fB509947916a8F63DD31600F80);
     // address _token1 = address(0x853d955aCEf822Db058eb8505911ED77F175b99e);
     //uint256 _totalSupply;
@@ -250,9 +250,9 @@ contract MockFraxswapLP is MockERC20 {
     }
 
     function mint(address to, uint256 value) public override {
-        uint256 valueFraction = value / 5;
-        _reserve0 += uint112(valueFraction * 4);
-        _reserve1 += uint112(valueFraction); // pitchFXS should be worth around 4-5x what frax is worth right now
+        uint256 valueFraction = value / 20;
+        _reserve0 += uint112(valueFraction * 11);  // frxEth about 55% of the total pool
+        _reserve1 += uint112(valueFraction * 9); // eth value to eth estimate 95%
         _blockTimestampLast = uint32(block.timestamp - 1);
         _mint(to, value);
     }

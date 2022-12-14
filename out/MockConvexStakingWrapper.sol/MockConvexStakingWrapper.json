@@ -1,0 +1,34 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "test/mocks/MockConvexStakingWrapper.sol",
+    "id": 41911,
+    "exportedSymbols": {},
+    "nodeType": "SourceUnit",
+    "src": "33:60144:79",
+    "nodes": [
+      {
+        "id": 41910,
+        "nodeType": "PragmaDirective",
+        "src": "33:24:79",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".10"
+        ]
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 79
+}
