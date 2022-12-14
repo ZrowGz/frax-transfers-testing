@@ -11,12 +11,13 @@ remappings = [
     '@frax_testing/=lib/frax_testing/src/',
     '@openzeppelin-contracts/=lib/openzeppelin-contracts/',
     'openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/',
-    '@openzeppelin/=lib/openzeppelin-contracts/'
+    '@openzeppelin/=lib/openzeppelin-contracts/',
+    '@interfaces/=src/interfaces/'
 ]
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
 
-solc_version = "0.8.10"
+solc_version = "0.8.17"
 gas_reports = ["*"]
 
 # settings for coverage reports
@@ -26,20 +27,20 @@ optimizer_runs = 100_000 #testing this out
 
 
 [profile.default.optimizer_details]
-jumpdestRemover = true #testing this out
-orderLiterals = true # testing this out
-deduplicate = true #testing this out
+# jumpdestRemover = true #testing this out
+# orderLiterals = true # testing this out
+# deduplicate = true #testing this out
 
 yul = true
 constantOptimizer = true
 stackAllocation = true
 
 # Have cse = true commented out for faster testing compilation, but un-comment it for deployment!
-cse = true
+# cse = true
 
 
 [profile.default.optimizer_details.yulDetails]
 stackAllocation = true
 
 # Have optimizerSteps = "" uncommented for faster testing compilation, but comment it out for deployment!
-# optimizerSteps = ""
+optimizerSteps = ""
