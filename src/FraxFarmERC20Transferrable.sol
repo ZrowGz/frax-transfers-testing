@@ -276,16 +276,19 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     function getLatestETHPriceE8() public view returns (int) {
         // Returns in E8
         (uint80 roundID, int price, , uint256 updatedAt, uint80 answeredInRound) = priceFeedETHUSD.latestRoundData();
-        require(price >= 0 && updatedAt!= 0 && answeredInRound >= roundID, "Invalid chainlink price");
+        // require(price >= 0 && updatedAt!= 0 && answeredInRound >= roundID, "Invalid chainlink price");
+        if (price < 0 || updatedAt == 0 || answeredInRound < roundID) revert InvalidChainlinkPrice();
         
         return price;
     }
 
     function setETHUSDOracle(address _eth_usd_oracle_address) public onlyByOwnGov {
-        require(_eth_usd_oracle_address != address(0), "Zero address detected");
+        // require(_eth_usd_oracle_address != address(0), "Zero address detected");
+        if (_eth_usd_oracle_address == address(0)) revert CannotBeZero();
 
         priceFeedETHUSD = AggregatorV3Interface(_eth_usd_oracle_address);
     }
+    
     // ------ LIQUIDITY AND WEIGHTS ------
 
     function calcCurrLockMultiplier(address account, uint256 stake_idx) public view returns (uint256 midpoint_lock_multiplier) {
@@ -424,35 +427,15 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     // ------ STAKING ------
 
     function _getStake(address staker_address, bytes32 kek_id) internal view returns (LockedStake memory locked_stake, uint256 arr_idx) {
-        console2.log("getting stake", staker_address);
-        console2.logBytes32(kek_id);
-        for (uint256 i; i < lockedStakes[staker_address].length; i++){ 
-            console2.log("looping", i);
+        for (uint256 i; i < lockedStakes[staker_address].length; i++){
             if (kek_id == lockedStakes[staker_address][i].kek_id){
-                console2.log("found kek_id", i);
-                console2.logBytes32(lockedStakes[staker_address][i].kek_id);
-                console2.logBytes32(kek_id);
                 locked_stake = lockedStakes[staker_address][i];
                 arr_idx = i;
-                console2.logBytes32(locked_stake.kek_id);
-                console2.log("The winning number is!:", arr_idx);
                 break;
-            } //else {
-            //     console2.log("not found", i);
-            //     console2.logBytes32(lockedStakes[staker_address][i].kek_id);
-            //     console2.logBytes32(kek_id);
-            //     revert StakerNotFound();
-            // }
+            }
         }
-        console2.log("before Require");
-        console2.logBytes32(locked_stake.kek_id);
-        require(locked_stake.kek_id == kek_id, "StakerNotFound:(");
-        console2.log("require passed");
-        // if (locked_stake.kek_id != kek_id) revert StakerNotFound();
+        if (locked_stake.kek_id != kek_id) revert StakerNotFound();
     } 
-        //if (locked_stake.kek_id != kek_id) revert StakerNotFound();
-        
-    //}
 
     // Add additional LPs to an existing locked stake
     function lockAdditional(bytes32 kek_id, uint256 addl_liq) nonReentrant updateRewardAndBalanceMdf(msg.sender, true) public {
@@ -639,8 +622,6 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     error InvalidReceiver();
     error InvalidAmount();
     error InsufficientAllowance();
-
-    // custom errors for other preexisting functions to reduce contract size
     error WithdrawalsPaused();
     error StakingPaused();
     error MinimumStakeTimeNotMet();
@@ -649,6 +630,9 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     error MustBeInTheFuture();
     error MustBePositive();
     error StakerNotFound();
+    error CannotBeZero();
+    error AllowanceIsZero();
+    error InvalidChainlinkPrice();
 
     event TransferLocked(address indexed sender_address, address indexed destination_address, uint256 amount_transferred, bytes32 source_kek_id, bytes32 destination_kek_id);
     event Approval(address indexed staker, address indexed spender, bytes32 indexed kek_id, uint256 amount);
@@ -656,8 +640,15 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
 
     // Approve `spender` to transfer `kek_id` on behalf of `owner`
     function setAllowance(address spender, bytes32 kek_id, uint256 amount) external {
+        if (kekAllowance[msg.sender][kek_id][spender] >= 0) revert CannotBeZero();
         kekAllowance[msg.sender][kek_id][spender] = amount;
         emit Approval(msg.sender, spender, kek_id, amount);
+    }
+
+    function increaseAllowance(address spender, bytes32 kek_id, uint256 amount) external {
+        if (kekAllowance[msg.sender][kek_id][spender] <= 0) revert AllowanceIsZero();
+        kekAllowance[msg.sender][kek_id][spender] += amount;
+        emit Approval(msg.sender, spender, kek_id, kekAllowance[msg.sender][kek_id][spender]);
     }
 
     // Revoke approval for a single kek_id
@@ -685,16 +676,11 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         }
     }
 
-    function _spendAllowance(address staker, bytes32 kek_id, uint256 amount) internal {//returns (uint256 spendable_amount) {
+    function _spendAllowance(address staker, bytes32 kek_id, uint256 amount) internal {
             if (kekAllowance[staker][kek_id][msg.sender] == amount) {
                 kekAllowance[staker][kek_id][msg.sender] = 0;
-                //return amount;
             } else if (kekAllowance[staker][kek_id][msg.sender] > amount) {
                 kekAllowance[staker][kek_id][msg.sender] -= amount;
-                //return amount;
-            // } else if (kekAllowance[staker][kek_id][msg.sender] < amount && kekAllowance[staker][kek_id][msg.sender] > 0) {
-            //     spendable_amount = kekAllowance[staker][kek_id][msg.sender];
-            //     kekAllowance[staker][kek_id][msg.sender] = 0;
             } else {
                 revert InsufficientAllowance();
             }
@@ -735,11 +721,6 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         return(_safeTransferLocked(msg.sender, receiver_address, source_kek_id, transfer_amount, destination_kek_id));
     }
 
-    /**
-    TODO
-    @dev double check whether calling the updateRewardAndBalanceMdf would cause a transaction to revert if 
-        the receiver address doesn't previously have any lockedStakes.
-     */
     // executes the transfer
     function _safeTransferLocked(
         address sender_address,
@@ -753,12 +734,11 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
             require(
                 ILockTransfers(sender_address).beforeLockTransfer(sender_address, receiver_address, source_kek_id, "") 
                 == 
-                ILockReceiver.beforeLockTransfer.selector //0x7ebbbcb3//bytes4(keccak256("beforeLockTransfer(address,address,bytes32,bytes)"))//ILockTransfers(sender_address).beforeLockTransfer.selector // 0x4fb07105
+                ILockReceiver.beforeLockTransfer.selector // 00x4fb07105 <--> bytes4(keccak256("beforeLockTransfer(address,address,bytes32,bytes)"))
             );
         }
 
         // Get the stake and its index
-        //// TODO THIS IS BEING RAN
         (LockedStake memory senderStake, uint256 senderArrayIndex) = _getStake(
             sender_address,
             source_kek_id
@@ -768,15 +748,12 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
 
         // perform checks
         if (receiver_address == address(0) || receiver_address == sender_address) {
-            console2.log("INVALID RECEIVER ERROR", receiver_address, sender_address);
             revert InvalidReceiver();
         }
         if (block.timestamp >= senderStake.ending_timestamp || stakesUnlocked == true) {
-            console2.log("INVALID TIME ERROR", block.timestamp, senderStake.ending_timestamp, stakesUnlocked);
             revert StakesUnlocked();
         }
         if (transfer_amount > senderStake.liquidity || transfer_amount <= 0) {
-            console2.log("INVALID AMOUNT ERROR", transfer_amount, senderStake.liquidity);
             revert InvalidAmount();
         }
 
@@ -786,7 +763,6 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         
             //address the_proxy = getProxyFor(sender_address);
         if (getProxyFor(sender_address) != address(0)) {
-            console2.log("Staker address proxy CHECK", getProxyFor(sender_address));
                 proxy_lp_balances[getProxyFor(sender_address)] -= transfer_amount;
         }
         
@@ -796,67 +772,37 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         }
 
         // if sent amount was all the liquidity, delete the stake, otherwise decrease the balance
-        console2.log("Before accounting", senderStake.liquidity, transfer_amount);
         if (transfer_amount == senderStake.liquidity) {
-            console2.log("DELETE");
             delete lockedStakes[sender_address][senderArrayIndex];
         } else {
-            console2.log("DEDUCT");
             lockedStakes[sender_address][senderArrayIndex].liquidity -= transfer_amount;
-            console2.log("After accounting", senderStake.liquidity, transfer_amount);
         }
 
         // if destination kek is 0, create a new kek_id, otherwise update the balances & ending timestamp (longer of the two)
         if (destination_kek_id == bytes32(0)) {
-            console2.log("CREATE NEW");
             // create the new kek_id
-            console2.log("before create new kek");
-            console2.logBytes32(destination_kek_id);
-            destination_kek_id = _createNewKekId(receiver_address, senderStake.start_timestamp, transfer_amount, senderStake.ending_timestamp, senderStake.lock_multiplier);
-            console2.log("after create new kek");
-            console2.logBytes32(destination_kek_id);
-            
+            destination_kek_id = _createNewKekId(receiver_address, senderStake.start_timestamp, transfer_amount, senderStake.ending_timestamp, senderStake.lock_multiplier);          
         } else {
-            console2.log("UPDATE EXISTING");
-            // get the target 
+            /// Update the existing lock
+
+            // get the target (checks that it actually exists for the receiver)
             (LockedStake memory receiverStake, uint256 receiverArrayIndex) = _getStake(
                 receiver_address,
                 destination_kek_id
             );
-            console2.log("AfterUpdateExistingDestStake", receiverStake.liquidity, receiverStake.ending_timestamp, receiverArrayIndex);
-            /**
-            TODO
-            _getStake reverts if it doesn't find a stake of that kek_id, so checking if liquidity is 0 on it is unnecessary
-            When a user withdraws their entire stake, the kek_id is deleted, so it's not possible to have a kek_id with 0 liquidity
-            @dev double check me on this logic - commented out check below
-             */
-            // if (lockedStakes[receiver_address][receiverArrayIndex].liquidity == 0) {
-            //     destination_kek_id = _createNewKekId(sender_address, thisStake.start_timestamp, transfer_amount, thisStake.ending_timestamp, thisStake.lock_multiplier);
 
-            // } else {
-            // Otherwise, it exists & has liquidity, so we can use that to keep stakes consolidated 
             // Update the existing staker's stake
-            console2.log("BeforeUpdateReceiverStakeLiquidity", lockedStakes[receiver_address][receiverArrayIndex].liquidity);
             lockedStakes[receiver_address][receiverArrayIndex].liquidity += transfer_amount;
-            console2.log("AfterUpdateReceiverStakeLiquidity", lockedStakes[receiver_address][receiverArrayIndex].liquidity);
 
             // check & update ending timestamp to whichever is farthest out
-            console2.log("BeforeUpdateReceiverStakeTimestamp", receiverStake.ending_timestamp < senderStake.ending_timestamp);
-            console2.log("BeforeUpdateReceiverStakeTimestamp", receiverStake.ending_timestamp, senderStake.ending_timestamp);
             if (receiverStake.ending_timestamp < senderStake.ending_timestamp) {
-                console2.log("EXTEND TIMESTAMP");
-                console2.log("WithinUpdateReceiverStakeTimestamp", receiverStake.ending_timestamp < senderStake.ending_timestamp);
-                console2.log("WithinUpdateReceiverStakeTimestamp", receiverStake.ending_timestamp, senderStake.ending_timestamp);
                 // update the lock expiration to the later timestamp
                 lockedStakes[receiver_address][receiverArrayIndex].ending_timestamp = senderStake.ending_timestamp;
                 // update the lock multiplier since we are effectively extending the lock
                 lockedStakes[receiver_address][receiverArrayIndex].lock_multiplier = lockMultiplier(senderStake.ending_timestamp - block.timestamp);
             }
-            console2.log("AfterUpdateReceiverStakeTimestamp", receiverStake.ending_timestamp < senderStake.ending_timestamp);
-            console2.log("AfterUpdateReceiverStakeTimestamp", receiverStake.ending_timestamp, senderStake.ending_timestamp);
-            //}
         }
-        console2.log("UPDATE REWARDS AND BALANCES");
+
         // Need to call again to make sure everything is correct
         updateRewardAndBalance(sender_address, true); 
         updateRewardAndBalance(receiver_address, true);
@@ -868,19 +814,15 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
             source_kek_id,
             destination_kek_id
         );
-        console2.log("sender, receiver", sender_address, receiver_address);
-        console2.log("CALL ONLOCKRECEIVED");
-        // call the receiver with the destination kek_id to verify receiving is ok
-        require(_checkOnLockReceived(sender_address, receiver_address, destination_kek_id, ""));
-        console2.log("sender, receiver", sender_address, receiver_address);
-        // if (ILockTransfers(receiver_address).onLockReceived(
-        //     sender_address, 
-        //     receiver_address, 
-        //     destination_kek_id, 
-        //     ""
-        // ) != ILockReceiver.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
 
-        console2.log("Very nice, I like, great success!!!");
+        // call the receiver with the destination kek_id to verify receiving is ok
+        if (ILockTransfers(receiver_address).onLockReceived(
+            sender_address, 
+            receiver_address, 
+            destination_kek_id, 
+            ""
+        ) != ILockReceiver.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
+
         return (source_kek_id, destination_kek_id);
     }
 
@@ -891,9 +833,13 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         uint256 ending_timestamp,
         uint256 lock_multiplier
     ) internal returns (bytes32 kek_id) {
-        console2.log("CREATE NEW KEKID");
-        kek_id = keccak256(abi.encodePacked(staker_address, start_timestamp, liquidity, _locked_liquidity[staker_address]));
-        console2.logBytes32(kek_id);
+        kek_id = keccak256(abi.encodePacked(
+            staker_address, 
+            start_timestamp, 
+            liquidity, 
+            _locked_liquidity[staker_address]
+        ));
+        
         // Create the locked stake
         lockedStakes[staker_address].push(LockedStake(
             kek_id,
@@ -902,33 +848,6 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
             ending_timestamp,
             lock_multiplier
         ));
-        console2.log("CREATE NEW KEKID - PUSHED");
-    }
-
-    function _checkOnLockReceived(address from, address to, bytes32 kek_id, bytes memory data)
-        internal returns (bool)
-    {
-        console2.log("Checking onLockReceived", from, to);
-        if (to.code.length > 0) {
-            console2.log("receiver has code");
-            try ILockTransfers(to).onLockReceived(from, to, kek_id, data) returns (bytes4 retval) {
-                console2.log("trying");
-                return retval == 0xc42d8b95;//bytes4(keccak256("onLockReceived(address,address,bytes32,bytes)")); //ILockTransfers(to).onLockReceived.selector;
-            } catch (bytes memory reason) {
-                console2.log("failed");
-                if (reason.length == 0) {
-                    revert InvalidReceiver();
-                } else {
-                    /// @solidity memory-safe-assembly
-                    assembly {
-                        revert(add(32, reason), mload(reason))
-                    }
-                }
-            }
-        } else {
-            console2.log("receiver has no code");
-            return true;
-        }
     }
 
     /* ========== RESTRICTED FUNCTIONS - Owner or timelock only ========== */

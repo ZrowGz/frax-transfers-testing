@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
-import "forge-std/console2.sol";
-
 // OpenZeppelin Contracts (last updated v4.8.0) (security/ReentrancyGuard.sol)
 
 /**
@@ -131,6 +129,7 @@ interface IFraxFarmERC20 {
     function sync() external;
 
     function setAllowance(address spender, bytes32 kek_id, uint256 amount) external;
+    function increaseAllowance(address spender, bytes32 kek_id, uint256 amount) external;
     function removeAllowance(address spender, bytes32 kek_id) external;
     function setApprovalForAll(address spender, bool approved) external;
     function transferLocked(address receiver_address, bytes32 source_kek_id, uint256 transfer_amount, bytes32 destination_kek_id) external returns(bytes32,bytes32);
@@ -945,7 +944,6 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
     /// @dev required to happen because `transferFrom` would otherwise bypass the recipient check
     function beforeLockTransfer(address from, address to, bytes32 kek_id, bytes memory data) external returns (bytes4) {
         //check that the receiver is a legitimate convex vault
-        console2.log("beforeLockTransfer at sender", from, to);
         require(from == address(this) && msg.sender == stakingAddress, "invalid params");
         if (to != ITransferChecker(poolRegistry).vaultMap(poolId, IProxyVault(to).owner())) revert NonVaultReceiver();
 
@@ -954,10 +952,8 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
 
     function onLockReceived(address from, address to, bytes32 kek_id, bytes memory data) external returns (bytes4) {
         // if the owner of the vault is a contract try calling onLockReceived on it, return the selector either way
-        console2.log("onLockReceived at receiver", from, to);
         require(to == address(this) && msg.sender == stakingAddress, "invalid params");
         if (owner.code.length > 0) {
-            console2.log("Calling owner within onLockReceived", owner, address(this));
             return ITransferChecker(owner).onLockReceived(from, to, kek_id, data);
         } else {
             return this.onLockReceived.selector;
@@ -1120,6 +1116,9 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
     ////////// Lock Management Authorization //////////
     function setAllowance(address spender, bytes32 kek_id, uint256 amount) external onlyOwner{
         IFraxFarmERC20(stakingAddress).setAllowance(spender, kek_id, amount);
+    }
+    function increaseAllowance(address spender, bytes32 kek_id, uint256 amount) external onlyOwner{
+        IFraxFarmERC20(stakingAddress).increaseAllowance(spender, kek_id, amount);
     }
     function removeAllowance(address spender, bytes32 kek_id) external onlyOwner {
         IFraxFarmERC20(stakingAddress).removeAllowance(spender, kek_id);
