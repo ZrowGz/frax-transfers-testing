@@ -2925,8 +2925,8 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1670967450105,
-      "contentHash": "97aaeb281932d0f7fa66d812e6dacb90",
+      "lastModificationDate": 1671126235749,
+      "contentHash": "0d92f30faf805fdcb195ba0680048181",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
         "settings": {
@@ -2965,7 +2965,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": "^0.8.10",
       "artifacts": {
         "Address": {
@@ -3016,8 +3018,8 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1671060321318,
-      "contentHash": "765b347e8e423b742ac5cd08158ae682",
+      "lastModificationDate": 1671126129856,
+      "contentHash": "51399166593391ee20448fb934ce065e",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
         "settings": {
@@ -3308,8 +3310,8 @@
       }
     },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1671060591291,
-      "contentHash": "0bfb0efa05d6173a23bb06d301a74998",
+      "lastModificationDate": 1671126488844,
+      "contentHash": "67832a1195190515a867041305a229ca",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {

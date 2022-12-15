@@ -868,15 +868,17 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
             source_kek_id,
             destination_kek_id
         );
+        console2.log("sender, receiver", sender_address, receiver_address);
         console2.log("CALL ONLOCKRECEIVED");
         // call the receiver with the destination kek_id to verify receiving is ok
-        //require(_checkOnLockReceived(sender_address, receiver_address, destination_kek_id, ""));
-        if (ILockTransfers(receiver_address).onLockReceived(
-            sender_address, 
-            receiver_address, 
-            destination_kek_id, 
-            ""
-        ) != ILockReceiver.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
+        require(_checkOnLockReceived(sender_address, receiver_address, destination_kek_id, ""));
+        console2.log("sender, receiver", sender_address, receiver_address);
+        // if (ILockTransfers(receiver_address).onLockReceived(
+        //     sender_address, 
+        //     receiver_address, 
+        //     destination_kek_id, 
+        //     ""
+        // ) != ILockReceiver.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
 
         console2.log("Very nice, I like, great success!!!");
         return (source_kek_id, destination_kek_id);
@@ -903,31 +905,31 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         console2.log("CREATE NEW KEKID - PUSHED");
     }
 
-    // function _checkOnLockReceived(address from, address to, bytes32 kek_id, bytes memory data)
-    //     internal returns (bool)
-    // {
-    //     console2.log("Checking onLockReceived", from, to);
-    //     if (to.code.length > 0) {
-    //         console2.log("receiver has code");
-    //         try ILockTransfers(to).onLockReceived(from, to, kek_id, data) returns (bytes4 retval) {
-    //             console2.log("trying");
-    //             return retval == 0xc42d8b95;//bytes4(keccak256("onLockReceived(address,address,bytes32,bytes)")); //ILockTransfers(to).onLockReceived.selector;
-    //         } catch (bytes memory reason) {
-    //             console2.log("failed");
-    //             if (reason.length == 0) {
-    //                 revert InvalidReceiver();
-    //             } else {
-    //                 /// @solidity memory-safe-assembly
-    //                 assembly {
-    //                     revert(add(32, reason), mload(reason))
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //         console2.log("receiver has no code");
-    //         return true;
-    //     }
-    // }
+    function _checkOnLockReceived(address from, address to, bytes32 kek_id, bytes memory data)
+        internal returns (bool)
+    {
+        console2.log("Checking onLockReceived", from, to);
+        if (to.code.length > 0) {
+            console2.log("receiver has code");
+            try ILockTransfers(to).onLockReceived(from, to, kek_id, data) returns (bytes4 retval) {
+                console2.log("trying");
+                return retval == 0xc42d8b95;//bytes4(keccak256("onLockReceived(address,address,bytes32,bytes)")); //ILockTransfers(to).onLockReceived.selector;
+            } catch (bytes memory reason) {
+                console2.log("failed");
+                if (reason.length == 0) {
+                    revert InvalidReceiver();
+                } else {
+                    /// @solidity memory-safe-assembly
+                    assembly {
+                        revert(add(32, reason), mload(reason))
+                    }
+                }
+            }
+        } else {
+            console2.log("receiver has no code");
+            return true;
+        }
+    }
 
     /* ========== RESTRICTED FUNCTIONS - Owner or timelock only ========== */
 

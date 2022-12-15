@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
+
+import "forge-std/console2.sol";
+
 // OpenZeppelin Contracts (last updated v4.8.0) (security/ReentrancyGuard.sol)
 
 /**
@@ -940,17 +943,22 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
 
     /// @notice before transfer hook called to sender of lock - checks that receiver is a known convex vault & claims rewards
     /// @dev required to happen because `transferFrom` would otherwise bypass the recipient check
-    function beforeLockTransfer(address from, address receiver, bytes32 kek_id, bytes memory data) external returns (bytes4) {
+    function beforeLockTransfer(address from, address to, bytes32 kek_id, bytes memory data) external returns (bytes4) {
         //check that the receiver is a legitimate convex vault
-        if (receiver != ITransferChecker(poolRegistry).vaultMap(poolId, IProxyVault(receiver).owner())) revert NonVaultReceiver();
+        console2.log("beforeLockTransfer at sender", from, to);
+        require(from == address(this) && msg.sender == stakingAddress, "invalid params");
+        if (to != ITransferChecker(poolRegistry).vaultMap(poolId, IProxyVault(to).owner())) revert NonVaultReceiver();
 
         return this.beforeLockTransfer.selector;
     }
 
     function onLockReceived(address from, address to, bytes32 kek_id, bytes memory data) external returns (bytes4) {
         // if the owner of the vault is a contract try calling onLockReceived on it, return the selector either way
-        if (IProxyVault(to).owner().code.length > 0) {
-            return ITransferChecker(IProxyVault(to).owner()).onLockReceived(from, to, kek_id, data);
+        console2.log("onLockReceived at receiver", from, to);
+        require(to == address(this) && msg.sender == stakingAddress, "invalid params");
+        if (owner.code.length > 0) {
+            console2.log("Calling owner within onLockReceived", owner, address(this));
+            return ITransferChecker(owner).onLockReceived(from, to, kek_id, data);
         } else {
             return this.onLockReceived.selector;
         }
