@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
+import "@interfaces/ILockReceiver.sol";
+
 // OpenZeppelin Contracts (last updated v4.8.0) (security/ReentrancyGuard.sol)
 
 /**
@@ -712,8 +714,6 @@ interface IProxyVault {
 
 interface ITransferChecker {
     function vaultMap(uint256 _poolId, address _user) external returns(address);
-    function beforeLockTransfer(address from, address receiver, bytes32 kek_id, bytes memory data) external view returns (bytes4);
-    function onLockReceived(address from, address to, bytes32 kek_id, bytes memory data) external returns (bytes4);
 }
 // File: contracts/contracts/StakingProxyBase.sol
 
@@ -946,6 +946,9 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
         //check that the receiver is a legitimate convex vault
         require(from == address(this) && msg.sender == stakingAddress, "invalid params");
         if (to != ITransferChecker(poolRegistry).vaultMap(poolId, IProxyVault(to).owner())) revert NonVaultReceiver();
+        
+        /// FraxFarm will execute it's getReward, so we only need to process all other rewards logic first.
+        claimOnTransfer();
 
         return this.beforeLockTransfer.selector;
     }
@@ -954,7 +957,7 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
         // if the owner of the vault is a contract try calling onLockReceived on it, return the selector either way
         require(to == address(this) && msg.sender == stakingAddress, "invalid params");
         if (owner.code.length > 0) {
-            return ITransferChecker(owner).onLockReceived(from, to, kek_id, data);
+            return ILockReceiver(owner).onLockReceived(from, to, kek_id, data);
         } else {
             return this.onLockReceived.selector;
         }
@@ -971,6 +974,7 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
         rewards = _rewardsAddress;
         //poolId = IConvexWrapperV2(_stakingToken).convexPoolId(); // TODO This needs to be the poolId in the poolRegistry vaultMapLookup
 
+        /// @dev: this doesn't get the correct pool id for the pool registry. It's hardcoded, but should be input as a deployment from booster.
         //get tokens from pool info
         (address _lptoken, address _token,,, , ) = ICurveConvex(convexCurveBooster).poolInfo(IConvexWrapperV2(_stakingToken).convexPoolId());
 
@@ -1133,11 +1137,35 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
     function transferLocked(address receiver_address, bytes32 origin_kek_id, uint256 amount, bytes32 destination_kek_id) external onlyOwner nonReentrant returns(bytes32,bytes32){
         /// @dev the vault check is done in the beforeLockTransfer hook
 
-        // claim rewards
-        getReward(true);
-
         // Transfer the amount
         return(IFraxFarmERC20(stakingAddress).transferLocked(receiver_address, origin_kek_id, amount, destination_kek_id));
+    }
+
+    function claimOnTransfer() public{
+        //claim convex farm and forward to owner
+        IConvexWrapperV2(stakingToken).getReward(address(this),owner);
+
+        //double check there have been no crv/cvx claims directly to this address
+        uint256 b = IERC20(crv).balanceOf(address(this));
+        if(b > 0){
+            IERC20(crv).safeTransfer(owner, b);
+        }
+        b = IERC20(cvx).balanceOf(address(this));
+        if(b > 0){
+            IERC20(cvx).safeTransfer(owner, b);
+        }
+
+        //process fxs fees
+        _processFxs();
+
+        //get list of reward tokens
+        address[] memory rewardTokens = IFraxFarmERC20(stakingAddress).getAllRewardTokens();
+
+        //transfer
+        _transferTokens(rewardTokens);
+
+        //extra rewards
+        _processExtraRewards();
     }
 
     //helper function to combine earned tokens on staking contract and any tokens that are on this vault

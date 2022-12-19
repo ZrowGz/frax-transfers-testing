@@ -17,6 +17,8 @@ pragma solidity >=0.8.0;
 import "forge-std/console2.sol";
 
 import "@frax/FraxUnifiedFarmTemplate.sol";
+//import "./FraxFarmUnifiedTemplate.sol";
+
 import "@interfaces/ILockReceiver.sol";
 
 import "@frax/../Oracle/AggregatorV3Interface.sol";
@@ -508,8 +510,6 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         emit LockedLonger(msg.sender, kek_id, new_secs, block.timestamp, new_ending_ts);
     }
 
-    
-
     // Two different stake functions are needed because of delegateCall and msg.sender issues (important for proxies)
     function stakeLocked(uint256 liquidity, uint256 secs) nonReentrant external returns (bytes32) {
         return _stakeLocked(msg.sender, msg.sender, liquidity, secs, block.timestamp);
@@ -732,19 +732,19 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         // on transfer, call sender_address to verify sending is ok
         if (sender_address.code.length > 0) {
             require(
-                ILockTransfers(sender_address).beforeLockTransfer(sender_address, receiver_address, source_kek_id, "") 
+                ILockReceiver(sender_address).beforeLockTransfer(sender_address, receiver_address, source_kek_id, "") 
                 == 
                 ILockReceiver.beforeLockTransfer.selector // 00x4fb07105 <--> bytes4(keccak256("beforeLockTransfer(address,address,bytes32,bytes)"))
             );
         }
+
+         _getReward(sender_address, sender_address, true);
 
         // Get the stake and its index
         (LockedStake memory senderStake, uint256 senderArrayIndex) = _getStake(
             sender_address,
             source_kek_id
         );
-
-        /// TODO NOTHING BELOW HERE IS RUNNING OTHER THAN THE CONSOLE LOGS & THE ONRECEIVED & EVENT EMITTING
 
         // perform checks
         if (receiver_address == address(0) || receiver_address == sender_address) {
@@ -816,7 +816,7 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
         );
 
         // call the receiver with the destination kek_id to verify receiving is ok
-        if (ILockTransfers(receiver_address).onLockReceived(
+        if (ILockReceiver(receiver_address).onLockReceived(
             sender_address, 
             receiver_address, 
             destination_kek_id, 
@@ -859,9 +859,4 @@ contract FraxUnifiedFarm_ERC20 is FraxUnifiedFarmTemplate {
     event LockedLonger(address indexed user, bytes32 kek_id, uint256 new_secs, uint256 new_start_ts, uint256 new_end_ts);
     event StakeLocked(address indexed user, uint256 amount, uint256 secs, bytes32 kek_id, address source_address);
     event WithdrawLocked(address indexed user, uint256 liquidity, bytes32 kek_id, address destination_address);
-}
-
-interface ILockTransfers {
-    function beforeLockTransfer(address operator, address from, bytes32 kek_id, bytes calldata data) external returns (bytes4);
-    function onLockReceived(address operator, address from, bytes32 kek_id, bytes memory data) external returns (bytes4);
 }
