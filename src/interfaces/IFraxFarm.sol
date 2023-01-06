@@ -115,33 +115,34 @@ interface IFraxFarm {
 }
 
 interface IFraxFarmTransfers {
-    function setAllowance(address spender, bytes32 kek_id, uint256 amount) external;
-    function removeAllowance(address spender, bytes32 kek_id) external;
+    function setAllowance(address spender, uint256 lockId, uint256 amount) external;
+    function removeAllowance(address spender, uint256 lockId) external;
     function setApprovalForAll(address spender, bool approved) external;
-    function isApproved(address staker, bytes32 kek_id, uint256 amount) external view returns (bool);
+    function isApproved(address staker, uint256 lockId, uint256 amount) external view returns (bool);
     function transferLockedFrom(
-        address staker_address,
+        address sender_address,
         address receiver_address,
-        bytes32 source_kek_id,
+        uint256 sender_lock_index,
         uint256 transfer_amount,
-        bytes32 destination_kek_id
-    ) external returns (bytes32);
+        bool use_receiver_lock_index,
+        uint256 receiver_lock_index
+    ) external returns (uint256);
 
     function transferLocked(
         address receiver_address,
-        bytes32 source_kek_id,
+        uint256 sender_lock_index,
         uint256 transfer_amount,
-        bytes32 destination_kek_id
-    ) external returns (bytes32);
+        bool use_receiver_lock_index,
+        uint256 receiver_lock_index
+    ) external returns (uint256);
 
-    function beforeLockTransfer(address operator, address from, bytes32 kek_id, bytes calldata data) external returns (bytes4);
-    function onLockReceived(address operator, address from, bytes32 kek_id, bytes memory data) external returns (bytes4);
+    function beforeLockTransfer(address operator, address from, uint256 lockId, bytes calldata data) external returns (bytes4);
+    function onLockReceived(address operator, address from, uint256 lockId, bytes memory data) external returns (bytes4);
 
 }
 
 interface IFraxFarmERC20 is IFraxFarm, IFraxFarmTransfers {
     struct LockedStake {
-        bytes32 kek_id;
         uint256 start_timestamp;
         uint256 liquidity;
         uint256 ending_timestamp;
@@ -155,13 +156,13 @@ interface IFraxFarmERC20 is IFraxFarm, IFraxFarmTransfers {
 
     function lockedStakesOfLength(address account) external view returns (uint256);
 
-    function lockAdditional(bytes32 kek_id, uint256 addl_liq) external;
+    function lockAdditional(uint256 lockId, uint256 addl_liq) external;
 
-    function lockLonger(bytes32 kek_id, uint256 _newUnlockTimestamp) external;
+    function lockLonger(uint256 lockId, uint256 _newUnlockTimestamp) external;
 
-    function stakeLocked(uint256 liquidity, uint256 secs) external returns (bytes32);
+    function stakeLocked(uint256 liquidity, uint256 secs) external returns (uint256);
 
-    function withdrawLocked(bytes32 kek_id, address destination_address) external returns (uint256);
+    function withdrawLocked(uint256 lockId, address destination_address) external returns (uint256);
 }
 
 interface IFraxFarmUniV3 is IFraxFarm, IFraxFarmUniV3TokenPositions {

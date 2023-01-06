@@ -10,15 +10,15 @@
   },
   "ast": {
     "absolutePath": "src/TransferrableConvexFrxEthFarm.sol",
-    "id": 44772,
+    "id": 47816,
     "exportedSymbols": {},
     "nodeType": "SourceUnit",
-    "src": "45:3304:80",
+    "src": "45:3304:87",
     "nodes": [
       {
-        "id": 44771,
+        "id": 47815,
         "nodeType": "PragmaDirective",
-        "src": "45:24:80",
+        "src": "45:24:87",
         "nodes": [],
         "literals": [
           "solidity",
@@ -30,5 +30,5 @@
     ],
     "license": "GPL-2.0-or-later"
   },
-  "id": 80
+  "id": 87
 }

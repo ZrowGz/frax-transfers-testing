@@ -4,12 +4,14 @@ pragma solidity >=0.8.0;
 import "forge-std/Test.sol";
 import "forge-std/Vm.sol";
 
-import {FraxUnifiedFarm_ERC20} from "../src/FraxFarmERC20Transferrable.sol";
+// import {FraxUnifiedFarm_ERC20_V2} from "../src/FraxFarmERC20Transferrable.sol";
+import {FraxUnifiedFarm_ERC20_Convex_frxETH_V2 as FraxUnifiedFarm_ERC20_V2} from "../src/TransferrableConvexFrxEthFarm.sol";
 import {StakingProxyConvex as Vault} from "../src/ConvexVaultTransferrable.sol";
 import {FRAXStablecoin} from "@frax/../Frax/Frax.sol";
 import {IFraxFarmTransfers, IFraxFarmERC20} from "@interfaces/IFraxFarm.sol";
 import "@frax_testing/gauges/Curve/IFraxGaugeController.sol";
 import {MockVaultOwner as VaultOwner} from "@mocks/MockVaultOwner.sol";
+import "../src/ConvexBoosterImprovedInitializer.sol";
 
 interface IDeposits {
     function add_liquidity(uint256[2] memory _amounts, uint256 _min_mint_amount) external returns (uint256);
@@ -21,7 +23,7 @@ interface IDeposits {
 }
 
 contract FraxFarmERC20TransfersTest is Test {
-    FraxUnifiedFarm_ERC20 public frxEthFarm;
+    FraxUnifiedFarm_ERC20_V2 public frxEthFarm;
     Vault public cvxVault;
     
     // PoolRegistry public poolRegistry;
@@ -34,7 +36,7 @@ contract FraxFarmERC20TransfersTest is Test {
     address public frxETHCRV = 0xf43211935C781D5ca1a41d2041F397B8A7366C7A; // frxeth/eth crv LP token
     address public cvxfrxEthFrxEth = address(0xC07e540DbFecCF7431EA2478Eb28A03918c1C30E);
     address public cvxStkFrxEthLp = 0x4659d5fF63A1E1EDD6D5DD9CC315e063c95947d0; // convex wrapped curve lp token STAKING TOKEN
-    FraxUnifiedFarm_ERC20 public frxFarm = FraxUnifiedFarm_ERC20(0xa537d64881b84faffb9Ae43c951EEbF368b71cdA); // frxEthFraxFarm
+    FraxUnifiedFarm_ERC20_V2 public frxFarm = FraxUnifiedFarm_ERC20_V2(0xa537d64881b84faffb9Ae43c951EEbF368b71cdA); // frxEthFraxFarm
     address public curveLpMinter = address(0xa1F8A6807c402E4A15ef4EBa36528A3FED24E577);
     address public vaultRewardsAddress = address(0x3465B8211278505ae9C6b5ba08ECD9af951A6896);
     address public frxEthMinter = address(0xbAFA44EFE7901E04E39Dad13167D089C559c1138);
@@ -42,7 +44,7 @@ contract FraxFarmERC20TransfersTest is Test {
     address public distributor = 0x278dC748edA1d8eFEf1aDFB518542612b49Fcd34; // Gauge Reward Distro
     
     // PID is 36 at convexPoolRegistry
-    address public convexBooster = address(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
+    Booster public convexBooster = Booster(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
     address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
 
     /// @notice The sending vault
@@ -93,9 +95,9 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.deal(address(this), 1e10 ether);
 
         // Deploy the logic for the transferrable fraxfarm
-        frxEthFarm = new FraxUnifiedFarm_ERC20(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
+        frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
         vm.etch(address(frxFarm), address(frxEthFarm).code); 
-        frxEthFarm = FraxUnifiedFarm_ERC20(frxFarm);
+        frxEthFarm = FraxUnifiedFarm_ERC20_V2(frxFarm);
 
         // Deploy the logic for the transferrable vault
         cvxVault = new Vault();
@@ -108,9 +110,10 @@ contract FraxFarmERC20TransfersTest is Test {
         cvxVault = Vault(vaultImpl);
 
         // deploy our own convex vault 
-        (bool success, bytes memory retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
-        require(success, "createVault failed");
-        nonCompliantVault = Vault(abi.decode(retBytes, (address)));
+        // (bool success, bytes memory retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
+        // require(success, "createVault failed");
+        nonCompliantVault = convexBooster.createVault(36);
+        // nonCompliantVault = Vault(abi.decode(retBytes, (address)));
 
         ///// Deploy the compliant vault owner logic /////
         vaultOwner = new VaultOwner();
@@ -119,9 +122,9 @@ contract FraxFarmERC20TransfersTest is Test {
 
         // deploy a vault owned by a a compliant contract
         vm.prank(address(vaultOwner));
-        (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
-        require(success, "createVault failed");
-        compliantVault = Vault(abi.decode(retBytes, (address)));
+        // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
+        // require(success, "createVault failed");
+        compliantVault = convexBooster.createVault(36);//Vault(abi.decode(retBytes, (address)));
     }
 
     // to prevent stack too deep errors, store informational values here
