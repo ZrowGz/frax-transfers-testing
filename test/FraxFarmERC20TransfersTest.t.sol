@@ -46,7 +46,7 @@ contract FraxFarmERC20TransfersTest is Test {
     // PID is 36 at convexPoolRegistry
     Booster public convexBooster = Booster(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
     address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
-
+    // address public convexVaultImpl = address(0x03fb8543E933624b45abdd31987548c0D9892F07); // The deployed vaults use this, not the hardcoded address
     /// @notice The sending vault
     Vault public senderVault = Vault(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41);
     /// @notice The sending vault owner - IS NOT A CONTRACT
@@ -101,18 +101,19 @@ contract FraxFarmERC20TransfersTest is Test {
 
         // Deploy the logic for the transferrable vault
         cvxVault = new Vault();
-        cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
+        //cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress, convexPoolRegistry, 36);
         // overwrite the deployed vault code with the transferrable
         vm.etch(address(senderVault), address(cvxVault).code);
         vm.etch(address(receiverVault), address(cvxVault).code);
         vm.etch(address(vaultImpl), address(cvxVault).code);
+        vm.etch(address(cvxVault), address(vaultImpl).code);
 
         cvxVault = Vault(vaultImpl);
 
         // deploy our own convex vault 
         // (bool success, bytes memory retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         // require(success, "createVault failed");
-        nonCompliantVault = convexBooster.createVault(36);
+        nonCompliantVault = Vault(convexBooster.createVault(36));
         // nonCompliantVault = Vault(abi.decode(retBytes, (address)));
 
         ///// Deploy the compliant vault owner logic /////
@@ -124,7 +125,7 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.prank(address(vaultOwner));
         // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         // require(success, "createVault failed");
-        compliantVault = convexBooster.createVault(36);//Vault(abi.decode(retBytes, (address)));
+        compliantVault = Vault(convexBooster.createVault(36));//Vault(abi.decode(retBytes, (address)));
     }
 
     // to prevent stack too deep errors, store informational values here
@@ -141,10 +142,10 @@ contract FraxFarmERC20TransfersTest is Test {
         uint256 receiverPreTransfer1;
         uint256 receiverPostTransfer1;
         uint256 receiverPostTransfer2;
-        bytes32 senderKek;
-        bytes32 destKek1;
-        bytes32 destKek2;
-        bytes32 destKek3;
+        uint256 senderLock;
+        uint256 receiverLock1;
+        uint256 receiverLock2;
+        uint256 receiverLock3;
         uint256 senderPostTransfer1Balance;
         uint256 senderPostTransfer2Balance;
         uint256 senderPreTransfer3;
@@ -185,8 +186,8 @@ contract FraxFarmERC20TransfersTest is Test {
         t.senderBaseLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
 
         /// create a known kekId
-        t.senderKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
-        console2.logBytes32(t.senderKek);
+        t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        console2.log("senderLock", t.senderLock);
         t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");
         t.senderInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
@@ -199,7 +200,7 @@ contract FraxFarmERC20TransfersTest is Test {
         t.receiverInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(receiverVault));
 
         ///// Transfer part of the LockedStake to receiverVault - creates new kekId ///// 
-        (, t.destKek1) = senderVault.transferLocked(address(receiverVault), t.senderKek, t.transferAmount, bytes32(0));
+        (, t.receiverLock1) = senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, false, 0);
         
         /// Double check that this stake exists now & that sender didn't lose or add a LockedStake
         t.senderPostTransfer1 = frxFarm.lockedStakesOfLength(address(senderVault));
@@ -212,9 +213,9 @@ contract FraxFarmERC20TransfersTest is Test {
         assertEq(t.senderPostTransfer1Balance, t.senderInitialLockedLiquidity - t.transferAmount, "sender should have 980 locked");
         assertEq(t.receiverPostTransfer1Balance, t.receiverInitialLockedLiquidity + t.transferAmount, "receiver should have 10 locked");
 
-        ///// Try sending to a kekId (69420) that receiver doesn't have - SHOULD FAIL /////
+        ///// Try sending to a lockId that receiver doesn't have - SHOULD FAIL /////
         vm.expectRevert();
-        senderVault.transferLocked(address(receiverVault), t.senderKek, t.transferAmount, 0x0000000000000000000000000000000000000000000000000000000000010f2c);
+        senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, true, 69);
 
         ///// Send more to same kek_id /////
         skip(1 days);
@@ -224,7 +225,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertEq(frxFarm.lockedStakesOfLength(address(senderVault)), t.senderPostTransfer1, "sender should still have same number locks");
 
         //// transfer to the previous added kekId
-        (, t.destKek2) = senderVault.transferLocked(address(receiverVault), t.senderKek, t.transferAmount, t.destKek1);
+        (, t.receiverLock2) = senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, true, t.receiverLock1);
 
         /// Check that the total number of both sender & receiver LockedStakes remained the same
         t.senderPostTransfer2 = frxFarm.lockedStakesOfLength(address(senderVault));
@@ -239,13 +240,13 @@ contract FraxFarmERC20TransfersTest is Test {
 
         ///// Test sending to an address that isn't a Convex Vault /////
         vm.expectRevert();
-        senderVault.transferLocked(address(bob), t.senderKek, 10 ether, bytes32(0));
+        senderVault.transferLocked(address(bob), t.senderLock, 10 ether, false, 0);
 
         ///// Test sending entire remaining balance of sender's lockedStake liquidity /////
         skip(1 days);
         t.senderPreTransfer3 = frxFarm.lockedStakesOfLength(address(senderVault));
         t.receiverPreTransfer3 = frxFarm.lockedStakesOfLength(address(receiverVault));
-        (, t.destKek3) = senderVault.transferLocked(address(receiverVault), t.senderKek, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), t.destKek2);
+        (, t.receiverLock3) = senderVault.transferLocked(address(receiverVault), t.senderLock, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), true, t.receiverLock2);
         // check that liquidity has changed
         t.senderPostTransfer3Balance = frxFarm.lockedLiquidityOf(address(senderVault));
         t.receiverPostTransfer3Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
@@ -272,17 +273,20 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        bytes32 lockKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
         skip(1 days);
 
-        bytes32 destKek;
+        // initialize it as 69 so that it can be set to 0 by the return value
+        uint256 receiverLockId = 69;
 
         /// Test sending to a non-compliant vault owner ///// 
         vm.expectRevert();
-        (, destKek) = senderVault.transferLocked(address(nonCompliantVault), lockKek, 10 ether, "");
+        (, receiverLockId) = senderVault.transferLocked(address(nonCompliantVault), senderLockId, 10 ether, false, 0);
 
         vm.stopPrank();
+
+        assertEq(receiverLockId, 69, "receiverLockId should not have changed");
 
         console2.log("PASS = non-compliant vault FAILS on onLockReceived check");
     }
@@ -302,16 +306,18 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        bytes32 lockKek = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
   
         skip(1 days);
 
-        bytes32 destKek;
+        // initialize it as 69 so that it can be set to 0 by the return value
+        uint256 receiverLockId = 69;
 
         // /// Test transfering to a compliant vault owner /////
-        (, destKek) = senderVault.transferLocked(address(compliantVault), lockKek, 10 ether, "");
-
+        (, receiverLockId) = senderVault.transferLocked(address(compliantVault), senderLockId, 10 ether, false, 0);
         vm.stopPrank();
+
+        assertEq(receiverLockId, 0, "didn't reset the value correctly");
 
         console2.log("PASS = compliant vault PASSES on onLockReceived check");
     }
