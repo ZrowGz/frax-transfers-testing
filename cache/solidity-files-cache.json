@@ -2176,8 +2176,8 @@
       }
     },
     "src/ConvexBoosterImprovedInitializer.sol": {
-      "lastModificationDate": 1673053933459,
-      "contentHash": "efde7d3bfcdad831d9a839bc07889f97",
+      "lastModificationDate": 1673215454701,
+      "contentHash": "fe1be9012e96525b834040cb3da0dc08",
       "sourceName": "src/ConvexBoosterImprovedInitializer.sol",
       "solcConfig": {
         "settings": {
@@ -2254,9 +2254,64 @@
         }
       }
     },
+    "src/ConvexPoolRegistry.sol": {
+      "lastModificationDate": 1673202884629,
+      "contentHash": "9e30fcc0989cac6955551af02c1357f1",
+      "sourceName": "src/ConvexPoolRegistry.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "cse": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.10",
+      "artifacts": {
+        "ConvexCurvePools": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ConvexPoolRegistry.sol/ConvexCurvePools.json"
+        },
+        "ConvexPoolRegistry": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ConvexPoolRegistry.sol/ConvexPoolRegistry.json"
+        },
+        "ConvexWrapper": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ConvexPoolRegistry.sol/ConvexWrapper.json"
+        }
+      }
+    },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1673045012810,
-      "contentHash": "78968f2b7ef4f4be47d46597a71ae4dd",
+      "lastModificationDate": 1673215270487,
+      "contentHash": "b504faf597be160d6c674864f409baae",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
         "settings": {
@@ -2451,6 +2506,55 @@
         },
         "TransferHelperV2": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/TransferHelperV2.json"
+        }
+      }
+    },
+    "src/FraxFarmUnifiedTemplate.sol": {
+      "lastModificationDate": 1673202893829,
+      "contentHash": "1bd5af0721c41859eb496dedcf363b16",
+      "sourceName": "src/FraxFarmUnifiedTemplate.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "cse": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "=0.8.17",
+      "artifacts": {
+        "FraxFarmUnifiedTemplate": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmUnifiedTemplate.sol/FraxFarmUnifiedTemplate.json"
         }
       }
     },
@@ -2731,58 +2835,9 @@
         }
       }
     },
-    "src/otherModifiedVersions/FraxFarmUnifiedTemplate.sol": {
-      "lastModificationDate": 1673047413624,
-      "contentHash": "1bd5af0721c41859eb496dedcf363b16",
-      "sourceName": "src/otherModifiedVersions/FraxFarmUnifiedTemplate.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 100000,
-            "details": {
-              "cse": true,
-              "constantOptimizer": true,
-              "yul": true,
-              "yulDetails": {
-                "stackAllocation": true
-              }
-            }
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "viaIR": true,
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "=0.8.17",
-      "artifacts": {
-        "FraxFarmUnifiedTemplate": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmUnifiedTemplate.sol/FraxFarmUnifiedTemplate.json"
-        }
-      }
-    },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1673054024730,
-      "contentHash": "fc41ddc26755b70b57582f9e6a27c372",
+      "lastModificationDate": 1673217315108,
+      "contentHash": "74c5b5186bd570bce0393a6e9038c441",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {

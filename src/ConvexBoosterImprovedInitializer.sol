@@ -513,7 +513,7 @@ interface IProxyOwner {
 
 
 interface IProxyVault {
-    function initialize(address _owner, address _stakingAddress, address _stakingToken, address _rewardsAddress, address _poolRegistry, uint256 _pid) external;
+    function initialize(address _owner, address _stakingAddress, address _stakingToken, address _rewardsAddress) external;//, address _poolRegistry, uint256 _pid) external;
     function usingProxy() external returns(address);
     function owner() external returns(address);
     function stakingAddress() external returns(address);
@@ -828,7 +828,7 @@ contract Booster{
         _proxyCall(stakeAddress,data);
 
     	//call proxy initialize
-        IProxyVault(vault).initialize(msg.sender, stakeAddress, stakeToken, rewards, poolRegistry, _pid);
+        IProxyVault(vault).initialize(msg.sender, stakeAddress, stakeToken, rewards);//, poolRegistry, _pid);
 
         //set vault vefxs proxy
         data = abi.encodeWithSelector(bytes4(keccak256("setVeFXSProxy(address)")), proxy);
