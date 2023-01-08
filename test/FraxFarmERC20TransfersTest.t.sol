@@ -107,13 +107,15 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.etch(address(receiverVault), address(cvxVault).code);
         vm.etch(address(vaultImpl), address(cvxVault).code);
         vm.etch(address(cvxVault), address(vaultImpl).code);
-
+        vm.deployCode(address(cvxVault), address(vaultImpl).code);
         cvxVault = Vault(vaultImpl);
-
+        cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress, convexPoolRegistry, 36);
+        //vaultImpl.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress, convexPoolRegistry, 36);
         // deploy our own convex vault 
         // (bool success, bytes memory retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         // require(success, "createVault failed");
         nonCompliantVault = Vault(convexBooster.createVault(36));
+        nonCompliantVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress, convexPoolRegistry, 36);
         // nonCompliantVault = Vault(abi.decode(retBytes, (address)));
 
         ///// Deploy the compliant vault owner logic /////
@@ -126,6 +128,7 @@ contract FraxFarmERC20TransfersTest is Test {
         // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         // require(success, "createVault failed");
         compliantVault = Vault(convexBooster.createVault(36));//Vault(abi.decode(retBytes, (address)));
+        compliantVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress, convexPoolRegistry, 36);
     }
 
     // to prevent stack too deep errors, store informational values here
