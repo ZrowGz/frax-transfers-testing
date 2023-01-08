@@ -828,9 +828,7 @@ contract Booster{
         _proxyCall(stakeAddress,data);
 
     	//call proxy initialize
-        /// @dev this is being removed for now, because it breaks the forge testing due to calls originating on-chain.
-        /// ENSURE THAT YOU INITIALIZE THE VAULT ON THE TEST FILE BEFORE USING IT
-        //IProxyVault(vault).initialize(msg.sender, stakeAddress, stakeToken, rewards, poolRegistry, _pid);
+        IProxyVault(vault).initialize(msg.sender, stakeAddress, stakeToken, rewards, poolRegistry, _pid);
 
         //set vault vefxs proxy
         data = abi.encodeWithSelector(bytes4(keccak256("setVeFXSProxy(address)")), proxy);
