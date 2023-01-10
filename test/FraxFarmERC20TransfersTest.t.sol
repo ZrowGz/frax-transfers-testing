@@ -173,7 +173,6 @@ contract FraxFarmERC20TransfersTest is Test {
         
         ///// Let the testing begin! /////
         vm.startPrank(senderOwner);
-        console2.log("sending vault owner", address(Vault(senderVault).owner()));
         /// obtain some frxEth
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
         (,t.retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
@@ -420,7 +419,7 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.startPrank(address(bob));
         vm.expectRevert();
         senderVault.setApprovalForAll(address(bob), true);
-        // console2.log("isApproved", frxFarm.isApproved())
+        
         assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(bob)), false, "approval not should be set");
         
         vm.stopPrank();
