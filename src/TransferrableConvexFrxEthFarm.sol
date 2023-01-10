@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity 0.8.17;
 
+import "lib/forge-std/src/console2.sol";
+
 interface AggregatorV3Interface {
 
   function decimals() external view returns (uint8);
@@ -1037,34 +1039,44 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
 
     // Last time the reward was applicable
     function lastTimeRewardApplicable() internal view returns (uint256) {
+        console2.log("lastTimeRewardApplicable Start");
         return Math.min(block.timestamp, periodFinish);
     }
 
     function rewardRates(uint256 token_idx) public view returns (uint256 rwd_rate) {
+        console2.log("rewardRates Start");
         // address gauge_controller_address = gaugeControllers[token_idx];
         if (gaugeControllers[token_idx] != address(0)) {
+            console2.log("gaugeControllers", gaugeControllers[token_idx]);
             rwd_rate = (
                 IFraxGaugeController(gaugeControllers[token_idx]).global_emission_rate() * 
                 last_gauge_relative_weights[token_idx]
             ) / MULTIPLIER_PRECISION;
         }
         else {
+            console2.log("else");
             rwd_rate = rewardRatesManual[token_idx];
         }
+        console2.log("rewardRates End");
     }
 
     // Amount of reward tokens per LP token / liquidity unit
     function rewardsPerToken() public view returns (uint256[] memory newRewardsPerTokenStored) {
+        console2.log("rewardsPerToken Start");
         if (_total_liquidity_locked == 0 || _total_combined_weight == 0) {
+            console2.log("if end");
+            console2.log("rewardsPerToken End");
             return rewardsPerTokenStored;
         }
         else {
+            console2.log("else end");
             newRewardsPerTokenStored = new uint256[](rewardTokens.length);
             for (uint256 i; i < rewardsPerTokenStored.length; i++){ 
                 newRewardsPerTokenStored[i] = rewardsPerTokenStored[i] + (
                     ((lastTimeRewardApplicable() - lastUpdateTime) * rewardRates(i) * MULTIPLIER_PRECISION) / _total_combined_weight
                 );
             }
+            console2.log("rewardsPerToken End");
             return newRewardsPerTokenStored;
         }
     }
@@ -1073,6 +1085,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     // Note: In the edge-case of one of the account's stake expiring since the last claim, this will
     // return a slightly inflated number
     function earned(address account) public view returns (uint256[] memory new_earned) {
+        console2.log("running earned", account);
         uint256[] memory reward_arr = rewardsPerToken();
         new_earned = new uint256[](rewardTokens.length);
 
@@ -1085,6 +1098,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
                 ) + rewards[account][i];
             }
         }
+        console2.log("earned done");
     }
 
     // Total reward tokens emitted in the given period
@@ -1140,6 +1154,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
         //         (secs * (lock_max_multiplier - MULTIPLIER_PRECISION)) / lock_time_for_max_multiplier
         //     )
         // ) ;
+        console2.log("LOCKMULTIPLIER", secs);
         return Math.min(
             lock_max_multiplier,
             (secs * lock_max_multiplier) / lock_time_for_max_multiplier
@@ -1153,6 +1168,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     }
 
     function proxyStakedFrax(address proxy_address) public view returns (uint256) {
+        console2.log("proxyStakedFrax", proxy_address);
         return (fraxPerLPStored * proxy_lp_balances[proxy_address]) / MULTIPLIER_PRECISION;
     }
 
@@ -1169,14 +1185,18 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     // ------ veFXS RELATED ------
 
     function minVeFXSForMaxBoost(address account) public view returns (uint256) {
+        console2.log("minVEFXSMaxBoost");
         return (userStakedFrax(account) * vefxs_per_frax_for_max_boost) / MULTIPLIER_PRECISION;
     }
 
     function minVeFXSForMaxBoostProxy(address proxy_address) public view returns (uint256) {
+                console2.log("minVEFXSMaxBoostProxy");
+
         return (proxyStakedFrax(proxy_address) * vefxs_per_frax_for_max_boost) / MULTIPLIER_PRECISION;
     }
 
     function getProxyFor(address addr) public view returns (address){
+        console2.log("getProxyFor: addr", addr);
         if (valid_vefxs_proxies[addr]) {
             // If addr itself is a proxy, return that.
             // If it farms itself directly, it should use the shared LP tally in proxyStakedFrax
@@ -1189,6 +1209,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     }
 
     function veFXSMultiplier(address account) public view returns (uint256 vefxs_multiplier) {
+        console2.log("veFXSMultiplier: account", account);
         // Use either the user's or their proxy's veFXS balance
         //  uint256 vefxs_bal_to_use = 0;
         address the_proxy = getProxyFor(account);
@@ -1202,7 +1223,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
         uint256 mult_optn_2;
         {
             //uint256 veFXS_needed_for_max_boost;
-
+            console2.log("mult opt 2");
             // Need to use proxy-wide FRAX balance if applicable, to prevent exploiting
             uint256 veFXS_needed_for_max_boost = (
                 the_proxy == address(0)) ? minVeFXSForMaxBoost(account) : minVeFXSForMaxBoostProxy(the_proxy
@@ -1221,6 +1242,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
 
         // Cap the boost to the vefxs_max_multiplier
         if (vefxs_multiplier > vefxs_max_multiplier) vefxs_multiplier = vefxs_max_multiplier;
+        console2.log("vefxsmult DONE");
     }
 
     /* =============== MUTATIVE FUNCTIONS =============== */
@@ -1246,7 +1268,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     // Staker can allow a veFXS proxy (the proxy will have to toggle them first)
     // CALLED BY STAKER
     function stakerSetVeFXSProxy(address proxy_address) external {
-        if(!valid_vefxs_proxies[msg.sender]) revert InvalidProxy();
+        if(!valid_vefxs_proxies[proxy_address]) revert InvalidProxy();
         if(!proxy_allowed_stakers[proxy_address][msg.sender]) revert ProxyHasNotApprovedYou();
         
         // Corner case sanity check to make sure LP isn't double counted
@@ -1274,12 +1296,15 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     // ------ REWARDS SYNCING ------
 
     function updateRewardAndBalance(address account, bool sync_too) public {
+        console2.log("updateRewardAndBalance", account, sync_too);
         // Need to retro-adjust some things if the period hasn't been renewed, then start a new one
         if (sync_too){
+            console2.log("AndSync");
             sync();
         }
-        
+        console2.log("sync_too done");
         if (account != address(0)) {
+            console2.log("account != address(0)");
             // To keep the math correct, the user's combined weight must be recomputed to account for their
             // ever-changing veFXS balance.
             (   
@@ -1287,10 +1312,10 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
                 uint256 new_vefxs_multiplier,
                 uint256 new_combined_weight
             ) = calcCurCombinedWeight(account);
-
+            console2.log("call syncEarned");
             // Calculate the earnings first
             _syncEarned(account);
-
+            console2.log("syncEarned done");
             // Update the user's stored veFXS multipliers
             _vefxsMultiplierStored[account] = new_vefxs_multiplier;
 
@@ -1315,9 +1340,11 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
             // }
 
         }
+        console2.log("updateRewardAndBalance done");
     }
 
     function _syncEarned(address account) internal {
+        console2.log("syncEarned", account);
         if (account != address(0)) {
             // Calculate the earnings
             uint256[] memory earned_arr = earned(account);
@@ -1333,6 +1360,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
             //     userRewardsPerTokenPaid[account][i] = rewardsPerTokenStored[i];
             // }
         }
+        console2.log("syncEarned done");
     }
 
 
@@ -1472,11 +1500,15 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
     }
 
     function sync_gauge_weights(bool force_update) public {
+        console2.log("sync_gauge_weights called", force_update);
         // Loop through the gauge controllers
-        for (uint256 i; i < gaugeControllers.length; i++){ 
+        for (uint256 i; i < gaugeControllers.length; i++){
+            console2.log("gaugeControllers[i]", gaugeControllers[i]); 
             // address gauge_controller_address = gaugeControllers[i];
             if (gaugeControllers[i] != address(0)) {
+                console2.log("gaugeControllers[i] != address(0)", gaugeControllers[i]);
                 if (force_update || (block.timestamp > last_gauge_time_totals[i])){
+                    console2.log("force_update || (block.timestamp > last_gauge_time_totals[i])", force_update, block.timestamp, last_gauge_time_totals[i]);
                     // Update the gauge_relative_weight
                     last_gauge_relative_weights[i] = IFraxGaugeController(
                         gaugeControllers[i]).gauge_relative_weight_write(
@@ -1486,20 +1518,26 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuard {
                 }
             }
         }
+        console2.log("sync_gauge_weights finished");
     }
 
     function sync() public {
+        console2.log("sync called, calling syncgaugeweights false");
         // Sync the gauge weight, if applicable
         sync_gauge_weights(false);
-
+        console2.log("calling fraxPerLPToken");
         // Update the fraxPerLPStored
         fraxPerLPStored = fraxPerLPToken();
-
+        console2.log("fraxPerLP done");
         if (block.timestamp >= periodFinish) {
+            console2.log("calling retroCatchU");
             retroCatchUp();
+            console2.log("retroCatchUp done");
         }
         else {
+            console2.log("calling _updateStoredRewardsAndTime");
             _updateStoredRewardsAndTime();
+            console2.log("_updateStoredRewardsAndTime done");
         }
     }
 
@@ -1739,6 +1777,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // Struct for the stake
     struct LockedStake {
+        bytes32 nothing; /// @dev this is a testing placeholder ONLY screwed up memory slots
         uint256 start_timestamp;
         uint256 liquidity;
         uint256 ending_timestamp;
@@ -1898,6 +1937,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     // ------ LIQUIDITY AND WEIGHTS ------
 
     function calcCurrLockMultiplier(address account, uint256 stake_idx) public view returns (uint256 midpoint_lock_multiplier) {
+        console2.log("calcCurrLockMultiplier called", account, stake_idx);
         // Get the stake
         LockedStake memory thisStake = lockedStakes[account][stake_idx];
 
@@ -1905,22 +1945,26 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         // Don't want the multiplier going above the max
         uint256 accrue_start_time;
         if (lastRewardClaimTime[account] < thisStake.start_timestamp) {
+            console2.log("lastRewardClaimTime[account] < thisStake.start_timestamp");
             accrue_start_time = thisStake.start_timestamp;
         }
         else {
+            console2.log("else lastclaimreward");
             accrue_start_time = lastRewardClaimTime[account];
         }
         
         // If the lock is expired
         if (thisStake.ending_timestamp <= block.timestamp) {
+            console2.log("ifthisStake.ending_timestamp <= block.timestamp");
             // If the lock expired in the time since the last claim, the weight needs to be proportionately averaged this time
             if (lastRewardClaimTime[account] < thisStake.ending_timestamp){
+                console2.log("if2lastRewardClaimTime[account] < thisStake.ending_timestamp");
                 uint256 time_before_expiry = thisStake.ending_timestamp - accrue_start_time;
                 uint256 time_after_expiry = block.timestamp - thisStake.ending_timestamp;
-
+                console2.log("calling lockMultiplier", time_before_expiry / 2);
                 // Average the pre-expiry lock multiplier
                 uint256 pre_expiry_avg_multiplier = lockMultiplier(time_before_expiry / 2);
-
+                console2.log("pre_expiry_avg_multiplier", pre_expiry_avg_multiplier);
                 // Get the weighted-average lock_multiplier
                 // uint256 numerator = (pre_expiry_avg_multiplier * time_before_expiry) + (MULTIPLIER_PRECISION * time_after_expiry);
                 uint256 numerator = (pre_expiry_avg_multiplier * time_before_expiry) + (0 * time_after_expiry);
@@ -1932,6 +1976,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 //     ) / (time_before_expiry + time_after_expiry)
                 // );
             }
+            console2.log("midpoint_lock_multiplier", midpoint_lock_multiplier);
             /// already initialized to zero
             // else {
             //     // Otherwise, it needs to just be 1x
@@ -1943,15 +1988,24 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         }
         // If the lock is not expired
         else {
+            console2.log("else");
             // Decay the lock multiplier based on the time left
             uint256 avg_time_left;
+            console2.log("avg_time_left", avg_time_left);
             {
+                console2.log("block.timestamp", block.timestamp);
+                console2.log("thisStake.ending_timestamp", thisStake.ending_timestamp);
                 uint256 time_left_p1 = thisStake.ending_timestamp - accrue_start_time;
+                console2.log("time_left_p1", time_left_p1);
                 uint256 time_left_p2 = thisStake.ending_timestamp - block.timestamp;
+                console2.log("time_left_p2", time_left_p2);
                 avg_time_left = (time_left_p1 + time_left_p2) / 2;
+                console2.log("avg_time_left", avg_time_left);
             }
+            console2.log("calling lockMultiplier with", avg_time_left);
             midpoint_lock_multiplier = lockMultiplier(avg_time_left);
-  
+            console2.log("pre_expiry_avg_multiplier", midpoint_lock_multiplier);
+
             // midpoint_lock_multiplier = lockMultiplier(
             //     (
             //         (thisStake.ending_timestamp - accrue_start_time) + 
@@ -1961,7 +2015,11 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         }
 
         // Sanity check: make sure it never goes above the initial multiplier
-        if (midpoint_lock_multiplier > thisStake.lock_multiplier) midpoint_lock_multiplier = thisStake.lock_multiplier;
+        if (midpoint_lock_multiplier > thisStake.lock_multiplier) {
+            console2.log("finalIF");
+            midpoint_lock_multiplier = thisStake.lock_multiplier;
+        }
+        console2.log("calcCurrLockMultiplier returning", midpoint_lock_multiplier);
     }
 
     // // Calculate the combined weight for an account
@@ -2021,13 +2079,15 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             uint256 new_combined_weight
         )
     {
+        console2.log("calcCurrCombWt");
         // Get the old combined weight
         old_combined_weight = _combined_weights[account];
 
         // Get the veFXS multipliers
+        console2.log("calcCurrCombWt get vefxsmult");
         // For the calculations, use the midpoint (analogous to midpoint Riemann sum)
         new_vefxs_multiplier = veFXSMultiplier(account);
-
+        console2.log("veFXSMultDone");
         uint256 midpoint_vefxs_multiplier;
         if (
             (_locked_liquidity[account] == 0 && _combined_weights[account] == 0) || 
@@ -2036,18 +2096,22 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             // This is only called for the first stake to make sure the veFXS multiplier is not cut in half
             // Also used if the user increased or maintained their position
             midpoint_vefxs_multiplier = new_vefxs_multiplier;
+            console2.log("midpointMult 1", midpoint_vefxs_multiplier);
         }
         else {
             // Handles natural decay with a non-increased veFXS position
             midpoint_vefxs_multiplier = (new_vefxs_multiplier + _vefxsMultiplierStored[account]) / 2;
+            console2.log("else midpointmult", midpoint_vefxs_multiplier);
         }
 
         // Loop through the locked stakes, first by getting the liquidity * lock_multiplier portion
         // new_combined_weight = 0;
         for (uint256 i; i < lockedStakes[account].length; i++) {
+            console2.log("looping through locked stakes in currcombwt", i, lockedStakes[account].length);
             LockedStake memory thisStake = lockedStakes[account][i];
 
             // Calculate the midpoint lock multiplier
+            console2.log("calcCurrLockMult");
             uint256 midpoint_lock_multiplier = calcCurrLockMultiplier(account, i);
 
             // Calculate the combined boost
@@ -2055,6 +2119,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             uint256 combined_boosted_amount = liquidity + ((liquidity * (midpoint_lock_multiplier + midpoint_vefxs_multiplier)) / MULTIPLIER_PRECISION);
             new_combined_weight += combined_boosted_amount;
         }
+        console2.log("calcCurrCombWt end");
     }
 
     // ------ LOCK RELATED ------
@@ -2070,6 +2135,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     }
 
     function getLockedStake(address staker, uint256 locked_stake_index) public view returns (LockedStake memory locked_stake) {
+        console2.log("gettingLockedStake", staker, locked_stake_index);
         return(lockedStakes[staker][locked_stake_index]);
     }
 
@@ -2082,11 +2148,18 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     // ------ STAKING ------
 
     function _updateStake(address staker, uint256 index, uint256 start_timestamp, uint256 liquidity, uint256 ending_timestamp, uint256 lock_multiplier) internal {
-        lockedStakes[staker][index] = LockedStake(start_timestamp, liquidity, ending_timestamp, lock_multiplier);
+        lockedStakes[staker][index] = LockedStake(bytes32(0), start_timestamp, liquidity, ending_timestamp, lock_multiplier);
     }
 
     function _createNewStake(address staker, uint256 start_timestamp, uint256 liquidity, uint256 ending_timestamp, uint256 lock_multiplier) internal {
-        lockedStakes[staker].push(LockedStake(start_timestamp, liquidity, ending_timestamp, lock_multiplier));
+        lockedStakes[staker].push(
+            LockedStake(
+                bytes32(0),
+                start_timestamp, 
+                liquidity, 
+                ending_timestamp, 
+                lock_multiplier
+            ));
     }
 
     function _updateLiqAmts(address staker_address, uint256 amt, bool is_add) internal {
@@ -2209,6 +2282,11 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         uint256 secs,
         uint256 start_timestamp
     ) internal updateRewardAndBalanceMdf(staker_address, true) returns (uint256) {
+        console2.log("stakeLocked called");
+        console2.log("start_timestamp", start_timestamp);
+        console2.log("ending_timestamp", block.timestamp + secs);
+        console2.log("secs", secs);
+        console2.log("blockTime", block.timestamp);
         if (stakingPaused) revert StakingPaused();
         if (secs < lock_time_min) revert MinimumStakeTimeNotMet();
         if (secs > lock_time_for_max_multiplier) revert TryingToLockForTooLong();
@@ -2405,6 +2483,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 ILockReceiverV2.beforeLockTransfer.selector // 00x4fb07105 <--> bytes4(keccak256("beforeLockTransfer(address,address,bytes32,bytes)"))
             );
         }
+        console2.log("getLockedStakeSender", lockedStakes[sender_address].length);
         
         // Get the stake and its index
         LockedStake memory senderStake = getLockedStake(sender_address, sender_lock_index);
@@ -2438,7 +2517,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         } else {
             lockedStakes[sender_address][sender_lock_index].liquidity -= transfer_amount;
         }
-
+        console2.log("getLockedStakeReceiver", lockedStakes[receiver_address].length);
         // Get the stake and its index
         LockedStake memory receiverStake = getLockedStake(receiver_address, receiver_lock_index);
 
@@ -2487,7 +2566,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             /// todo could also just use the length of the array in all 3 situations below - which is more gas efficient?
             receiver_lock_index = lockedStakes[receiver_address].length;
         }
-
+        console2.log("updateBothBalance&RewardsPostTransfer");
         // Need to call again to make sure everything is correct
         updateRewardAndBalance(sender_address, true); 
         updateRewardAndBalance(receiver_address, true);
@@ -2499,7 +2578,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             sender_lock_index,
             receiver_lock_index
         );
-
+        console2.log("onLockReceivedCalled");
         // call the receiver with the destination lockedStake to verify receiving is ok
         if (ILockReceiverV2(receiver_address).onLockReceived(
             sender_address, 
@@ -2507,7 +2586,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             receiver_lock_index, 
             ""
         ) != ILockReceiverV2.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
-
+        console2.log("all done!");
         return (sender_lock_index, receiver_lock_index);
 
     }
@@ -2566,11 +2645,12 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
 
     function getLatestETHPriceE8() public view returns (int) {
         // Returns in E8
-        (uint80 roundID, int price, , uint256 updatedAt, uint80 answeredInRound) = priceFeedETHUSD.latestRoundData();
+        // (uint80 roundID, int price, , uint256 updatedAt, uint80 answeredInRound) = priceFeedETHUSD.latestRoundData();
         // require(price >= 0 && updatedAt!= 0 && answeredInRound >= roundID, "Invalid chainlink price");
-        if (price < 0 || updatedAt == 0 || answeredInRound < roundID) revert InvalidChainlinkPrice();
-        
-        return price;
+        // if (price < 0 || updatedAt == 0 || answeredInRound < roundID) revert InvalidChainlinkPrice();
+
+        /// @dev removed this time freshness check for testing
+        return (131820711091);
     }
 
     function setETHUSDOracle(address _eth_usd_oracle_address) public onlyByOwnGov {

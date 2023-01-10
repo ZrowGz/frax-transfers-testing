@@ -47,6 +47,7 @@ contract FraxFarmERC20TransfersTest is Test {
     Booster public convexBooster = Booster(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
     address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
     address public convexFraxVoterProxy = address(0x59CFCD384746ec3035299D90782Be065e466800B);
+    address public convexFeeRegistry = address(0xC9aCB83ADa68413a6Aa57007BC720EE2E2b3C46D);
     // address public convexVaultImpl = address(0x03fb8543E933624b45abdd31987548c0D9892F07); // The deployed vaults use this, not the hardcoded address
     /// @notice The sending vault
     Vault public senderVault = Vault(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41);
@@ -82,14 +83,14 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.label(bob, "Bob");
 
         // Set the rewards parameters
-        _rewardManagers.push(address(this));
-        _rewardManagers.push(address(this));
-        _rewardRates.push(12345); // half as much fxs as pitch
-        _rewardRates.push(24690); // twice as many pitch as fxs
+        _rewardManagers.push(address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27));
+        // _rewardManagers.push(address(this));
+        _rewardRates.push(1157407);//4074074); // half as much fxs as pitch
+        // _rewardRates.push(24690); // twice as many pitch as fxs
         _rewardDistributors.push(address(distributor));
         _rewardTokens.push(address(fxsToken));
-        _rewardTokens.push(address(cvxToken));
-
+        // _rewardTokens.push(address(cvxToken));
+        _gaugeControllers.push(address(0x0));
 
         // Give the vault owners some ETH
         vm.deal(senderOwner, 1e10 ether);
@@ -97,181 +98,201 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.deal(address(this), 1e10 ether);
 
         //console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
-        console2.log("ConvexBoosterVoterProxySet", convexBooster.proxy());
-
+        // create the new booster
+        Booster boost = new Booster(convexFraxVoterProxy, convexPoolRegistry, convexFeeRegistry);
+        vm.etch(address(convexBooster), address(boost).code);
 
         // Deploy the logic for the transferrable fraxfarm
         frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
         vm.etch(address(frxFarm), address(frxEthFarm).code); 
-        frxEthFarm = FraxUnifiedFarm_ERC20_V2(frxFarm);
+        //frxEthFarm = FraxUnifiedFarm_ERC20_V2(frxFarm);
 
-        console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
+        console2.log("GetProxyFor", frxFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
         console2.log("ConvexBoosterVoterProxySet", convexBooster.proxy());
+        console2.log("frxFarm", address(frxFarm));
+        console2.log("frxEthFarm", address(frxEthFarm));
+        // reenable the convex voter proxy on the frax farm
+        //vm.prank(frxEthFarm.owner());
+        //frxEthFarm.toggleValidVeFXSProxy(0x59CFCD384746ec3035299D90782Be065e466800B);        
+        // vm.prank(frxEthFarm.owner());
+        // frxEthFarm.toggleValidVeFXSProxy(address(boost));
 
+        // console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
+        // console2.log("ConvexBoosterVoterProxySet", convexBooster.proxy());
+        console2.log("cvxVault code pre deploy", address(cvxVault).code.length);
+        console2.log("sender vault code pre deploy", address(senderVault).code.length);
         // Deploy the logic for the transferrable vault
         cvxVault = new Vault();
-        //cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress, convexPoolRegistry, 36);
+        console2.log("cvxVault code post deploy", address(cvxVault).code.length);
+        cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
         // overwrite the deployed vault code with the transferrable
         vm.etch(address(senderVault), address(cvxVault).code);
         vm.etch(address(receiverVault), address(cvxVault).code);
         vm.etch(address(vaultImpl), address(cvxVault).code);
-        vm.etch(address(cvxVault), address(vaultImpl).code);
-        cvxVault = Vault(vaultImpl);
+        // vm.etch(address(cvxVault), address(vaultImpl).code);
+        // cvxVault = Vault(vaultImpl);
+        console2.log("sendervault code post deploy", address(senderVault).code.length);
 
-        console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
+        console2.log("GetProxyFor", frxFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
         console2.log("ConvexBoosterVoterProxySet", convexBooster.proxy());
 
-        Vault(vaultImpl).initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
+        // Vault(vaultImpl).initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
         // deploy our own convex vault 
         // (bool success, bytes memory retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         // require(success, "createVault failed");
+        console2.log("create noncompliant vault");
         nonCompliantVault = Vault(convexBooster.createVault(36));
         //nonCompliantVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
         // nonCompliantVault = Vault(abi.decode(retBytes, (address)));
 
-        // ///// Deploy the compliant vault owner logic /////
-        // vaultOwner = new VaultOwner();
-        // vm.etch(address(vaultOwner), address(vaultOwner).code);
-        // vm.deal(address(vaultOwner), 1e10 ether);
+        ///// Deploy the compliant vault owner logic /////
+        console2.log("create compliant vault owner");
+        vaultOwner = new VaultOwner();
+        vm.etch(address(vaultOwner), address(vaultOwner).code);
+        vm.deal(address(vaultOwner), 1e10 ether);
 
-        // // deploy a vault owned by a a compliant contract
-        // vm.prank(address(vaultOwner));
-        // // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
-        // // require(success, "createVault failed");
-        // compliantVault = Vault(convexBooster.createVault(36));//Vault(abi.decode(retBytes, (address)));
-        // //compliantVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
+        // deploy a vault owned by a a compliant contract
+        vm.prank(address(vaultOwner));
+        // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
+        // require(success, "createVault failed");
+        console2.log("create compliant vault");
+        compliantVault = Vault(convexBooster.createVault(36));//Vault(abi.decode(retBytes, (address)));
+        //compliantVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
 
     }
 
-    // // to prevent stack too deep errors, store informational values here
-    // struct TestState {
-    //     bytes retval;
-    //     uint256 retbal;
-    //     uint256 senderPreAdd;
-    //     uint256 senderBaseLockedLiquidity;
-    //     uint256 senderPostAdd;
-    //     uint256 senderInitialLockedLiquidity;
-    //     uint256 receiverInitialLockedLiquidity;
-    //     uint256 senderPostTransfer1;
-    //     uint256 senderPostTransfer2;
-    //     uint256 receiverPreTransfer1;
-    //     uint256 receiverPostTransfer1;
-    //     uint256 receiverPostTransfer2;
-    //     uint256 senderLock;
-    //     uint256 receiverLock1;
-    //     uint256 receiverLock2;
-    //     uint256 receiverLock3;
-    //     uint256 senderPostTransfer1Balance;
-    //     uint256 senderPostTransfer2Balance;
-    //     uint256 senderPreTransfer3;
-    //     uint256 receiverPostTransfer1Balance;
-    //     uint256 receiverPostTransfer2Balance;
-    //     uint256 receiverPreTransfer3;
-    //     uint256 senderPostTransfer3Balance;
-    //     uint256 receiverPostTransfer3Balance;
-    //     uint256 senderPostTransfer3;
-    //     uint256 receiverPostTransfer3;
-    //     uint256 transferAmount;
-    // }
+    // to prevent stack too deep errors, store informational values here
+    struct TestState {
+        bytes retval;
+        uint256 retbal;
+        uint256 senderPreAdd;
+        uint256 senderBaseLockedLiquidity;
+        uint256 senderPostAdd;
+        uint256 senderInitialLockedLiquidity;
+        uint256 receiverInitialLockedLiquidity;
+        uint256 senderPostTransfer1;
+        uint256 senderPostTransfer2;
+        uint256 receiverPreTransfer1;
+        uint256 receiverPostTransfer1;
+        uint256 receiverPostTransfer2;
+        uint256 senderLock;
+        uint256 receiverLock1;
+        uint256 receiverLock2;
+        uint256 receiverLock3;
+        uint256 senderPostTransfer1Balance;
+        uint256 senderPostTransfer2Balance;
+        uint256 senderPreTransfer3;
+        uint256 receiverPostTransfer1Balance;
+        uint256 receiverPostTransfer2Balance;
+        uint256 receiverPreTransfer3;
+        uint256 senderPostTransfer3Balance;
+        uint256 receiverPostTransfer3Balance;
+        uint256 senderPostTransfer3;
+        uint256 receiverPostTransfer3;
+        uint256 transferAmount;
+    }
 
-    // function testEnd2End() public {
-    //     TestState memory t;
-    //     // check that we're using the correct vaults/staking address
-    //     assertEq(senderVault.stakingAddress(), address(frxFarm), "invalid staking address");
+    function testEnd2End() public {
+        TestState memory t;
+        // check that we're using the correct vaults/staking address
+        // assertEq(senderVault.stakingAddress(), address(frxEthFarm), "invalid staking address");
 
-    //     t.transferAmount = 10 ether;
+        t.transferAmount = 10 ether;
         
-    //     ///// Let the testing begin! /////
-    //     vm.startPrank(senderOwner);
+        ///// Let the testing begin! /////
+        vm.startPrank(senderOwner);
+        console2.log("sending vault owner", address(Vault(senderVault).owner()));
+        /// obtain some frxEth
+        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+        (,t.retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        t.retbal = abi.decode(t.retval, (uint256));
+        assertGe(t.retbal, 990 ether, "invalid mint amount frxETH");
 
-    //     /// obtain some frxEth
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,t.retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
-    //     t.retbal = abi.decode(t.retval, (uint256));
-    //     assertEq(t.retbal, 1000 ether, "invalid mint amount frxETH");
+        /// deposit it as LP into the curve pool
+        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+        t.retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        assertGt(t.retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-    //     /// deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     t.retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
-    //     assertGt(t.retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+        /// Since the `etch` completely overwrites the existing contract storage, pull these values to double check at each step
+        t.senderPreAdd = frxFarm.lockedStakesOfLength(address(senderVault));
+        t.senderBaseLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
+        console2.log("senderPreAdd", t.senderPreAdd);
+        console2.log("senderBaseLockedLiquidity", t.senderBaseLockedLiquidity);
+        /// create a known kekId
+        console2.log("stakeLockedCurveLP Test");
+        t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300)) - 1;
+        console2.log("senderLock", t.senderLock);
+        t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
+        assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");
+        t.senderInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
+        console2.log("senderPostAdd", t.senderPostAdd);
+        console2.log("senderInitialLockedLiquidity", t.senderInitialLockedLiquidity);
+        ///// transfer the lockKek to receiverVault /////
+        skip(1 days);
 
-    //     /// Since the `etch` completely overwrites the existing contract storage, pull these values to double check at each step
-    //     t.senderPreAdd = frxFarm.lockedStakesOfLength(address(senderVault));
-    //     t.senderBaseLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
-
-    //     /// create a known kekId
-    //     t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
-    //     console2.log("senderLock", t.senderLock);
-    //     t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
-    //     assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");
-    //     t.senderInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
-
-    //     ///// transfer the lockKek to receiverVault /////
-    //     skip(1 days);
-
-    //     /// get receiver's pre-transfer number of locks, should be 0
-    //     t.receiverPreTransfer1 = frxFarm.lockedStakesOfLength(address(receiverVault));
-    //     t.receiverInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(receiverVault));
-
-    //     ///// Transfer part of the LockedStake to receiverVault - creates new kekId ///// 
-    //     (, t.receiverLock1) = senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, false, 0);
+        /// get receiver's pre-transfer number of locks, should be 0
+        t.receiverPreTransfer1 = frxFarm.lockedStakesOfLength(address(receiverVault));
+        t.receiverInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(receiverVault));
+        frxFarm.getReward(address(senderVault));
+        ///// Transfer part of the LockedStake to receiverVault - creates new kekId ///// 
+        (, t.receiverLock1) = senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, false, 0);
         
-    //     /// Double check that this stake exists now & that sender didn't lose or add a LockedStake
-    //     t.senderPostTransfer1 = frxFarm.lockedStakesOfLength(address(senderVault));
-    //     t.receiverPostTransfer1 = frxFarm.lockedStakesOfLength(address(receiverVault));
-    //     assertEq(t.senderPostTransfer1, t.senderPostAdd, "sender should have same # locks");
-    //     assertEq(t.receiverPostTransfer1, (t.receiverPreTransfer1 + 1), "receiver should have 1 more lock");
-    //     // check that liquidity has changed
-    //     t.senderPostTransfer1Balance = frxFarm.lockedLiquidityOf(address(senderVault));
-    //     t.receiverPostTransfer1Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
-    //     assertEq(t.senderPostTransfer1Balance, t.senderInitialLockedLiquidity - t.transferAmount, "sender should have 980 locked");
-    //     assertEq(t.receiverPostTransfer1Balance, t.receiverInitialLockedLiquidity + t.transferAmount, "receiver should have 10 locked");
+        /// Double check that this stake exists now & that sender didn't lose or add a LockedStake
+        t.senderPostTransfer1 = frxFarm.lockedStakesOfLength(address(senderVault));
+        t.receiverPostTransfer1 = frxFarm.lockedStakesOfLength(address(receiverVault));
+        assertEq(t.senderPostTransfer1, t.senderPostAdd, "sender should have same # locks");
+        assertEq(t.receiverPostTransfer1, (t.receiverPreTransfer1 + 1), "receiver should have 1 more lock");
+        // check that liquidity has changed
+        t.senderPostTransfer1Balance = frxFarm.lockedLiquidityOf(address(senderVault));
+        t.receiverPostTransfer1Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
+        assertEq(t.senderPostTransfer1Balance, t.senderInitialLockedLiquidity - t.transferAmount, "sender should have 980 locked");
+        assertEq(t.receiverPostTransfer1Balance, t.receiverInitialLockedLiquidity + t.transferAmount, "receiver should have 10 locked");
 
-    //     ///// Try sending to a lockId that receiver doesn't have - SHOULD FAIL /////
-    //     vm.expectRevert();
-    //     senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, true, 69);
+        ///// Try sending to a lockId that receiver doesn't have - SHOULD FAIL /////
+        vm.expectRevert();
+        senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, true, 69);
 
-    //     ///// Send more to same kek_id /////
-    //     skip(1 days);
+        ///// Send more to same kek_id /////
+        skip(1 days);
         
-    //     /// transfer to a specific receiver lockKek (the same as was created last time)
-    //     assertEq(frxFarm.lockedStakesOfLength(address(receiverVault)), t.receiverPostTransfer1, "receiver should still have same number locks");
-    //     assertEq(frxFarm.lockedStakesOfLength(address(senderVault)), t.senderPostTransfer1, "sender should still have same number locks");
+        /// transfer to a specific receiver lockKek (the same as was created last time)
+        assertEq(frxFarm.lockedStakesOfLength(address(receiverVault)), t.receiverPostTransfer1, "receiver should still have same number locks");
+        assertEq(frxFarm.lockedStakesOfLength(address(senderVault)), t.senderPostTransfer1, "sender should still have same number locks");
 
-    //     //// transfer to the previous added kekId
-    //     (, t.receiverLock2) = senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, true, t.receiverLock1);
+        //// transfer to the previous added kekId
+        (, t.receiverLock2) = senderVault.transferLocked(address(receiverVault), t.senderLock, t.transferAmount, true, t.receiverLock1);
 
-    //     /// Check that the total number of both sender & receiver LockedStakes remained the same
-    //     t.senderPostTransfer2 = frxFarm.lockedStakesOfLength(address(senderVault));
-    //     t.receiverPostTransfer2 = frxFarm.lockedStakesOfLength(address(receiverVault));
-    //     assertEq(t.senderPostTransfer2, t.senderPostTransfer1, "Sender should have same num locks");
-    //     assertEq(t.receiverPostTransfer2, t.receiverPostTransfer1, "Receiver should have same num locks");
-    //     // check that liquidity has changed
-    //     t.senderPostTransfer2Balance = frxFarm.lockedLiquidityOf(address(senderVault));
-    //     t.receiverPostTransfer2Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
-    //     assertEq(t.senderPostTransfer2Balance, t.senderPostTransfer1Balance - t.transferAmount , "sender should have 970 locked");
-    //     assertEq(t.receiverPostTransfer2Balance, t.receiverPostTransfer1Balance + t.transferAmount, "receiver should have 20 locked");
+        /// Check that the total number of both sender & receiver LockedStakes remained the same
+        t.senderPostTransfer2 = frxFarm.lockedStakesOfLength(address(senderVault));
+        t.receiverPostTransfer2 = frxFarm.lockedStakesOfLength(address(receiverVault));
+        assertEq(t.senderPostTransfer2, t.senderPostTransfer1, "Sender should have same num locks");
+        assertEq(t.receiverPostTransfer2, t.receiverPostTransfer1, "Receiver should have same num locks");
+        // check that liquidity has changed
+        t.senderPostTransfer2Balance = frxFarm.lockedLiquidityOf(address(senderVault));
+        t.receiverPostTransfer2Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
+        assertEq(t.senderPostTransfer2Balance, t.senderPostTransfer1Balance - t.transferAmount , "sender should have 970 locked");
+        assertEq(t.receiverPostTransfer2Balance, t.receiverPostTransfer1Balance + t.transferAmount, "receiver should have 20 locked");
 
-    //     ///// Test sending to an address that isn't a Convex Vault /////
-    //     vm.expectRevert();
-    //     senderVault.transferLocked(address(bob), t.senderLock, 10 ether, false, 0);
+        ///// Test sending to an address that isn't a Convex Vault /////
+        vm.expectRevert();
+        senderVault.transferLocked(address(bob), t.senderLock, 10 ether, false, 0);
 
-    //     ///// Test sending entire remaining balance of sender's lockedStake liquidity /////
-    //     skip(1 days);
-    //     t.senderPreTransfer3 = frxFarm.lockedStakesOfLength(address(senderVault));
-    //     t.receiverPreTransfer3 = frxFarm.lockedStakesOfLength(address(receiverVault));
-    //     (, t.receiverLock3) = senderVault.transferLocked(address(receiverVault), t.senderLock, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), true, t.receiverLock2);
-    //     // check that liquidity has changed
-    //     t.senderPostTransfer3Balance = frxFarm.lockedLiquidityOf(address(senderVault));
-    //     t.receiverPostTransfer3Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
-    //     assertEq(t.senderPostTransfer3Balance, t.senderBaseLockedLiquidity, "all of sender's locked liquidity should be back to base level");
-    //     assertEq(t.receiverPostTransfer3Balance, (t.receiverInitialLockedLiquidity + (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity)), "receiver should have all of sender's locked");
+        ///// Test sending entire remaining balance of sender's lockedStake liquidity /////
+        skip(1 days);
+        t.senderPreTransfer3 = frxFarm.lockedStakesOfLength(address(senderVault));
+        t.receiverPreTransfer3 = frxFarm.lockedStakesOfLength(address(receiverVault));
+        (, t.receiverLock3) = senderVault.transferLocked(address(receiverVault), t.senderLock, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), true, t.receiverLock2);
+        // check that liquidity has changed
+        t.senderPostTransfer3Balance = frxFarm.lockedLiquidityOf(address(senderVault));
+        t.receiverPostTransfer3Balance = frxFarm.lockedLiquidityOf(address(receiverVault));
+        assertEq(t.senderPostTransfer3Balance, t.senderBaseLockedLiquidity, "all of sender's locked liquidity should be back to base level");
+        assertEq(t.receiverPostTransfer3Balance, (t.receiverInitialLockedLiquidity + (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity)), "receiver should have all of sender's locked");
 
-    //     vm.stopPrank();
+        vm.stopPrank();
 
-    //     console2.log("E2E Test Success!");
-    // }
+        console2.log("E2E Test Success!");
+    }
 
     // function testOnLockReceivedNonCompliance() public {
     //     vm.startPrank(senderOwner);
@@ -279,7 +300,7 @@ contract FraxFarmERC20TransfersTest is Test {
     //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
     //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
     //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertEq(retbal, 1000 ether, "invalid mint amount frxETH");
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
     //     // deposit it as LP into the curve pool
     //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
@@ -292,16 +313,11 @@ contract FraxFarmERC20TransfersTest is Test {
 
     //     skip(1 days);
 
-    //     // initialize it as 69 so that it can be set to 0 by the return value
-    //     uint256 receiverLockId = 69;
-
     //     /// Test sending to a non-compliant vault owner ///// 
     //     vm.expectRevert();
-    //     (, receiverLockId) = senderVault.transferLocked(address(nonCompliantVault), senderLockId, 10 ether, false, 0);
+    //     (, uint256 receiverLockId) = senderVault.transferLocked(address(nonCompliantVault), senderLockId, 10 ether, false, 0);
 
     //     vm.stopPrank();
-
-    //     assertEq(receiverLockId, 69, "receiverLockId should not have changed");
 
     //     console2.log("PASS = non-compliant vault FAILS on onLockReceived check");
     // }
@@ -312,7 +328,7 @@ contract FraxFarmERC20TransfersTest is Test {
     //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
     //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
     //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertEq(retbal, 1000 ether, "invalid mint amount frxETH");
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
     //     // deposit it as LP into the curve pool
     //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);

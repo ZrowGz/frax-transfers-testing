@@ -2176,8 +2176,8 @@
       }
     },
     "src/ConvexBoosterImprovedInitializer.sol": {
-      "lastModificationDate": 1673215454701,
-      "contentHash": "fe1be9012e96525b834040cb3da0dc08",
+      "lastModificationDate": 1673298270400,
+      "contentHash": "961f6309958f1a06de479736f1f2bab8",
       "sourceName": "src/ConvexBoosterImprovedInitializer.sol",
       "solcConfig": {
         "settings": {
@@ -2310,8 +2310,8 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1673215270487,
-      "contentHash": "b504faf597be160d6c674864f409baae",
+      "lastModificationDate": 1673305554158,
+      "contentHash": "f6b89273fc7004985bd7f8fd4ae5e0c4",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
         "settings": {
@@ -2350,7 +2350,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
         "Address": {
@@ -2559,8 +2561,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1673048510979,
-      "contentHash": "3c38ae4c94817f35b7dfd0e1cbf5dd5d",
+      "lastModificationDate": 1673309588680,
+      "contentHash": "9d80cfe9bcc788683960037a9f45b694",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -2599,7 +2601,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
         "AggregatorV3Interface": {
@@ -2836,8 +2840,8 @@
       }
     },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1673217315108,
-      "contentHash": "74c5b5186bd570bce0393a6e9038c441",
+      "lastModificationDate": 1673311403126,
+      "contentHash": "033cab0b4c1ec355735aadd0ae588dd4",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {
