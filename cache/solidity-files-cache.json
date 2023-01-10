@@ -2310,8 +2310,8 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1673313694772,
-      "contentHash": "d3afc49bac9114237f1107a6c6a70d64",
+      "lastModificationDate": 1673316060565,
+      "contentHash": "dde06014bff66aa375d4390b1389e8e0",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
         "settings": {
@@ -2350,7 +2350,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
         "Address": {
@@ -2559,8 +2561,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1673313700700,
-      "contentHash": "739a22cd850b57d55a7a920eb076d5f8",
+      "lastModificationDate": 1673316091068,
+      "contentHash": "0ad5c2c04841be5bc9f1ed492974bcf3",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -2599,7 +2601,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
         "AggregatorV3Interface": {
@@ -2836,8 +2840,8 @@
       }
     },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1673313442046,
-      "contentHash": "307a0f5892beae5bd030133a9634e789",
+      "lastModificationDate": 1673316007323,
+      "contentHash": "e73d97fee7a8a2d4fd753fa750706687",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -2989,8 +2993,8 @@
       }
     },
     "test/mocks/MockVaultOwner.sol": {
-      "lastModificationDate": 1672963473707,
-      "contentHash": "f7a33016c5b6455c0c84ccc1908dde2d",
+      "lastModificationDate": 1673315843957,
+      "contentHash": "0c17ddc2b062eea4deda072dc1f04114",
       "sourceName": "test/mocks/MockVaultOwner.sol",
       "solcConfig": {
         "settings": {

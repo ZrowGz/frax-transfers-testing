@@ -2,7 +2,8 @@
 // File: @openzeppelin/contracts/security/ReentrancyGuard.sol
 
 
-// import "lib/forge-std/src/console2.sol";
+import "lib/forge-std/src/console2.sol";
+
 // OpenZeppelin Contracts (last updated v4.8.0) (security/ReentrancyGuard.sol)
 
 pragma solidity 0.8.17;

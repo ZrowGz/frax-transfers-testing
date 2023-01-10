@@ -148,8 +148,8 @@ contract FraxFarmERC20TransfersTest is Test {
         ///// Deploy the compliant vault owner logic /////
         console2.log("create compliant vault owner");
         vaultOwner = new VaultOwner();
-        vm.etch(address(vaultOwner), address(vaultOwner).code);
-        vm.deal(address(vaultOwner), 1e10 ether);
+        // vm.etch(address(vaultOwner), address(compliantOwner).code);
+        // vm.deal(address(vaultOwner), 1e10 ether);
 
         // deploy a vault owned by a a compliant contract
         vm.prank(address(vaultOwner));
@@ -332,9 +332,9 @@ contract FraxFarmERC20TransfersTest is Test {
         retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
+        // create a known lockId
         uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
-  
+
         skip(1 days);
 
         // initialize it as 69 so that it can be set to 0 by the return value

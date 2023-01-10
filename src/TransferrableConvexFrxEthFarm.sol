@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity 0.8.17;
 
-// import "lib/forge-std/src/console2.sol";
+import "lib/forge-std/src/console2.sol";
 
 interface AggregatorV3Interface {
 
@@ -2444,9 +2444,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         } else {
             lockedStakes[sender_address][sender_lock_index].liquidity -= transfer_amount;
         }
-
-        // Get the stake and its index
-        LockedStake memory receiverStake = getLockedStake(receiver_address, receiver_lock_index);
+       
 
         /** if use_receiver_lock_index is true &
         *       & the index is valid 
@@ -2456,8 +2454,14 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         * note using nested if checks to reduce gas costs slightly
         */
         if (use_receiver_lock_index == true) {
-            if (receiver_lock_index < lockedStakes[receiver_address].length ) {
+        // Get the stake and its index
+        LockedStake memory receiverStake = getLockedStake(receiver_address, receiver_lock_index);
+
+            // check that the receiver's lock index is valid
+            if (receiver_lock_index <= lockedStakes[receiver_address].length - 1) {
+                // check that the receiver's stake has liquidity
                 if (receiverStake.liquidity > 0) {
+                    // check that receiver's stake is still locked
                     if (receiverStake.ending_timestamp > block.timestamp) {
                         // Update the existing staker's stake liquidity
                         lockedStakes[receiver_address][receiver_lock_index].liquidity += transfer_amount;
@@ -2481,6 +2485,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             //     senderStake.ending_timestamp,
             //     senderStake.lock_multiplier
             // ));
+
             _createNewStake(
                 receiver_address, 
                 senderStake.start_timestamp, 
@@ -2513,7 +2518,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             receiver_lock_index, 
             ""
         ) != ILockReceiverV2.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
-        
+
         return (sender_lock_index, receiver_lock_index);
     }
 
