@@ -23,24 +23,26 @@ gas_reports = ["*"]
 # settings for coverage reports
 via_ir = true
 optimizer = true #testing this out - was false
-optimizer_runs = 100_000 #testing this out
+optimizer_runs = 100_000
 
 
 [profile.default.optimizer_details]
-# jumpdestRemover = true #testing this out
-# orderLiterals = true # testing this out
-# deduplicate = true #testing this out
+jumpdestRemover = true
+orderLiterals = true
+deduplicate = true
 
 yul = true
 constantOptimizer = true
 stackAllocation = true
 
-# Have cse = true commented out for faster testing compilation, but un-comment it for deployment!
+# Have cse = true commented out for faster testing compilation, 
+### but UNCOMMENT it for DEPLOYMENT! ###
 cse = true
 
 
 [profile.default.optimizer_details.yulDetails]
 stackAllocation = true
 
-# Have optimizerSteps = "" uncommented for faster testing compilation, but comment it out for deployment!
+# Have optimizerSteps = "" uncommented for faster testing compilation, 
+### but COMMENT IT out for DEPLOYMENT!###
 # optimizerSteps = ""
