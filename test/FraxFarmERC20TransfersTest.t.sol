@@ -221,7 +221,7 @@ contract FraxFarmERC20TransfersTest is Test {
         console2.log("senderBaseLockedLiquidity", t.senderBaseLockedLiquidity);
         /// create a known kekId
         console2.log("stakeLockedCurveLP Test");
-        t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300)) - 1;
+        t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
         console2.log("senderLock", t.senderLock);
         t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");

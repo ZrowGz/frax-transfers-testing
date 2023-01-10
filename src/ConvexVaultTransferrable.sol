@@ -1053,6 +1053,7 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
             //stake
             lockId = IFraxFarmERC20(stakingAddress).stakeLocked(_liquidity, _secs);
             console2.log("done");
+            console2.log("lockedStake id", lockId);
         }
         
         //checkpoint rewards

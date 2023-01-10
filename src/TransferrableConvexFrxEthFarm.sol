@@ -2284,7 +2284,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     ) internal updateRewardAndBalanceMdf(staker_address, true) returns (uint256) {
         console2.log("stakeLocked called");
         console2.log("start_timestamp", start_timestamp);
-        console2.log("ending_timestamp", block.timestamp + secs);
+        console2.log("ending_timestamp stake locked", block.timestamp + secs);
         console2.log("secs", secs);
         console2.log("blockTime", block.timestamp);
         if (stakingPaused) revert StakingPaused();
@@ -2318,7 +2318,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
         emit StakeLocked(staker_address, liquidity, secs, lockedStakes[staker_address].length, source_address);
 
-        return lockedStakes[staker_address].length;
+        return lockedStakes[staker_address].length - 1;
     }
 
     // ------ WITHDRAWING ------
@@ -2483,8 +2483,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 ILockReceiverV2.beforeLockTransfer.selector // 00x4fb07105 <--> bytes4(keccak256("beforeLockTransfer(address,address,bytes32,bytes)"))
             );
         }
-        console2.log("getLockedStakeSender", lockedStakes[sender_address].length);
-        
+
         // Get the stake and its index
         LockedStake memory senderStake = getLockedStake(sender_address, sender_lock_index);
 
@@ -2517,7 +2516,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         } else {
             lockedStakes[sender_address][sender_lock_index].liquidity -= transfer_amount;
         }
-        console2.log("getLockedStakeReceiver", lockedStakes[receiver_address].length);
+
         // Get the stake and its index
         LockedStake memory receiverStake = getLockedStake(receiver_address, receiver_lock_index);
 
@@ -2564,9 +2563,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             
             // update the return value of the locked index 
             /// todo could also just use the length of the array in all 3 situations below - which is more gas efficient?
-            receiver_lock_index = lockedStakes[receiver_address].length;
+            receiver_lock_index = lockedStakes[receiver_address].length - 1;
         }
-        console2.log("updateBothBalance&RewardsPostTransfer");
+
         // Need to call again to make sure everything is correct
         updateRewardAndBalance(sender_address, true); 
         updateRewardAndBalance(receiver_address, true);
@@ -2578,7 +2577,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             sender_lock_index,
             receiver_lock_index
         );
-        console2.log("onLockReceivedCalled");
+
         // call the receiver with the destination lockedStake to verify receiving is ok
         if (ILockReceiverV2(receiver_address).onLockReceived(
             sender_address, 
@@ -2586,9 +2585,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             receiver_lock_index, 
             ""
         ) != ILockReceiverV2.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
-        console2.log("all done!");
+        
         return (sender_lock_index, receiver_lock_index);
-
     }
 
     /* ========== RESTRICTED FUNCTIONS - Owner or timelock only ========== */
