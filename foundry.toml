@@ -36,11 +36,11 @@ constantOptimizer = true
 stackAllocation = true
 
 # Have cse = true commented out for faster testing compilation, but un-comment it for deployment!
-# cse = true
+cse = true
 
 
 [profile.default.optimizer_details.yulDetails]
 stackAllocation = true
 
 # Have optimizerSteps = "" uncommented for faster testing compilation, but comment it out for deployment!
-optimizerSteps = ""
+# optimizerSteps = ""
