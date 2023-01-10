@@ -2314,7 +2314,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // Approve `spender` to transfer `lockedStake` on behalf of `owner`
     function setAllowance(address spender, uint256 lockedStakeIndex, uint256 amount) external {
-        if(spenderAllowance[msg.sender][lockedStakeIndex][spender] >= 0) revert CannotBeZero();
+        if(spenderAllowance[msg.sender][lockedStakeIndex][spender] > 0) revert CannotBeZero();
         spenderAllowance[msg.sender][lockedStakeIndex][spender] = amount;
         emit Approval(msg.sender, spender, lockedStakeIndex, amount);
     }
@@ -2338,7 +2338,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     }
 
     // internal approval check and allowance manager
-    function isApproved(address staker, uint256 lockedStakeIndex, uint256 amount) public view returns (bool) {
+    function isApproved(address staker, uint256 lockedStakeIndex, uint256 amount) external view returns (bool) {
         // check if spender is approved for all `staker` locks
         if (spenderApprovalForAllLocks[staker][msg.sender]) {
             return true;
@@ -2351,6 +2351,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     }
 
     function _spendAllowance(address staker, uint256 lockedStakeIndex, uint256 amount) internal {
+            // if (spenderApprovalForAllLocks[staker][msg.sender]) {
+            //     return;
+            // } 
             if (spenderAllowance[staker][lockedStakeIndex][msg.sender] == amount) {
                 spenderAllowance[staker][lockedStakeIndex][msg.sender] = 0;
             } else if (spenderAllowance[staker][lockedStakeIndex][msg.sender] > amount) {
@@ -2371,10 +2374,13 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         uint256 receiver_lock_index
     ) external nonReentrant returns (uint256,uint256) {
         // check approvals
-        if (!isApproved(sender_address, sender_lock_index, transfer_amount)) revert TransferLockNotAllowed(msg.sender, sender_lock_index);
+        // if (!isApproved(sender_address, sender_lock_index, transfer_amount)) revert TransferLockNotAllowed(msg.sender, sender_lock_index);
 
-        // adjust the allowance down
-        _spendAllowance(sender_address, sender_lock_index, transfer_amount);
+        /// if spender is not approved for all, spend allowance, otherwise, carry on
+        if(!spenderApprovalForAllLocks[sender_address][msg.sender]) {
+            // adjust the allowance down & performs checks
+            _spendAllowance(sender_address, sender_lock_index, transfer_amount);
+        }
 
         // do the transfer
         /// @dev the approval check is done in modifier, so to reach here caller is permitted, thus OK 
