@@ -33,20 +33,20 @@
     }
   ],
   "bytecode": {
-    "object": "0x6080806040523461003c57600080546001600160a01b031916735f4ec3df9cbd43714fe2740f5e3616155c5b841917905561036f90816100428239f35b600080fdfe60806040818152600436101561001457600080fd5b600091823560e01c9081638e15f47314610121575063f0141d841461003857600080fd5b3461011d57817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261011d5781602073ffffffffffffffffffffffffffffffffffffffff60049454168351948580927f313ce5670000000000000000000000000000000000000000000000000000000082525afa9283156101115781936100c9575b60208460ff855191168152f35b9092506020813d8211610109575b816100e4602093836102ad565b8101031261010557519160ff83168303610102575060ff60206100bc565b80fd5b8280fd5b3d91506100d7565b509051903d90823e3d90fd5b5080fd5b8391503461011d57817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261011d5760a08160048173ffffffffffffffffffffffffffffffffffffffff8654167ffeaf968c0000000000000000000000000000000000000000000000000000000082525afa80156102a35782838093819361024a575b508412159283610240575b5082610225575b5050156101c85760209151908152f35b606482517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601760248201527f496e76616c696420636861696e6c696e6b2070726963650000000000000000006044820152fd5b69ffffffffffffffffffff90811691161015905083806101b8565b15159250856101b1565b94509250505060a0823d821161029b575b8161026860a093836102ad565b81010312610102576102798261031d565b90602083015161029060806060860151950161031d565b9290939291866101a6565b3d915061025b565b83513d84823e3d90fd5b90601f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0910116810190811067ffffffffffffffff8211176102ee57604052565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b519069ffffffffffffffffffff8216820361033457565b600080fdfea26469706673582212205061c7696526ef03dc1f77a966d745a31ad86d0a98f0ae97b6a671049ddc1d5464736f6c63430008110033",
-    "sourceMap": "98:671:43:-:0;;;;;;;223:77;98:671;;-1:-1:-1;;;;;;98:671:43;257:42;98:671;;;;;;;;;;;;;",
+    "object": "0x608060405234610023575b610012610095565b60405161049b6100c1823961049b90f35b61002b600080fd5b61000a565b61004490610047906001600160a01b031682565b90565b6001600160a01b031690565b61004490610030565b61004490610053565b906100756100446100919261005c565b82546001600160a01b0319166001600160a01b03919091161790565b9055565b6100b2735f4ec3df9cbd43714fe2740f5e3616155c5b841961005c565b6100bd816000610065565b5056fe60806040526004361015610018575b610016600080fd5b005b60003560e01c80638e15f473146100405763f0141d840361000e5761003b6100a1565b61000e565b5061003b610063565b600080fd5b600091031261005957565b610061600080fd5b565b5034610094575b61007536600461004e565b6100906100806102cb565b6040519182918290815260200190565b0390f35b61009c600080fd5b61006a565b50346100d2575b6100b336600461004e565b6100906100be6103f3565b6040519182918260ff909116815260200190565b6100da600080fd5b6100a8565b6100fd905b73ffffffffffffffffffffffffffffffffffffffff1690565b90565b6100fd90546100df565b6100e46100fd6100fd9273ffffffffffffffffffffffffffffffffffffffff1690565b6100fd9061010a565b6100fd9061012d565b507f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b90601f017fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe016810190811067ffffffffffffffff8211176101af57604052565b6101b761013f565b604052565b69ffffffffffffffffffff81165b0361004957565b90505190610061826101bc565b806101ca565b90505190610061826101de565b919060a08382031261023e575b61020881846101d1565b9261021682602083016101e4565b926100fd61022784604085016101e4565b9361023581606086016101e4565b936080016101d1565b610246600080fd5b6101fe565b506040513d6000823e3d90fd5b6100fd6100fd6100fd9290565b1561026c57565b6040517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601760248201527f496e76616c696420636861696e6c696e6b2070726963650000000000000000006044820152606490fd5b6102fa60a06102e26102dd6000610100565b610136565b63feaf968c906102f160405190565b93849260e01b90565b825260049082905afa80156103b3575b60009081908190819061037c575b6100fd93945060009261032a84610258565b861215938461035d575b505082610343575b5050610265565b69ffffffffffffffffffff9081169250161015388061033c565b919350906103729061036e90610258565b9190565b1415913880610334565b505050506103a36100fd9160a03d81116103ac575b61039b818361016f565b8101906101f1565b91509192610318565b503d610391565b6103bb61024b565b61030a565b60ff81166101ca565b90505190610061826103c0565b906100fd91602081830312156103c9576103ee600080fd5b6103c9565b61041460206104056102dd6000610100565b63313ce567906102f160405190565b825260049082905afa908115610458575b600091610430575090565b6100fd915060203d8111610451575b610449818361016f565b8101906103d6565b503d61043f565b61046061024b565b61042556fea2646970667358221220f909d3dbf294876ec67be499c6037f2a40fefee8c78947c3e3a595b8eb1e8ec664736f6c63430008110033",
+    "sourceMap": "98:671:43:-:0;;;;;;-1:-1:-1;98:671:43;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;98:671:43;;;;;;;-1:-1:-1;;;;;98:671:43;;;;;;;:::i;:::-;;;;:::i;:::-;;;;;;;:::i;:::-;;;-1:-1:-1;;;;;;98:671:43;-1:-1:-1;;;;;98:671:43;;;;;;;;;;:::o;191:116::-;235:65;257:42;235:65;:::i;:::-;223:77;;;;:::i;:::-;191:116;:::o",
     "linkReferences": {}
   },
   "deployedBytecode": {
-    "object": "0x60806040818152600436101561001457600080fd5b600091823560e01c9081638e15f47314610121575063f0141d841461003857600080fd5b3461011d57817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261011d5781602073ffffffffffffffffffffffffffffffffffffffff60049454168351948580927f313ce5670000000000000000000000000000000000000000000000000000000082525afa9283156101115781936100c9575b60208460ff855191168152f35b9092506020813d8211610109575b816100e4602093836102ad565b8101031261010557519160ff83168303610102575060ff60206100bc565b80fd5b8280fd5b3d91506100d7565b509051903d90823e3d90fd5b5080fd5b8391503461011d57817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261011d5760a08160048173ffffffffffffffffffffffffffffffffffffffff8654167ffeaf968c0000000000000000000000000000000000000000000000000000000082525afa80156102a35782838093819361024a575b508412159283610240575b5082610225575b5050156101c85760209151908152f35b606482517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601760248201527f496e76616c696420636861696e6c696e6b2070726963650000000000000000006044820152fd5b69ffffffffffffffffffff90811691161015905083806101b8565b15159250856101b1565b94509250505060a0823d821161029b575b8161026860a093836102ad565b81010312610102576102798261031d565b90602083015161029060806060860151950161031d565b9290939291866101a6565b3d915061025b565b83513d84823e3d90fd5b90601f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0910116810190811067ffffffffffffffff8211176102ee57604052565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b519069ffffffffffffffffffff8216820361033457565b600080fdfea26469706673582212205061c7696526ef03dc1f77a966d745a31ad86d0a98f0ae97b6a671049ddc1d5464736f6c63430008110033",
-    "sourceMap": "98:671:43:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;740:20;98:671;;;;;;;740:20;;;;98:671;740:20;;;;;;;;;;;;;98:671;740:20;98:671;;;;;;;;;740:20;;;;;;;;;;;;;;;;;;:::i;:::-;;;98:671;;;;;;;;;;;;;740:20;98:671;740:20;;;98:671;;;;;;;740:20;;;-1:-1:-1;740:20:43;;;98:671;;;;;;;;;;;;;;;;;;;;;;;;;;;;;498:27;98:671;;;;;;;;498:27;;;;;;;;;98:671;;;;498:27;;;98:671;543:10;;;;:27;;;;98:671;543:57;;;;98:671;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;543:57;98:671;;;;;;574:26;;;-1:-1:-1;543:57:43;;;;:27;557:13;;;-1:-1:-1;543:27:43;;;498;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;98:671;;;;;;;:::i;:::-;;;;;;;;;;;;;;;:::i;:::-;498:27;;;;;;;;;;;-1:-1:-1;498:27:43;;;98:671;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;",
+    "object": "0x60806040526004361015610018575b610016600080fd5b005b60003560e01c80638e15f473146100405763f0141d840361000e5761003b6100a1565b61000e565b5061003b610063565b600080fd5b600091031261005957565b610061600080fd5b565b5034610094575b61007536600461004e565b6100906100806102cb565b6040519182918290815260200190565b0390f35b61009c600080fd5b61006a565b50346100d2575b6100b336600461004e565b6100906100be6103f3565b6040519182918260ff909116815260200190565b6100da600080fd5b6100a8565b6100fd905b73ffffffffffffffffffffffffffffffffffffffff1690565b90565b6100fd90546100df565b6100e46100fd6100fd9273ffffffffffffffffffffffffffffffffffffffff1690565b6100fd9061010a565b6100fd9061012d565b507f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b90601f017fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe016810190811067ffffffffffffffff8211176101af57604052565b6101b761013f565b604052565b69ffffffffffffffffffff81165b0361004957565b90505190610061826101bc565b806101ca565b90505190610061826101de565b919060a08382031261023e575b61020881846101d1565b9261021682602083016101e4565b926100fd61022784604085016101e4565b9361023581606086016101e4565b936080016101d1565b610246600080fd5b6101fe565b506040513d6000823e3d90fd5b6100fd6100fd6100fd9290565b1561026c57565b6040517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601760248201527f496e76616c696420636861696e6c696e6b2070726963650000000000000000006044820152606490fd5b6102fa60a06102e26102dd6000610100565b610136565b63feaf968c906102f160405190565b93849260e01b90565b825260049082905afa80156103b3575b60009081908190819061037c575b6100fd93945060009261032a84610258565b861215938461035d575b505082610343575b5050610265565b69ffffffffffffffffffff9081169250161015388061033c565b919350906103729061036e90610258565b9190565b1415913880610334565b505050506103a36100fd9160a03d81116103ac575b61039b818361016f565b8101906101f1565b91509192610318565b503d610391565b6103bb61024b565b61030a565b60ff81166101ca565b90505190610061826103c0565b906100fd91602081830312156103c9576103ee600080fd5b6103c9565b61041460206104056102dd6000610100565b63313ce567906102f160405190565b825260049082905afa908115610458575b600091610430575090565b6100fd915060203d8111610451575b610449818361016f565b8101906103d6565b503d61043f565b61046061024b565b61042556fea2646970667358221220f909d3dbf294876ec67be499c6037f2a40fefee8c78947c3e3a595b8eb1e8ec664736f6c63430008110033",
+    "sourceMap": "98:671:43:-:0;;;;;;;;;-1:-1:-1;98:671:43;;;;;-1:-1:-1;98:671:43;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;;;;:::o;:::-;;;;;;:::o;:::-;;;;;;;;;;:::i;:::-;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;:::i;:::-;;;;;;;;;;;;;:::i;:::-;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;:::i;:::-;;;:::o;:::-;;;;;;;;:::o;:::-;;;;;;;;:::i;:::-;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;:::i;:::-;;;;;;;;;:::i;:::-;;;;;;;;:::i;:::-;;;;;:::i;:::-;;;;;;;;;-1:-1:-1;98:671:43;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;361:305;498:27;;:25;:9;;;:::i;:::-;:25;:::i;:::-;;:27;;98:671;;;;498:27;;;;98:671;;;;498:27;;;;;;;;;;;;;361:305;498:27;;;;;;;;;;361:305;535:93;423:102;;;552:1;543:10;;;;:::i;:::-;;;;:27;;;;361:305;543:57;;;;;361:305;535:93;;;:::i;543:57::-;98:671;;;;;-1:-1:-1;98:671:43;574:26;;543:57;;;;:27;557:9;;-1:-1:-1;557:9:43;:13;;;;;:::i;:::-;;98:671;;557:13;;;543:27;;;;;498;;;;;;535:93;498:27;;;;;;;;;;;;:::i;:::-;;;;;:::i;:::-;;;;;;;;;;;;;;;:::i;:::-;;;98:671;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;:::i;672:95::-;740:20;;:18;:9;;;:::i;:18::-;;:20;;98:671;;;;740:20;;;;;;;;;;;;;;672:95;740:20;;;;733:27;672:95;:::o;740:20::-;;;;;;;;;;;;;;;:::i;:::-;;;;;:::i;:::-;;;;;;;;:::i;:::-;;",
     "linkReferences": {}
   },
   "methodIdentifiers": {
     "getDecimals()": "f0141d84",
     "getLatestPrice()": "8e15f473"
   },
-  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"getDecimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getLatestPrice()\":{\"notice\":\"Returns the latest price\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/ChainlinkETHUSDPriceConsumer.sol\":\"ChainlinkETHUSDPriceConsumer\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/AggregatorV3Interface.sol\":{\"keccak256\":\"0x5e7761d06fea8192b159f3e287600cba23c5bdbe3a1bbe1050cc3ab9ed4273a4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1b6956df5c8ad84b2aba10e7d07c9f4976ae9ebdd65509729e752900a6f6475d\",\"dweb:/ipfs/QmP2MJZdZsJWRozMHmCtq4SU5ePKEHxCzhyqtBFpAjCDny\"]},\"lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/ChainlinkETHUSDPriceConsumer.sol\":{\"keccak256\":\"0xdd69bfcca6dba510a40ec304ea6a2228f20bc543d17048f6964496add3cfe855\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cf78e67b843503fe31cf4a26990bf750c1cb24ba1617b2e2d55bfab3010730cd\",\"dweb:/ipfs/QmZe3J5oa8Yr9oU1YqSNdzrTHnFShUqCysUD56kb4RXeqW\"]}},\"version\":1}",
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"getDecimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getLatestPrice()\":{\"notice\":\"Returns the latest price\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/ChainlinkETHUSDPriceConsumer.sol\":\"ChainlinkETHUSDPriceConsumer\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/AggregatorV3Interface.sol\":{\"keccak256\":\"0x5e7761d06fea8192b159f3e287600cba23c5bdbe3a1bbe1050cc3ab9ed4273a4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1b6956df5c8ad84b2aba10e7d07c9f4976ae9ebdd65509729e752900a6f6475d\",\"dweb:/ipfs/QmP2MJZdZsJWRozMHmCtq4SU5ePKEHxCzhyqtBFpAjCDny\"]},\"lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/ChainlinkETHUSDPriceConsumer.sol\":{\"keccak256\":\"0xdd69bfcca6dba510a40ec304ea6a2228f20bc543d17048f6964496add3cfe855\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cf78e67b843503fe31cf4a26990bf750c1cb24ba1617b2e2d55bfab3010730cd\",\"dweb:/ipfs/QmZe3J5oa8Yr9oU1YqSNdzrTHnFShUqCysUD56kb4RXeqW\"]}},\"version\":1}",
   "metadata": {
     "compiler": {
       "version": "0.8.17+commit.8df45f5f"
@@ -122,8 +122,21 @@
         ":solmate/=lib/frax_testing/lib/solmate/src/"
       ],
       "optimizer": {
-        "enabled": true,
-        "runs": 100000
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
       },
       "metadata": {
         "bytecodeHash": "ipfs"
@@ -156,20 +169,20 @@
   },
   "ast": {
     "absolutePath": "lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/ChainlinkETHUSDPriceConsumer.sol",
-    "id": 60346,
+    "id": 62202,
     "exportedSymbols": {
       "AggregatorV3Interface": [
-        62037
+        63893
       ],
       "ChainlinkETHUSDPriceConsumer": [
-        60345
+        62201
       ]
     },
     "nodeType": "SourceUnit",
     "src": "32:737:43",
     "nodes": [
       {
-        "id": 60284,
+        "id": 62140,
         "nodeType": "PragmaDirective",
         "src": "32:25:43",
         "nodes": [],
@@ -181,25 +194,25 @@
         ]
       },
       {
-        "id": 60285,
+        "id": 62141,
         "nodeType": "ImportDirective",
         "src": "59:37:43",
         "nodes": [],
         "absolutePath": "lib/frax-solidity/src/hardhat/contracts/Staking/../Oracle/AggregatorV3Interface.sol",
         "file": "./AggregatorV3Interface.sol",
         "nameLocation": "-1:-1:-1",
-        "scope": 60346,
-        "sourceUnit": 62038,
+        "scope": 62202,
+        "sourceUnit": 63894,
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "id": 60345,
+        "id": 62201,
         "nodeType": "ContractDefinition",
         "src": "98:671:43",
         "nodes": [
           {
-            "id": 60288,
+            "id": 62144,
             "nodeType": "VariableDeclaration",
             "src": "143:40:43",
             "nodes": [],
@@ -207,62 +220,62 @@
             "mutability": "mutable",
             "name": "priceFeed",
             "nameLocation": "174:9:43",
-            "scope": 60345,
+            "scope": 62201,
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+              "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
               "typeString": "contract AggregatorV3Interface"
             },
             "typeName": {
-              "id": 60287,
+              "id": 62143,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 60286,
+                "id": 62142,
                 "name": "AggregatorV3Interface",
                 "nameLocations": [
                   "143:21:43"
                 ],
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 62037,
+                "referencedDeclaration": 63893,
                 "src": "143:21:43"
               },
-              "referencedDeclaration": 62037,
+              "referencedDeclaration": 63893,
               "src": "143:21:43",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+                "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
                 "typeString": "contract AggregatorV3Interface"
               }
             },
             "visibility": "internal"
           },
           {
-            "id": 60298,
+            "id": 62154,
             "nodeType": "FunctionDefinition",
             "src": "191:116:43",
             "nodes": [],
             "body": {
-              "id": 60297,
+              "id": 62153,
               "nodeType": "Block",
               "src": "213:94:43",
               "nodes": [],
               "statements": [
                 {
                   "expression": {
-                    "id": 60295,
+                    "id": 62151,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 60291,
+                      "id": 62147,
                       "name": "priceFeed",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 60288,
+                      "referencedDeclaration": 62144,
                       "src": "223:9:43",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+                        "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
                         "typeString": "contract AggregatorV3Interface"
                       }
                     },
@@ -272,7 +285,7 @@
                       "arguments": [
                         {
                           "hexValue": "307835663465433344663963626434333731344645323734306635453336313631353563356238343139",
-                          "id": 60293,
+                          "id": 62149,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -294,18 +307,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 60292,
+                        "id": 62148,
                         "name": "AggregatorV3Interface",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 62037,
+                        "referencedDeclaration": 63893,
                         "src": "235:21:43",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_AggregatorV3Interface_$62037_$",
+                          "typeIdentifier": "t_type$_t_contract$_AggregatorV3Interface_$63893_$",
                           "typeString": "type(contract AggregatorV3Interface)"
                         }
                       },
-                      "id": 60294,
+                      "id": 62150,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -317,17 +330,17 @@
                       "src": "235:65:43",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+                        "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
                         "typeString": "contract AggregatorV3Interface"
                       }
                     },
                     "src": "223:77:43",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+                      "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
                       "typeString": "contract AggregatorV3Interface"
                     }
                   },
-                  "id": 60296,
+                  "id": 62152,
                   "nodeType": "ExpressionStatement",
                   "src": "223:77:43"
                 }
@@ -339,50 +352,50 @@
             "name": "",
             "nameLocation": "-1:-1:-1",
             "parameters": {
-              "id": 60289,
+              "id": 62145,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "203:2:43"
             },
             "returnParameters": {
-              "id": 60290,
+              "id": 62146,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "213:0:43"
             },
-            "scope": 60345,
+            "scope": 62201,
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
-            "id": 60334,
+            "id": 62190,
             "nodeType": "FunctionDefinition",
             "src": "361:305:43",
             "nodes": [],
             "body": {
-              "id": 60333,
+              "id": 62189,
               "nodeType": "Block",
               "src": "413:253:43",
               "nodes": [],
               "statements": [
                 {
                   "assignments": [
-                    60305,
-                    60307,
+                    62161,
+                    62163,
                     null,
-                    60309,
-                    60311
+                    62165,
+                    62167
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 60305,
+                      "id": 62161,
                       "mutability": "mutable",
                       "name": "roundID",
                       "nameLocation": "431:7:43",
                       "nodeType": "VariableDeclaration",
-                      "scope": 60333,
+                      "scope": 62189,
                       "src": "424:14:43",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -391,7 +404,7 @@
                         "typeString": "uint80"
                       },
                       "typeName": {
-                        "id": 60304,
+                        "id": 62160,
                         "name": "uint80",
                         "nodeType": "ElementaryTypeName",
                         "src": "424:6:43",
@@ -404,12 +417,12 @@
                     },
                     {
                       "constant": false,
-                      "id": 60307,
+                      "id": 62163,
                       "mutability": "mutable",
                       "name": "price",
                       "nameLocation": "444:5:43",
                       "nodeType": "VariableDeclaration",
-                      "scope": 60333,
+                      "scope": 62189,
                       "src": "440:9:43",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -418,7 +431,7 @@
                         "typeString": "int256"
                       },
                       "typeName": {
-                        "id": 60306,
+                        "id": 62162,
                         "name": "int",
                         "nodeType": "ElementaryTypeName",
                         "src": "440:3:43",
@@ -432,12 +445,12 @@
                     null,
                     {
                       "constant": false,
-                      "id": 60309,
+                      "id": 62165,
                       "mutability": "mutable",
                       "name": "updatedAt",
                       "nameLocation": "461:9:43",
                       "nodeType": "VariableDeclaration",
-                      "scope": 60333,
+                      "scope": 62189,
                       "src": "453:17:43",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -446,7 +459,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 60308,
+                        "id": 62164,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "453:7:43",
@@ -459,12 +472,12 @@
                     },
                     {
                       "constant": false,
-                      "id": 60311,
+                      "id": 62167,
                       "mutability": "mutable",
                       "name": "answeredInRound",
                       "nameLocation": "479:15:43",
                       "nodeType": "VariableDeclaration",
-                      "scope": 60333,
+                      "scope": 62189,
                       "src": "472:22:43",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -473,7 +486,7 @@
                         "typeString": "uint80"
                       },
                       "typeName": {
-                        "id": 60310,
+                        "id": 62166,
                         "name": "uint80",
                         "nodeType": "ElementaryTypeName",
                         "src": "472:6:43",
@@ -485,24 +498,24 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 60315,
+                  "id": 62171,
                   "initialValue": {
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
                       "expression": {
-                        "id": 60312,
+                        "id": 62168,
                         "name": "priceFeed",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 60288,
+                        "referencedDeclaration": 62144,
                         "src": "498:9:43",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+                          "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
                           "typeString": "contract AggregatorV3Interface"
                         }
                       },
-                      "id": 60313,
+                      "id": 62169,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -510,14 +523,14 @@
                       "memberLocation": "508:15:43",
                       "memberName": "latestRoundData",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 62036,
+                      "referencedDeclaration": 63892,
                       "src": "498:25:43",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$__$returns$_t_uint80_$_t_int256_$_t_uint256_$_t_uint256_$_t_uint80_$",
                         "typeString": "function () view external returns (uint80,int256,uint256,uint256,uint80)"
                       }
                     },
-                    "id": 60314,
+                    "id": 62170,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -544,7 +557,7 @@
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
                         },
-                        "id": 60327,
+                        "id": 62183,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -554,7 +567,7 @@
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           },
-                          "id": 60323,
+                          "id": 62179,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -564,17 +577,17 @@
                               "typeIdentifier": "t_int256",
                               "typeString": "int256"
                             },
-                            "id": 60319,
+                            "id": 62175,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "leftExpression": {
-                              "id": 60317,
+                              "id": 62173,
                               "name": "price",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 60307,
+                              "referencedDeclaration": 62163,
                               "src": "543:5:43",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_int256",
@@ -585,7 +598,7 @@
                             "operator": ">=",
                             "rightExpression": {
                               "hexValue": "30",
-                              "id": 60318,
+                              "id": 62174,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -612,17 +625,17 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 60322,
+                            "id": 62178,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "leftExpression": {
-                              "id": 60320,
+                              "id": 62176,
                               "name": "updatedAt",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 60309,
+                              "referencedDeclaration": 62165,
                               "src": "557:9:43",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -633,7 +646,7 @@
                             "operator": "!=",
                             "rightExpression": {
                               "hexValue": "30",
-                              "id": 60321,
+                              "id": 62177,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -666,17 +679,17 @@
                             "typeIdentifier": "t_uint80",
                             "typeString": "uint80"
                           },
-                          "id": 60326,
+                          "id": 62182,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
-                            "id": 60324,
+                            "id": 62180,
                             "name": "answeredInRound",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 60311,
+                            "referencedDeclaration": 62167,
                             "src": "574:15:43",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint80",
@@ -686,11 +699,11 @@
                           "nodeType": "BinaryOperation",
                           "operator": ">=",
                           "rightExpression": {
-                            "id": 60325,
+                            "id": 62181,
                             "name": "roundID",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 60305,
+                            "referencedDeclaration": 62161,
                             "src": "593:7:43",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint80",
@@ -711,7 +724,7 @@
                       },
                       {
                         "hexValue": "496e76616c696420636861696e6c696e6b207072696365",
-                        "id": 60328,
+                        "id": 62184,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -737,7 +750,7 @@
                           "typeString": "literal_string \"Invalid chainlink price\""
                         }
                       ],
-                      "id": 60316,
+                      "id": 62172,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -751,7 +764,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 60329,
+                    "id": 62185,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -767,32 +780,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 60330,
+                  "id": 62186,
                   "nodeType": "ExpressionStatement",
                   "src": "535:93:43"
                 },
                 {
                   "expression": {
-                    "id": 60331,
+                    "id": 62187,
                     "name": "price",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 60307,
+                    "referencedDeclaration": 62163,
                     "src": "654:5:43",
                     "typeDescriptions": {
                       "typeIdentifier": "t_int256",
                       "typeString": "int256"
                     }
                   },
-                  "functionReturnParameters": 60303,
-                  "id": 60332,
+                  "functionReturnParameters": 62159,
+                  "id": 62188,
                   "nodeType": "Return",
                   "src": "647:12:43"
                 }
               ]
             },
             "documentation": {
-              "id": 60299,
+              "id": 62155,
               "nodeType": "StructuredDocumentation",
               "src": "313:43:43",
               "text": " Returns the latest price"
@@ -804,23 +817,23 @@
             "name": "getLatestPrice",
             "nameLocation": "370:14:43",
             "parameters": {
-              "id": 60300,
+              "id": 62156,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "384:2:43"
             },
             "returnParameters": {
-              "id": 60303,
+              "id": 62159,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 60302,
+                  "id": 62158,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 60334,
+                  "scope": 62190,
                   "src": "408:3:43",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -829,7 +842,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 60301,
+                    "id": 62157,
                     "name": "int",
                     "nodeType": "ElementaryTypeName",
                     "src": "408:3:43",
@@ -843,18 +856,18 @@
               ],
               "src": "407:5:43"
             },
-            "scope": 60345,
+            "scope": 62201,
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           },
           {
-            "id": 60344,
+            "id": 62200,
             "nodeType": "FunctionDefinition",
             "src": "672:95:43",
             "nodes": [],
             "body": {
-              "id": 60343,
+              "id": 62199,
               "nodeType": "Block",
               "src": "723:44:43",
               "nodes": [],
@@ -865,18 +878,18 @@
                     "expression": {
                       "argumentTypes": [],
                       "expression": {
-                        "id": 60339,
+                        "id": 62195,
                         "name": "priceFeed",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 60288,
+                        "referencedDeclaration": 62144,
                         "src": "740:9:43",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_AggregatorV3Interface_$62037",
+                          "typeIdentifier": "t_contract$_AggregatorV3Interface_$63893",
                           "typeString": "contract AggregatorV3Interface"
                         }
                       },
-                      "id": 60340,
+                      "id": 62196,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -884,14 +897,14 @@
                       "memberLocation": "750:8:43",
                       "memberName": "decimals",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 61998,
+                      "referencedDeclaration": 63854,
                       "src": "740:18:43",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$__$returns$_t_uint8_$",
                         "typeString": "function () view external returns (uint8)"
                       }
                     },
-                    "id": 60341,
+                    "id": 62197,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -907,8 +920,8 @@
                       "typeString": "uint8"
                     }
                   },
-                  "functionReturnParameters": 60338,
-                  "id": 60342,
+                  "functionReturnParameters": 62194,
+                  "id": 62198,
                   "nodeType": "Return",
                   "src": "733:27:43"
                 }
@@ -921,23 +934,23 @@
             "name": "getDecimals",
             "nameLocation": "681:11:43",
             "parameters": {
-              "id": 60335,
+              "id": 62191,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "692:2:43"
             },
             "returnParameters": {
-              "id": 60338,
+              "id": 62194,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 60337,
+                  "id": 62193,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 60344,
+                  "scope": 62200,
                   "src": "716:5:43",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -946,7 +959,7 @@
                     "typeString": "uint8"
                   },
                   "typeName": {
-                    "id": 60336,
+                    "id": 62192,
                     "name": "uint8",
                     "nodeType": "ElementaryTypeName",
                     "src": "716:5:43",
@@ -960,7 +973,7 @@
               ],
               "src": "715:7:43"
             },
-            "scope": 60345,
+            "scope": 62201,
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
@@ -973,11 +986,11 @@
         "contractKind": "contract",
         "fullyImplemented": true,
         "linearizedBaseContracts": [
-          60345
+          62201
         ],
         "name": "ChainlinkETHUSDPriceConsumer",
         "nameLocation": "107:28:43",
-        "scope": 60346,
+        "scope": 62202,
         "usedErrors": []
       }
     ],

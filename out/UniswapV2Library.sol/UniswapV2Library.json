@@ -1,17 +1,17 @@
 {
   "abi": [],
   "bytecode": {
-    "object": "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea2646970667358221220f6d52b88fb932b313f49128e6be0cc43aaf2c67373f10b22690c46cb9789438464736f6c63430008110033",
-    "sourceMap": "179:4721:57:-:0;;;;;;;;;;;;;;;;;;;;;",
+    "object": "0x608060405234601b575b60405160436027823930815050604390f35b6022600080fd5b600956fe6080604052600b600080fd5b00fea2646970667358221220d05f1df0d9247049f4bf3da54eda12ffe7b15da4a83ed057846307611e48ba8664736f6c63430008110033",
+    "sourceMap": "179:4721:57:-:0;;;;;;-1:-1:-1;179:4721:57;;;;;;;;;;;;;;;;;;;;",
     "linkReferences": {}
   },
   "deployedBytecode": {
-    "object": "0x600080fdfea2646970667358221220f6d52b88fb932b313f49128e6be0cc43aaf2c67373f10b22690c46cb9789438464736f6c63430008110033",
-    "sourceMap": "179:4721:57:-:0;;",
+    "object": "0x6080604052600b600080fd5b00fea2646970667358221220d05f1df0d9247049f4bf3da54eda12ffe7b15da4a83ed057846307611e48ba8664736f6c63430008110033",
+    "sourceMap": "179:4721:57:-:0;;;;;;;;-1:-1:-1",
     "linkReferences": {}
   },
   "methodIdentifiers": {},
-  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Uniswap/UniswapV2Library.sol\":\"UniswapV2Library\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Math/SafeMath.sol\":{\"keccak256\":\"0x43a20f7cf4c4319f81450d53779455e88a7ab80bdfc43925156ed4083b74a180\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://85317e177f613c29156ffe0b1c1c29c31fedfea1ffc373c9d7f393ef51372728\",\"dweb:/ipfs/QmckZqe6wjgKWd4BTPUjRY1ofC9CsZKxAgXPFCKBisuJdr\"]},\"lib/frax-solidity/src/hardhat/contracts/Uniswap/Interfaces/IUniswapV2Factory.sol\":{\"keccak256\":\"0x87c74a8e918023f916cdc22f6a1cac447bff16f769828d4aae36876187c6f7d3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9a547dae4a1432fec9c4fb4723dc9a494607576a463383f7a51e3ed322ddff2b\",\"dweb:/ipfs/QmP5GMhBZRh6J2dLYeUJCTJV5kVE8w6ASXXxxVphcGo6Xk\"]},\"lib/frax-solidity/src/hardhat/contracts/Uniswap/Interfaces/IUniswapV2Pair.sol\":{\"keccak256\":\"0x7ee004cef073122501b9e1a5a0bf796aaef7f591d447ee8a8f430b38d811518c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://575d172f68843a1a60c95666995b836f6f17f042a02c31c8905037189dcadd2a\",\"dweb:/ipfs/QmV6dTvxSfcUBWoNC91fxX26gwHdJD49mRGzPHZcpPFuQU\"]},\"lib/frax-solidity/src/hardhat/contracts/Uniswap/UniswapV2Library.sol\":{\"keccak256\":\"0x80e0745c3e97d42bf75ab8b2dde5c6d7b042fa3e6ce23acf25b8d9000913e65b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://23111ed2be900ae0a25e6a8cfbc76c850a3a6a30c9787b58b8ff778da8f63763\",\"dweb:/ipfs/QmNeTnGGF3Dm58YCuH8uGJ5niYsjfFRjARCJof5H1VkzXp\"]}},\"version\":1}",
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Uniswap/UniswapV2Library.sol\":\"UniswapV2Library\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Math/SafeMath.sol\":{\"keccak256\":\"0x43a20f7cf4c4319f81450d53779455e88a7ab80bdfc43925156ed4083b74a180\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://85317e177f613c29156ffe0b1c1c29c31fedfea1ffc373c9d7f393ef51372728\",\"dweb:/ipfs/QmckZqe6wjgKWd4BTPUjRY1ofC9CsZKxAgXPFCKBisuJdr\"]},\"lib/frax-solidity/src/hardhat/contracts/Uniswap/Interfaces/IUniswapV2Factory.sol\":{\"keccak256\":\"0x87c74a8e918023f916cdc22f6a1cac447bff16f769828d4aae36876187c6f7d3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9a547dae4a1432fec9c4fb4723dc9a494607576a463383f7a51e3ed322ddff2b\",\"dweb:/ipfs/QmP5GMhBZRh6J2dLYeUJCTJV5kVE8w6ASXXxxVphcGo6Xk\"]},\"lib/frax-solidity/src/hardhat/contracts/Uniswap/Interfaces/IUniswapV2Pair.sol\":{\"keccak256\":\"0x7ee004cef073122501b9e1a5a0bf796aaef7f591d447ee8a8f430b38d811518c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://575d172f68843a1a60c95666995b836f6f17f042a02c31c8905037189dcadd2a\",\"dweb:/ipfs/QmV6dTvxSfcUBWoNC91fxX26gwHdJD49mRGzPHZcpPFuQU\"]},\"lib/frax-solidity/src/hardhat/contracts/Uniswap/UniswapV2Library.sol\":{\"keccak256\":\"0x80e0745c3e97d42bf75ab8b2dde5c6d7b042fa3e6ce23acf25b8d9000913e65b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://23111ed2be900ae0a25e6a8cfbc76c850a3a6a30c9787b58b8ff778da8f63763\",\"dweb:/ipfs/QmNeTnGGF3Dm58YCuH8uGJ5niYsjfFRjARCJof5H1VkzXp\"]}},\"version\":1}",
   "metadata": {
     "compiler": {
       "version": "0.8.17+commit.8df45f5f"
@@ -51,8 +51,21 @@
         ":solmate/=lib/frax_testing/lib/solmate/src/"
       ],
       "optimizer": {
-        "enabled": true,
-        "runs": 100000
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
       },
       "metadata": {
         "bytecodeHash": "ipfs"

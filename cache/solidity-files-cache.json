@@ -21,11 +21,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -70,11 +73,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -133,11 +139,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -195,11 +204,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -247,11 +259,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -298,11 +313,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -353,11 +371,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -402,11 +423,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -453,11 +477,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -502,11 +529,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -556,11 +586,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -607,11 +640,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -674,11 +710,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -726,11 +765,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -775,11 +817,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -824,11 +869,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -873,11 +921,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -927,11 +978,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -981,11 +1035,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1033,11 +1090,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1106,11 +1166,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1179,11 +1242,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1252,11 +1318,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1303,11 +1372,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1356,11 +1428,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1405,11 +1480,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1456,11 +1534,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1505,11 +1586,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1554,11 +1638,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1605,11 +1692,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1663,11 +1753,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1736,11 +1829,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1785,11 +1881,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1834,11 +1933,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1883,11 +1985,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1932,11 +2037,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1985,11 +2093,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2038,11 +2149,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2087,11 +2201,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2136,11 +2253,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2176,7 +2296,7 @@
       }
     },
     "src/ConvexBoosterImprovedInitializer.sol": {
-      "lastModificationDate": 1673298270400,
+      "lastModificationDate": 1673372705233,
       "contentHash": "961f6309958f1a06de479736f1f2bab8",
       "sourceName": "src/ConvexBoosterImprovedInitializer.sol",
       "solcConfig": {
@@ -2185,11 +2305,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2255,7 +2378,7 @@
       }
     },
     "src/ConvexPoolRegistry.sol": {
-      "lastModificationDate": 1673202884629,
+      "lastModificationDate": 1673372705234,
       "contentHash": "9e30fcc0989cac6955551af02c1357f1",
       "sourceName": "src/ConvexPoolRegistry.sol",
       "solcConfig": {
@@ -2264,11 +2387,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2310,7 +2436,7 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1673316060565,
+      "lastModificationDate": 1673372705234,
       "contentHash": "dde06014bff66aa375d4390b1389e8e0",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
@@ -2319,11 +2445,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2409,7 +2538,7 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1673046597904,
+      "lastModificationDate": 1673372705235,
       "contentHash": "4363200b326fd6b988fc22c6146d7b58",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
@@ -2418,11 +2547,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2512,7 +2644,7 @@
       }
     },
     "src/FraxFarmUnifiedTemplate.sol": {
-      "lastModificationDate": 1673202893829,
+      "lastModificationDate": 1673372705236,
       "contentHash": "1bd5af0721c41859eb496dedcf363b16",
       "sourceName": "src/FraxFarmUnifiedTemplate.sol",
       "solcConfig": {
@@ -2521,11 +2653,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2561,8 +2696,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1673382258839,
-      "contentHash": "afd36f996a541c4a3f8b74cbc226c2f6",
+      "lastModificationDate": 1674175811886,
+      "contentHash": "0b67668b112d0ae29d4be9b23a6fb6d6",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -2570,11 +2705,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2604,7 +2742,7 @@
       "imports": [
         "lib/forge-std/src/console2.sol"
       ],
-      "versionRequirement": ">=0.8.0",
+      "versionRequirement": "=0.8.17",
       "artifacts": {
         "AggregatorV3Interface": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/AggregatorV3Interface.json"
@@ -2663,16 +2801,70 @@
         "OwnedV2": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/OwnedV2.json"
         },
-        "ReentrancyGuard": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/ReentrancyGuard.json"
+        "ReentrancyGuardV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/ReentrancyGuardV2.json"
         },
         "TransferHelperV2": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/TransferHelperV2.json"
         }
       }
     },
+    "src/TransferrableConvexFrxEthFarm_NOTUPDATED.sol": {
+      "lastModificationDate": 1674170854148,
+      "contentHash": "16d3b82162d273874cfd46d746fa473a",
+      "sourceName": "src/TransferrableConvexFrxEthFarm_NOTUPDATED.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": "=0.8.17",
+      "artifacts": {
+        "TransferrableConvexFrxEthFarm_NOTUPDATED": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm_NOTUPDATED.sol/TransferrableConvexFrxEthFarm_NOTUPDATED.json"
+        }
+      }
+    },
     "src/interfaces/IFraxFarm.sol": {
-      "lastModificationDate": 1673047162489,
+      "lastModificationDate": 1673372705237,
       "contentHash": "f626a3be00759dd930afeec804960f16",
       "sourceName": "src/interfaces/IFraxFarm.sol",
       "solcConfig": {
@@ -2681,11 +2873,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2748,11 +2943,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2791,7 +2989,7 @@
       }
     },
     "src/interfaces/ILockReceiver.sol": {
-      "lastModificationDate": 1673045046120,
+      "lastModificationDate": 1673372705237,
       "contentHash": "a5f1ba2647e695ff8ffd431f50093a5c",
       "sourceName": "src/interfaces/ILockReceiver.sol",
       "solcConfig": {
@@ -2800,11 +2998,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2849,11 +3050,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2947,11 +3151,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -2993,7 +3200,7 @@
       }
     },
     "test/mocks/MockVaultOwner.sol": {
-      "lastModificationDate": 1673315843957,
+      "lastModificationDate": 1673372705238,
       "contentHash": "0c17ddc2b062eea4deda072dc1f04114",
       "sourceName": "test/mocks/MockVaultOwner.sol",
       "solcConfig": {
@@ -3002,11 +3209,14 @@
             "enabled": true,
             "runs": 100000,
             "details": {
-              "cse": true,
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },

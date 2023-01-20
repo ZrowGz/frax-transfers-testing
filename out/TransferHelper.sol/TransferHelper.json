@@ -1,17 +1,17 @@
 {
   "abi": [],
   "bytecode": {
-    "object": "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea2646970667358221220c597d51cd0fcf8762c44749f3335240512e29f599f2b22c66cbdd95edabb370764736f6c63430008110033",
-    "sourceMap": "170:1350:56:-:0;;;;;;;;;;;;;;;;;;;;;",
+    "object": "0x608060405234601b575b60405160436027823930815050604390f35b6022600080fd5b600956fe6080604052600b600080fd5b00fea2646970667358221220ca7a945473f3d270e0f4e28403b9e15195cffc546b535112adb349611277153564736f6c63430008110033",
+    "sourceMap": "170:1350:56:-:0;;;;;;-1:-1:-1;170:1350:56;;;;;;;;;;;;;;;;;;;;",
     "linkReferences": {}
   },
   "deployedBytecode": {
-    "object": "0x600080fdfea2646970667358221220c597d51cd0fcf8762c44749f3335240512e29f599f2b22c66cbdd95edabb370764736f6c63430008110033",
-    "sourceMap": "170:1350:56:-:0;;",
+    "object": "0x6080604052600b600080fd5b00fea2646970667358221220ca7a945473f3d270e0f4e28403b9e15195cffc546b535112adb349611277153564736f6c63430008110033",
+    "sourceMap": "170:1350:56:-:0;;;;;;;;-1:-1:-1",
     "linkReferences": {}
   },
   "methodIdentifiers": {},
-  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelper.sol\":\"TransferHelper\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelper.sol\":{\"keccak256\":\"0x2eb33792741584e83e0794a7493335b5dce9a9b675dda9e647ce29d88a40a196\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0359fd7076306116b7af564be4f7d555b70daa273652ee8a1a89a64cd4e1ad18\",\"dweb:/ipfs/QmVbUyw2GeQZEZoUN48aPd5KwKHbxAYCvWqkkkbC9APNH2\"]}},\"version\":1}",
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelper.sol\":\"TransferHelper\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelper.sol\":{\"keccak256\":\"0x2eb33792741584e83e0794a7493335b5dce9a9b675dda9e647ce29d88a40a196\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0359fd7076306116b7af564be4f7d555b70daa273652ee8a1a89a64cd4e1ad18\",\"dweb:/ipfs/QmVbUyw2GeQZEZoUN48aPd5KwKHbxAYCvWqkkkbC9APNH2\"]}},\"version\":1}",
   "metadata": {
     "compiler": {
       "version": "0.8.17+commit.8df45f5f"
@@ -51,8 +51,21 @@
         ":solmate/=lib/frax_testing/lib/solmate/src/"
       ],
       "optimizer": {
-        "enabled": true,
-        "runs": 100000
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
       },
       "metadata": {
         "bytecodeHash": "ipfs"

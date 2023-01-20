@@ -52,17 +52,17 @@
     }
   ],
   "bytecode": {
-    "object": "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea2646970667358221220b84680e24af7dfdbd787279a326b955d49eb6f1a7217886e62ecb63e73ca081d64736f6c63430008110033",
-    "sourceMap": "358:6977:9:-:0;;;;;;;;;;;;;;;;;;;;;",
+    "object": "0x608060405234601b575b60405160436027823930815050604390f35b6022600080fd5b600956fe6080604052600b600080fd5b00fea2646970667358221220423f314f7ab82d6a693bb17f05281e6262cf0c4c7708abd0249519a42a5f14b364736f6c63430008110033",
+    "sourceMap": "358:6977:9:-:0;;;;;;-1:-1:-1;358:6977:9;;;;;;;;;;;;;;;;;;;;",
     "linkReferences": {}
   },
   "deployedBytecode": {
-    "object": "0x600080fdfea2646970667358221220b84680e24af7dfdbd787279a326b955d49eb6f1a7217886e62ecb63e73ca081d64736f6c63430008110033",
-    "sourceMap": "358:6977:9:-:0;;",
+    "object": "0x6080604052600b600080fd5b00fea2646970667358221220423f314f7ab82d6a693bb17f05281e6262cf0c4c7708abd0249519a42a5f14b364736f6c63430008110033",
+    "sourceMap": "358:6977:9:-:0;;;;;;;;-1:-1:-1",
     "linkReferences": {}
   },
   "methodIdentifiers": {},
-  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes4\",\"name\":\"fsig\",\"type\":\"bytes4\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"keysHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"slot\",\"type\":\"uint256\"}],\"name\":\"SlotFound\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"slot\",\"type\":\"uint256\"}],\"name\":\"WARNING_UninitedSlot\",\"type\":\"event\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/forge-std/src/StdStorage.sol\":\"stdStorageSafe\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/forge-std/src/StdStorage.sol\":{\"keccak256\":\"0xb0da85ce6999940eba6190a26c15b9bc7aede57123891287e1b30f80333a9cf5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d287fd41de40ef992588f7a9531e66d1e9f8e4f3f194b9e721ac576d4613964a\",\"dweb:/ipfs/QmbFYYjoc8WGLKVfDe4rscYPwdGq48incbwRQNoLtcMMjn\"]},\"lib/forge-std/src/Vm.sol\":{\"keccak256\":\"0xfd793ebfb854f707ccf9dfec320b3b75d0d73ba54af0dfae727862fe93bc1cfd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9a0a39917aabf39d981b17d1a06c9b82377917c3a0eedce8e9dc00df5c096bf9\",\"dweb:/ipfs/Qme7GpiHd32FFKYNbY4vdhiiciWPV1z1Uwtj1KDQAusxki\"]}},\"version\":1}",
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes4\",\"name\":\"fsig\",\"type\":\"bytes4\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"keysHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"slot\",\"type\":\"uint256\"}],\"name\":\"SlotFound\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"slot\",\"type\":\"uint256\"}],\"name\":\"WARNING_UninitedSlot\",\"type\":\"event\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/forge-std/src/StdStorage.sol\":\"stdStorageSafe\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/forge-std/src/StdStorage.sol\":{\"keccak256\":\"0xb0da85ce6999940eba6190a26c15b9bc7aede57123891287e1b30f80333a9cf5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d287fd41de40ef992588f7a9531e66d1e9f8e4f3f194b9e721ac576d4613964a\",\"dweb:/ipfs/QmbFYYjoc8WGLKVfDe4rscYPwdGq48incbwRQNoLtcMMjn\"]},\"lib/forge-std/src/Vm.sol\":{\"keccak256\":\"0xfd793ebfb854f707ccf9dfec320b3b75d0d73ba54af0dfae727862fe93bc1cfd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9a0a39917aabf39d981b17d1a06c9b82377917c3a0eedce8e9dc00df5c096bf9\",\"dweb:/ipfs/Qme7GpiHd32FFKYNbY4vdhiiciWPV1z1Uwtj1KDQAusxki\"]}},\"version\":1}",
   "metadata": {
     "compiler": {
       "version": "0.8.17+commit.8df45f5f"
@@ -153,8 +153,21 @@
         ":solmate/=lib/frax_testing/lib/solmate/src/"
       ],
       "optimizer": {
-        "enabled": true,
-        "runs": 100000
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
       },
       "metadata": {
         "bytecodeHash": "ipfs"

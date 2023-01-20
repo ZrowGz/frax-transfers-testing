@@ -11,7 +11,7 @@
     "linkReferences": {}
   },
   "methodIdentifiers": {},
-  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Common/Context.sol\":\"Context\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Common/Context.sol\":{\"keccak256\":\"0x60d51a32063a4975dbf9433d38f5849173527da72f007c38053274e06698cb54\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f9ee6938d731aac55f6176c30ba4fc8456a63de57a7a2d659f43a053dfb381d3\",\"dweb:/ipfs/QmRyq4LneV4qz8uLdEhTU4YndjT365PJBPvK4btHKtmSSG\"]}},\"version\":1}",
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Common/Context.sol\":\"Context\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"yul\":true,\"yulDetails\":{\"optimizerSteps\":\"\",\"stackAllocation\":true}},\"runs\":100000},\"remappings\":[\":@convex/=lib/frax-cvx-platform/contracts/contracts/\",\":@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":@frax_testing/=lib/frax_testing/src/\",\":@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/\",\":@interfaces/=src/interfaces/\",\":@mocks/=test/mocks/\",\":@openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":frax-cvx-platform/=lib/frax-cvx-platform/contracts/\",\":frax-solidity/=lib/frax-solidity/src/\",\":frax_testing/=lib/frax_testing/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/frax_testing/lib/solmate/src/\"],\"viaIR\":true},\"sources\":{\"lib/frax-solidity/src/hardhat/contracts/Staking/../Common/Context.sol\":{\"keccak256\":\"0x60d51a32063a4975dbf9433d38f5849173527da72f007c38053274e06698cb54\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f9ee6938d731aac55f6176c30ba4fc8456a63de57a7a2d659f43a053dfb381d3\",\"dweb:/ipfs/QmRyq4LneV4qz8uLdEhTU4YndjT365PJBPvK4btHKtmSSG\"]}},\"version\":1}",
   "metadata": {
     "compiler": {
       "version": "0.8.17+commit.8df45f5f"
@@ -51,8 +51,21 @@
         ":solmate/=lib/frax_testing/lib/solmate/src/"
       ],
       "optimizer": {
-        "enabled": true,
-        "runs": 100000
+        "runs": 100000,
+        "details": {
+          "peephole": true,
+          "inliner": true,
+          "jumpdestRemover": true,
+          "orderLiterals": true,
+          "deduplicate": true,
+          "cse": true,
+          "constantOptimizer": true,
+          "yul": true,
+          "yulDetails": {
+            "stackAllocation": true,
+            "optimizerSteps": ""
+          }
+        }
       },
       "metadata": {
         "bytecodeHash": "ipfs"
@@ -77,17 +90,17 @@
   },
   "ast": {
     "absolutePath": "lib/frax-solidity/src/hardhat/contracts/Staking/../Common/Context.sol",
-    "id": 55791,
+    "id": 57647,
     "exportedSymbols": {
       "Context": [
-        55790
+        57646
       ]
     },
     "nodeType": "SourceUnit",
     "src": "32:910:30",
     "nodes": [
       {
-        "id": 55766,
+        "id": 57622,
         "nodeType": "PragmaDirective",
         "src": "32:25:30",
         "nodes": [],
@@ -99,17 +112,17 @@
         ]
       },
       {
-        "id": 55790,
+        "id": 57646,
         "nodeType": "ContractDefinition",
         "src": "559:383:30",
         "nodes": [
           {
-            "id": 55778,
+            "id": 57634,
             "nodeType": "FunctionDefinition",
             "src": "591:113:30",
             "nodes": [],
             "body": {
-              "id": 55777,
+              "id": 57633,
               "nodeType": "Block",
               "src": "661:43:30",
               "nodes": [],
@@ -119,7 +132,7 @@
                     "arguments": [
                       {
                         "expression": {
-                          "id": 55773,
+                          "id": 57629,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
@@ -130,7 +143,7 @@
                             "typeString": "msg"
                           }
                         },
-                        "id": 55774,
+                        "id": 57630,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -152,7 +165,7 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 55772,
+                      "id": 57628,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -164,7 +177,7 @@
                         "typeString": "type(address payable)"
                       },
                       "typeName": {
-                        "id": 55771,
+                        "id": 57627,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "678:8:30",
@@ -172,7 +185,7 @@
                         "typeDescriptions": {}
                       }
                     },
-                    "id": 55775,
+                    "id": 57631,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -188,8 +201,8 @@
                       "typeString": "address payable"
                     }
                   },
-                  "functionReturnParameters": 55770,
-                  "id": 55776,
+                  "functionReturnParameters": 57626,
+                  "id": 57632,
                   "nodeType": "Return",
                   "src": "671:26:30"
                 }
@@ -201,23 +214,23 @@
             "name": "_msgSender",
             "nameLocation": "600:10:30",
             "parameters": {
-              "id": 55767,
+              "id": 57623,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "610:2:30"
             },
             "returnParameters": {
-              "id": 55770,
+              "id": 57626,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 55769,
+                  "id": 57625,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 55778,
+                  "scope": 57634,
                   "src": "644:15:30",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -226,7 +239,7 @@
                     "typeString": "address payable"
                   },
                   "typeName": {
-                    "id": 55768,
+                    "id": 57624,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "644:15:30",
@@ -241,43 +254,43 @@
               ],
               "src": "643:17:30"
             },
-            "scope": 55790,
+            "scope": 57646,
             "stateMutability": "view",
             "virtual": true,
             "visibility": "internal"
           },
           {
-            "id": 55789,
+            "id": 57645,
             "nodeType": "FunctionDefinition",
             "src": "710:230:30",
             "nodes": [],
             "body": {
-              "id": 55788,
+              "id": 57644,
               "nodeType": "Block",
               "src": "775:165:30",
               "nodes": [],
               "statements": [
                 {
                   "expression": {
-                    "id": 55783,
+                    "id": 57639,
                     "name": "this",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
                     "referencedDeclaration": -28,
                     "src": "785:4:30",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Context_$55790",
+                      "typeIdentifier": "t_contract$_Context_$57646",
                       "typeString": "contract Context"
                     }
                   },
-                  "id": 55784,
+                  "id": 57640,
                   "nodeType": "ExpressionStatement",
                   "src": "785:4:30"
                 },
                 {
                   "expression": {
                     "expression": {
-                      "id": 55785,
+                      "id": 57641,
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -288,7 +301,7 @@
                         "typeString": "msg"
                       }
                     },
-                    "id": 55786,
+                    "id": 57642,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -302,8 +315,8 @@
                       "typeString": "bytes calldata"
                     }
                   },
-                  "functionReturnParameters": 55782,
-                  "id": 55787,
+                  "functionReturnParameters": 57638,
+                  "id": 57643,
                   "nodeType": "Return",
                   "src": "918:15:30"
                 }
@@ -315,23 +328,23 @@
             "name": "_msgData",
             "nameLocation": "719:8:30",
             "parameters": {
-              "id": 55779,
+              "id": 57635,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "727:2:30"
             },
             "returnParameters": {
-              "id": 55782,
+              "id": 57638,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 55781,
+                  "id": 57637,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 55789,
+                  "scope": 57645,
                   "src": "761:12:30",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -340,7 +353,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 55780,
+                    "id": 57636,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "761:5:30",
@@ -354,7 +367,7 @@
               ],
               "src": "760:14:30"
             },
-            "scope": 55790,
+            "scope": 57646,
             "stateMutability": "view",
             "virtual": true,
             "visibility": "internal"
@@ -367,11 +380,11 @@
         "contractKind": "contract",
         "fullyImplemented": true,
         "linearizedBaseContracts": [
-          55790
+          57646
         ],
         "name": "Context",
         "nameLocation": "577:7:30",
-        "scope": 55791,
+        "scope": 57647,
         "usedErrors": []
       }
     ],
