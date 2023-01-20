@@ -7,7 +7,7 @@ import "forge-std/Vm.sol";
 // import {FraxUnifiedFarm_ERC20_V2} from "../src/FraxFarmERC20Transferrable.sol";
 import {FraxUnifiedFarm_ERC20_Convex_frxETH_V2 as FraxUnifiedFarm_ERC20_V2} from "../src/TransferrableConvexFrxEthFarm.sol";
 import {StakingProxyConvex as Vault} from "../src/ConvexVaultTransferrable.sol";
-import {FRAXStablecoin} from "@frax/../Frax/Frax.sol";
+// import {FRAXStablecoin} from "@frax/../Frax/Frax.sol";
 import {IFraxFarmTransfers, IFraxFarmERC20} from "@interfaces/IFraxFarm.sol";
 import "@frax_testing/gauges/Curve/IFraxGaugeController.sol";
 import {MockVaultOwner as VaultOwner} from "@mocks/MockVaultOwner.sol";
@@ -98,9 +98,9 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.deal(address(this), 1e10 ether);
 
         //console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
-        // create the new booster
-        Booster boost = new Booster(convexFraxVoterProxy, convexPoolRegistry, convexFeeRegistry);
-        vm.etch(address(convexBooster), address(boost).code);
+        /// todo not needed until the booster & vault logic is changed onchain        // create the new booster
+        // Booster boost = new Booster(convexFraxVoterProxy, convexPoolRegistry, convexFeeRegistry);
+        // vm.etch(address(convexBooster), address(boost).code);
 
         // Deploy the logic for the transferrable fraxfarm
         frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
