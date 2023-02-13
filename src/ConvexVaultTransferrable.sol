@@ -986,19 +986,40 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
 
     /// @notice before transfer hook called to sender of lock - checks that receiver is a known convex vault & claims rewards
     /// @dev required to happen because `transferFrom` would otherwise bypass the recipient check
-    function beforeLockTransfer(address from, address to, uint256, bytes memory) external returns (bytes4) {
+    function beforeLockTransfer(address from, address to, uint256 lockId, bytes memory data) external returns (bytes4) {
         //check that the receiver is a legitimate convex vault
-        require(from == address(this) && msg.sender == stakingAddress, "invalid params");
+        console2.log("beforeLockTransfer", from, to, lockId);
+        console2.log("this & staker", address(this), stakingAddress);
+        require(from == address(this) && msg.sender == stakingAddress, "invalid before params");
         if (to != ITransferChecker(poolRegistry).vaultMap(poolId, IProxyVault(to).owner())) revert NonVaultReceiver();
         
         /// FraxFarm will execute it's getReward, so we only need to process all other rewards logic first.
         claimOnTransfer();
-        return this.beforeLockTransfer.selector; // 0xf1053bfb
+
+        // call the owner, if is a contract
+        if (owner.code.length > 0) {
+            console2.log("calling onLockReceived to vault owner");
+            console2.logBytes4(this.beforeLockTransfer.selector);
+            console2.logBytes4(ILockReceiver.beforeLockTransfer.selector);
+            require(
+                ILockReceiver(owner).beforeLockTransfer(from, to, lockId, data) 
+                == 
+                ILockReceiver.beforeLockTransfer.selector,
+                "beforeLockTransfer failed"
+            );
+            return this.onLockReceived.selector;
+            // return ILockReceiver(owner).onLockReceived(from, to, lockId, data);
+        } else {
+            console2.log("owner not code");
+            return this.onLockReceived.selector;
+        }
     }
 
     function onLockReceived(address from, address to, uint256 lockId, bytes memory data) external returns (bytes4) {
         // if the owner of the vault is a contract try calling onLockReceived on it, return the selector either way
-        require(to == address(this) && msg.sender == stakingAddress, "invalid params");
+        console2.log("onLockReceived", from, to, lockId);
+        console2.log("this & staker", address(this), stakingAddress);
+        require(to == address(this) && msg.sender == stakingAddress, "invalid after params");
         if (owner.code.length > 0) {
             return ILockReceiver(owner).onLockReceived(from, to, lockId, data);
         } else {
@@ -1007,6 +1028,7 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
     }
 
     //initialize vault
+    /// TODO @dev the improved initializer should be enabled in real life
     function initialize(address _owner, address _stakingAddress, address _stakingToken, address _rewardsAddress) external override{//, address _poolRegistry, uint256 _pid) external override{
         require(owner == address(0),"already init");
 
@@ -1018,7 +1040,7 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
 
         // set the pool registry & poolId for looking up vault validity on lock transfers
         // poolRegistry = _poolRegistry;
-        // poolId = _pid;
+        // poolId = _pid; /// TODO not commented out in actual contract!
 
         //get tokens from pool info
         (address _lptoken, address _token,,, , ) = ICurveConvex(convexCurveBooster).poolInfo(poolId);

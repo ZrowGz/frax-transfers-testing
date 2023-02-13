@@ -52,10 +52,10 @@ contract FraxFarmERC20TransfersTest is Test {
     /// @notice The sending vault
     Vault public senderVault = Vault(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41);
     /// @notice The sending vault owner - IS NOT A CONTRACT
-    address public senderOwner = address(0x712cABaE569B54222BfB8E02A83AD98cc6D2Fb30);
+    VaultOwner public senderOwner = VaultOwner(0x712cABaE569B54222BfB8E02A83AD98cc6D2Fb30);
     Vault public receiverVault = Vault(0x7e39FacaC567c8B48b0Ea88E7a5021391Eb848D0);
     /// @notice The receiving vault owner - IS A CONTRACT
-    address public receiverOwner = address(0xaf0FDd39e5D92499B0eD9F68693DA99C0ec1e92e);
+    VaultOwner public receiverOwner = VaultOwner(0xaf0FDd39e5D92499B0eD9F68693DA99C0ec1e92e);
     Vault public nonCompliantVault;
     Vault public compliantVault;
     address public vaultImpl = address(0x03fb8543E933624b45abdd31987548c0D9892F07);
@@ -93,8 +93,8 @@ contract FraxFarmERC20TransfersTest is Test {
         _gaugeControllers.push(address(0x0));
 
         // Give the vault owners some ETH
-        vm.deal(senderOwner, 1e10 ether);
-        vm.deal(receiverOwner, 1e10 ether);
+        vm.deal(address(senderOwner), 1e10 ether);
+        vm.deal(address(receiverOwner), 1e10 ether);
         vm.deal(address(this), 1e10 ether);
 
         //console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
@@ -122,7 +122,9 @@ contract FraxFarmERC20TransfersTest is Test {
         vaultOwner = new VaultOwner();
         // vm.etch(address(vaultOwner), address(compliantOwner).code);
         // vm.deal(address(vaultOwner), 1e10 ether);
-
+        vm.etch(address(senderOwner), address(vaultOwner).code);
+        vm.etch(address(receiverOwner), address(vaultOwner).code);
+        
         // deploy a vault owned by a a compliant contract
         vm.prank(address(vaultOwner));
         // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
@@ -172,17 +174,17 @@ contract FraxFarmERC20TransfersTest is Test {
         t.transferAmount = 10 ether;
         
         ///// Let the testing begin! /////
-        vm.startPrank(senderOwner);
+        vm.startPrank(address(senderOwner));
         /// obtain some frxEth
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,t.retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,t.retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         t.retbal = abi.decode(t.retval, (uint256));
         assertGe(t.retbal, 990 ether, "invalid mint amount frxETH");
 
         /// deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        t.retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        t.retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(t.retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         /// Since the `etch` completely overwrites the existing contract storage, pull these values to double check at each step
@@ -262,17 +264,17 @@ contract FraxFarmERC20TransfersTest is Test {
     }
 
     function testOnLockReceivedNonCompliance() public {
-        vm.startPrank(senderOwner);
+        vm.startPrank(address(senderOwner));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
@@ -290,17 +292,17 @@ contract FraxFarmERC20TransfersTest is Test {
     }
 
     function testOnLockReceivedCompliance() public {
-        vm.startPrank(address(senderOwner));
+        vm.startPrank(address(address(senderOwner)));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known lockId
@@ -429,14 +431,14 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.startPrank(address(senderOwner));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
@@ -467,14 +469,14 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.startPrank(address(senderOwner));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
@@ -504,14 +506,14 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.startPrank(address(senderOwner));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
@@ -541,14 +543,14 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.startPrank(address(senderOwner));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
@@ -580,14 +582,14 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.startPrank(address(senderOwner));
 
         frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", senderOwner));
+        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
         uint256 retbal = abi.decode(retval, (uint256));
         assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
         // deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(senderOwner);
+        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
