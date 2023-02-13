@@ -1052,8 +1052,8 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1676321136792,
-      "contentHash": "7af68cf8fc021498a90419ef352a603e",
+      "lastModificationDate": 1676326584493,
+      "contentHash": "a738950835079ee166c6fe2705e7de91",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
         "settings": {
@@ -1154,8 +1154,8 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1673372705235,
-      "contentHash": "4363200b326fd6b988fc22c6146d7b58",
+      "lastModificationDate": 1676325353144,
+      "contentHash": "2165c073e0573305832654e87c7b1e4f",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
         "settings": {
@@ -1197,7 +1197,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": "=0.8.17",
       "artifacts": {
         "Context": {
@@ -1239,8 +1241,8 @@
         "IFraxGaugeFXSRewardsDistributor": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IFraxGaugeFXSRewardsDistributor.json"
         },
-        "ILockReceiverV2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/ILockReceiverV2.json"
+        "ILockReceiver": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/ILockReceiver.json"
         },
         "IveFXS": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IveFXS.json"
@@ -1312,8 +1314,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1676321338186,
-      "contentHash": "5d4e90fa88dd26b811b31a81869e0aab",
+      "lastModificationDate": 1676326576225,
+      "contentHash": "701e2643e509b9d2e20e75f1f5699868",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -1405,8 +1407,8 @@
         "IFraxGaugeFXSRewardsDistributor": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/IFraxGaugeFXSRewardsDistributor.json"
         },
-        "ILockReceiverV2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/ILockReceiverV2.json"
+        "ILockReceiver": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/ILockReceiver.json"
         },
         "IveFXS": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferrableConvexFrxEthFarm.sol/IveFXS.json"
@@ -1551,8 +1553,8 @@
       }
     },
     "src/interfaces/ILockReceiver.sol": {
-      "lastModificationDate": 1673372705237,
-      "contentHash": "a5f1ba2647e695ff8ffd431f50093a5c",
+      "lastModificationDate": 1676322486794,
+      "contentHash": "b69a8702e4baf10cf32909c679237a4e",
       "sourceName": "src/interfaces/ILockReceiver.sol",
       "solcConfig": {
         "settings": {
@@ -1597,8 +1599,8 @@
       "imports": [],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
-        "ILockReceiverV2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ILockReceiver.sol/ILockReceiverV2.json"
+        "ILockReceiver": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ILockReceiver.sol/ILockReceiver.json"
         }
       }
     },
@@ -1667,6 +1669,7 @@
         "src/ConvexVaultTransferrable.sol",
         "src/TransferrableConvexFrxEthFarm.sol",
         "src/interfaces/IFraxFarm.sol",
+        "src/interfaces/ILockReceiver.sol",
         "test/mocks/MockVaultOwner.sol"
       ],
       "versionRequirement": ">=0.8.0",
@@ -1738,8 +1741,8 @@
       }
     },
     "test/mocks/MockVaultOwner.sol": {
-      "lastModificationDate": 1676321106699,
-      "contentHash": "c9e200bd4a30e927e7638157bd54a2bd",
+      "lastModificationDate": 1676325648345,
+      "contentHash": "c64df81f871529eeda645be7148e0458",
       "sourceName": "test/mocks/MockVaultOwner.sol",
       "solcConfig": {
         "settings": {
@@ -1782,7 +1785,8 @@
         }
       },
       "imports": [
-        "lib/forge-std/src/console2.sol"
+        "lib/forge-std/src/console2.sol",
+        "src/interfaces/ILockReceiver.sol"
       ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {

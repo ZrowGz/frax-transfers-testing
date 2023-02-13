@@ -2,6 +2,9 @@
 // File: src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol
 
 
+import "lib/forge-std/src/console2.sol";
+
+
 pragma solidity 0.8.17;
 
 interface I2poolToken {
@@ -200,10 +203,10 @@ interface ICurvefrxETHETHPool {
   function ma_last_time() external view returns (uint256);
 }
 
-// File: src/hardhat/contracts/Staking/ILockReceiverV2.sol
+// File: src/hardhat/contracts/Staking/ILockReceiver.sol
 
 
-interface ILockReceiverV2 {
+interface ILockReceiver {
     function beforeLockTransfer(
         address _sender,
         address _receiver,
@@ -1646,6 +1649,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // use custom errors to reduce contract size
     error TransferLockNotAllowed(address,uint256); // spender, locked_stake_index
+    error StakeStillLocked(uint256,uint256); // ending_timestamp, block.timestamp
     error StakesUnlocked();
     error InvalidReceiver();
     error InvalidAmount();
@@ -1658,7 +1662,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     error CannotShortenLockTime();
     error MustBeInTheFuture();
     error MustBePositive();
-    // error StakerNotFound();
     error CannotBeZero();
     error AllowanceIsZero();
 
@@ -2204,9 +2207,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         // Update liquidities
         _updateLiqAmts(staker_address, liquidity, true);
 
-        emit StakeLocked(staker_address, liquidity, secs, lockedStakes[staker_address].length, source_address);
+        emit StakeLocked(staker_address, liquidity, secs, lockedStakes[staker_address].length - 1, source_address);
 
-        return lockedStakes[staker_address].length;
+        return lockedStakes[staker_address].length - 1;
     }
 
     // ------ WITHDRAWING ------
@@ -2226,44 +2229,32 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         // Collect rewards first and then update the balances
         _getReward(staker_address, destination_address, true);
 
-        // Get the stake and its index
-        // (LockedStake memory thisStake, uint256 theArrayIndex) = _getStake(staker_address, lockedStake);
+        // Get the stake by its index
         LockedStake memory thisStake = lockedStakes[staker_address][theArrayIndex];
 
-        // require(block.timestamp >= thisStake.ending_timestamp || stakesUnlocked == true, "Stake is still locked!");
-        // the stake must still be locked to transfer
-        if (block.timestamp >= thisStake.ending_timestamp || stakesUnlocked == true) {
-            revert StakesUnlocked();
+        // note: original check:: require(block.timestamp >= thisStake.ending_timestamp || stakesUnlocked == true, "Stake is still locked!");
+        // the stake must still be unlocked to withdraw
+        if (block.timestamp < thisStake.ending_timestamp && !stakesUnlocked) {
+            revert StakeStillLocked(thisStake.ending_timestamp, block.timestamp);
         }
-        // uint256 liquidity = thisStake.liquidity;
 
-        if (thisStake.liquidity > 0) {
+        uint256 liq = thisStake.liquidity;
+        if (liq > 0) {
 
             // Give the tokens to the destination_address
             // Should throw if insufficient balance
-            TransferHelperV2.safeTransfer(address(stakingToken), destination_address, thisStake.liquidity);
+            TransferHelperV2.safeTransfer(address(stakingToken), destination_address, liq);
 
-            // // Update liquidities
-            // _total_liquidity_locked -= thisStake.liquidity;
-            // _locked_liquidity[staker_address] -= thisStake.liquidity;
-            // {
-            //     address the_proxy = getProxyFor(staker_address);
-            //     if (the_proxy != address(0)) proxy_lp_balances[the_proxy] -= thisStake.liquidity;
-            // }
+            // disable the stake by setting everything to zero
+            _updateStake(staker_address, theArrayIndex, 0, 0, 0, 0);
 
-            // Remove the stake from the array
-            delete lockedStakes[staker_address][theArrayIndex];
-
-            // // Need to call again to make sure everything is correct
-            // updateRewardAndBalance(staker_address, false);
-
-            // Update liquidities
+            // Update liquidities & balances
             _updateLiqAmts(staker_address, thisStake.liquidity, false);
 
             emit WithdrawLocked(staker_address, thisStake.liquidity, theArrayIndex, destination_address);
         }
 
-        return thisStake.liquidity;
+        return liq;
     }
 
     function _getRewardExtraLogic(address rewardee, address destination_address) internal override {
@@ -2339,7 +2330,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         // do the transfer
         /// @dev the approval check is done in modifier, so to reach here caller is permitted, thus OK 
         //       to supply both staker & receiver here (no msg.sender)
-        return(_safeTransferLockedByLockIndex(sender_address, receiver_address, sender_lock_index, transfer_amount, use_receiver_lock_index, receiver_lock_index));
+        return(_safeTransferLockedByLockIndex([sender_address, receiver_address], sender_lock_index, transfer_amount, use_receiver_lock_index, receiver_lock_index));
     }
 
     function transferLocked(
@@ -2351,62 +2342,56 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     ) external nonReentrant returns (uint256,uint256) {
         // do the transfer
         /// @dev approval/owner check not needed here as msg.sender is the staker
-        return(_safeTransferLockedByLockIndex(msg.sender, receiver_address, sender_lock_index, transfer_amount, use_receiver_lock_index, receiver_lock_index));
+        return(_safeTransferLockedByLockIndex([msg.sender, receiver_address], sender_lock_index, transfer_amount, use_receiver_lock_index, receiver_lock_index));
     }
 
     function _safeTransferLockedByLockIndex(
-        address sender_address,
-        address receiver_address,
+        address[2] memory addrs, // [0]: sender_address, [1]: receiver_address. Reduces stack size
         uint256 sender_lock_index,
         uint256 transfer_amount,
         bool use_receiver_lock_index,
         uint256 receiver_lock_index
-    ) internal updateRewardAndBalanceMdf(sender_address, true) updateRewardAndBalanceMdf(receiver_address, true) returns (uint256,uint256) {
-
-        // on transfer, call sender_address to verify sending is ok
-        if (sender_address.code.length > 0) {
+    ) internal updateRewardAndBalanceMdf(addrs[0], true) updateRewardAndBalanceMdf(addrs[1], true) returns (uint256,uint256) {
+        // on transfer, call addrs[0] to verify sending is ok
+        if (addrs[0].code.length > 0) {
+            console2.log("farm calling before");
+            console2.logBytes4(ILockReceiver.beforeLockTransfer.selector);
+            console2.logBytes4(ILockReceiver(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, ""));
+            console2.log("ok, farm try it now", address(this));
             require(
-                ILockReceiverV2(sender_address).beforeLockTransfer(sender_address, receiver_address, sender_lock_index, "") 
+                ILockReceiver(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, "") 
                 == 
-                ILockReceiverV2.beforeLockTransfer.selector // 00x4fb07105 <--> bytes4(keccak256("beforeLockTransfer(address,address,bytes32,bytes)"))
+                ILockReceiver.beforeLockTransfer.selector
             );
         }
-        
+
         // Get the stake and its index
-        LockedStake memory senderStake = getLockedStake(sender_address, sender_lock_index);
+        LockedStake memory senderStake = getLockedStake(addrs[0], sender_lock_index);
 
         // perform checks
-        if (receiver_address == address(0) || receiver_address == sender_address) {
-            revert InvalidReceiver();
-        }
-        if (block.timestamp >= senderStake.ending_timestamp || stakesUnlocked == true) {
-            revert StakesUnlocked();
-        }
-        if (transfer_amount > senderStake.liquidity || transfer_amount <= 0) {
-            revert InvalidAmount();
+        {
+            if (addrs[1] == address(0) || addrs[1] == addrs[0]) {
+                revert InvalidReceiver();
+            }
+            if (block.timestamp >= senderStake.ending_timestamp || stakesUnlocked == true) {
+                revert StakesUnlocked();
+            }
+            if (transfer_amount > senderStake.liquidity || transfer_amount <= 0) {
+                revert InvalidAmount();
+            }
         }
 
-        // Update the liquidities
-        _locked_liquidity[sender_address] -= transfer_amount;
-        _locked_liquidity[receiver_address] += transfer_amount;
-        
-        if (getProxyFor(sender_address) != address(0)) {
-                proxy_lp_balances[getProxyFor(sender_address)] -= transfer_amount;
-        }
-        
-        if (getProxyFor(receiver_address) != address(0)) {
-                proxy_lp_balances[getProxyFor(receiver_address)] += transfer_amount;
-        }
+        // Update the liquidity for sender
+        _updateLiqAmts(addrs[0], transfer_amount, false);
 
         // if sent amount was all the liquidity, delete the stake, otherwise decrease the balance
         if (transfer_amount == senderStake.liquidity) {
-            delete lockedStakes[sender_address][sender_lock_index];
+            // disable the stake
+            _updateStake(addrs[0], sender_lock_index, 0, 0, 0, 0);
         } else {
-            lockedStakes[sender_address][sender_lock_index].liquidity -= transfer_amount;
+            // otherwise, deduct the transfer amount from the stake
+            lockedStakes[addrs[0]][sender_lock_index].liquidity -= transfer_amount;
         }
-
-        // Get the stake and its index
-        LockedStake memory receiverStake = getLockedStake(receiver_address, receiver_lock_index);
 
         /** if use_receiver_lock_index is true &
         *       & the index is valid 
@@ -2415,34 +2400,25 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         *   else, create a new lockedStake
         * note using nested if checks to reduce gas costs slightly
         */
-        if (use_receiver_lock_index == true) {
-            if (receiver_lock_index < lockedStakes[receiver_address].length ) {
+        if (
+            use_receiver_lock_index == true 
+            && 
+            senderStake.ending_timestamp <= lockedStakes[addrs[1]][receiver_lock_index].ending_timestamp
+        ) {
+            // Get the stake and its index
+            LockedStake memory receiverStake = getLockedStake(addrs[1], receiver_lock_index);
+
+            if (receiver_lock_index < lockedStakes[addrs[1]].length) {
                 if (receiverStake.liquidity > 0) {
                     if (receiverStake.ending_timestamp > block.timestamp) {
                         // Update the existing staker's stake liquidity
-                        lockedStakes[receiver_address][receiver_lock_index].liquidity += transfer_amount;
-                        // check & update ending timestamp to whichever is farthest out
-                        if (receiverStake.ending_timestamp < senderStake.ending_timestamp) {
-                            // update the lock expiration to the later timestamp
-                            lockedStakes[receiver_address][receiver_lock_index].ending_timestamp = senderStake.ending_timestamp;
-                            // update the lock multiplier since we are effectively extending the lock
-                            lockedStakes[receiver_address][receiver_lock_index].lock_multiplier = lockMultiplier(
-                                senderStake.ending_timestamp - block.timestamp
-                            );
-                        }
+                        lockedStakes[addrs[1]][receiver_lock_index].liquidity += transfer_amount;
                     }
                 }
             }
         } else {
-            // create the new lockedStake
-            // lockedStakes[receiver_address].push(LockedStake(
-            //     senderStake.start_timestamp,
-            //     transfer_amount,
-            //     senderStake.ending_timestamp,
-            //     senderStake.lock_multiplier
-            // ));
             _createNewStake(
-                receiver_address, 
+                addrs[1], 
                 senderStake.start_timestamp, 
                 transfer_amount,
                 senderStake.ending_timestamp, 
@@ -2450,32 +2426,29 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             );
             
             // update the return value of the locked index 
-            /// todo could also just use the length of the array in all 3 situations below - which is more gas efficient?
-            receiver_lock_index = lockedStakes[receiver_address].length;
+            receiver_lock_index = lockedStakes[addrs[1]].length - 1;
         }
 
-        // Need to call again to make sure everything is correct
-        updateRewardAndBalance(sender_address, true); 
-        updateRewardAndBalance(receiver_address, true);
+        // update liquidity of the receiver
+        _updateLiqAmts(addrs[1], transfer_amount, true);
 
         emit TransferLockedByIndex(
-            sender_address,
-            receiver_address,
+            addrs[0],
+            addrs[1],
             transfer_amount,
             sender_lock_index,
             receiver_lock_index
         );
 
         // call the receiver with the destination lockedStake to verify receiving is ok
-        if (ILockReceiverV2(receiver_address).onLockReceived(
-            sender_address, 
-            receiver_address, 
-            receiver_lock_index, 
-            ""
-        ) != ILockReceiverV2.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
-
+        if (addrs[1].code.length > 0) {
+            require(ILockReceiver(addrs[1]).beforeLockTransfer(addrs[0], addrs[1], receiver_lock_index, "") 
+                != 
+                ILockReceiver.beforeLockTransfer.selector
+            );
+        }
+        
         return (sender_lock_index, receiver_lock_index);
-
     }
 
     /* ========== RESTRICTED FUNCTIONS - Owner or timelock only ========== */

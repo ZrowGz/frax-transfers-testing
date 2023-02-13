@@ -233,9 +233,9 @@ interface ICurvefrxETHETHPool {
   function ma_last_time() external view returns (uint256);
 }
 
-// File: src/hardhat/contracts/Staking/ILockReceiverV2.sol
+// File: src/hardhat/contracts/Staking/.sol
 
-interface ILockReceiverV2 {
+interface ILockReceiver {
     function beforeLockTransfer(
         address _sender,
         address _receiver,
@@ -2335,13 +2335,10 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     ) internal updateRewardAndBalanceMdf(addrs[0], true) updateRewardAndBalanceMdf(addrs[1], true) returns (uint256,uint256) {
         // on transfer, call addrs[0] to verify sending is ok
         if (addrs[0].code.length > 0) {
-            console2.log("farm calling before");
-            console2.logBytes4(ILockReceiverV2.beforeLockTransfer.selector);
-            console2.logBytes4(ILockReceiverV2(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, ""));
             require(
-                ILockReceiverV2(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, "") 
+                ILockReceiver(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, "") 
                 == 
-                ILockReceiverV2.beforeLockTransfer.selector
+                ILockReceiver.beforeLockTransfer.selector
             );
         }
 
@@ -2421,16 +2418,10 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         );
 
         // call the receiver with the destination lockedStake to verify receiving is ok
-        // if (ILockReceiverV2(addrs[1]).onLockReceived(
-        //     addrs[0], 
-        //     addrs[1], 
-        //     receiver_lock_index, 
-        //     ""
-        // ) != ILockReceiverV2.onLockReceived.selector) revert InvalidReceiver(); //0xc42d8b95) revert InvalidReceiver();
         if (addrs[1].code.length > 0) {
-            require(ILockReceiverV2(addrs[1]).beforeLockTransfer(addrs[0], addrs[1], receiver_lock_index, "") 
+            require(ILockReceiver(addrs[1]).onLockReceived(addrs[0], addrs[1], receiver_lock_index, "") 
                 != 
-                ILockReceiverV2.beforeLockTransfer.selector
+                ILockReceiver.beforeLockTransfer.selector
             );
         }
         

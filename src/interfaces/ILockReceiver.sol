@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-interface ILockReceiverV2 {
+interface ILockReceiver {
     function beforeLockTransfer(
         address _sender,
         address _receiver,
