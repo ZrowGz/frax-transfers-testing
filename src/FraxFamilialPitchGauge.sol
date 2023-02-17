@@ -525,12 +525,9 @@ contract FraxFamilialPitchGauge is Owned {//, ReentrancyGuard {
         address _gauge_controller,
         address _reward_token
     ) Owned(_owner) {
-        timelock_address = _timelock_address;
-
-        rewards_distributor = _rewards_distributor;
-
         name = _name;
-
+        timelock_address = _timelock_address;
+        rewards_distributor = _rewards_distributor;
         gauge_controller = _gauge_controller;
         reward_token = _reward_token;
     }
