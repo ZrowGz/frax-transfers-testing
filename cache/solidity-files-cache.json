@@ -24,11 +24,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -76,11 +76,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -142,11 +142,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -207,11 +207,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -262,11 +262,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -316,11 +316,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -374,11 +374,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -426,11 +426,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -480,11 +480,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -532,11 +532,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -589,11 +589,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -643,11 +643,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -713,11 +713,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -768,11 +768,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -820,11 +820,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -872,11 +872,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -924,11 +924,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1006,11 +1006,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1052,8 +1052,8 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1676326584493,
-      "contentHash": "a738950835079ee166c6fe2705e7de91",
+      "lastModificationDate": 1676326697946,
+      "contentHash": "3ffb30998a7a8e88955ab7b7f1419a44",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
         "settings": {
@@ -1064,11 +1064,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1153,9 +1153,99 @@
         }
       }
     },
+    "src/FraxFamilialPitchGauge.sol": {
+      "lastModificationDate": 1676675228780,
+      "contentHash": "7291a62643bc1d1ef056501888911c4d",
+      "sourceName": "src/FraxFamilialPitchGauge.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "cse": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": "^0.8.17",
+      "artifacts": {
+        "FraxFamilialPitchGauge": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/FraxFamilialPitchGauge.json"
+        },
+        "IFraxFarm": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxFarm.json"
+        },
+        "IFraxFarmERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxFarmERC20.json"
+        },
+        "IFraxFarmTransfers": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxFarmTransfers.json"
+        },
+        "IFraxFarmUniV3": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxFarmUniV3.json"
+        },
+        "IFraxFarmUniV3TokenPositions": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxFarmUniV3TokenPositions.json"
+        },
+        "IFraxGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxGaugeController.json"
+        },
+        "IFraxGaugeControllerV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxGaugeControllerV2.json"
+        },
+        "IFraxGaugeFXSRewardsDistributor": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxGaugeFXSRewardsDistributor.json"
+        },
+        "IFraxswap": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxswap.json"
+        },
+        "IFraxswapERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/IFraxswapERC20.json"
+        },
+        "Owned": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/Owned.json"
+        },
+        "TransferHelper": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialPitchGauge.sol/TransferHelper.json"
+        }
+      }
+    },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1676325353144,
-      "contentHash": "2165c073e0573305832654e87c7b1e4f",
+      "lastModificationDate": 1676406474909,
+      "contentHash": "fd415f3c68616d8aa1d5a3182923ebaf",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
         "settings": {
@@ -1166,11 +1256,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1274,11 +1364,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1314,8 +1404,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1676326576225,
-      "contentHash": "701e2643e509b9d2e20e75f1f5699868",
+      "lastModificationDate": 1676326938973,
+      "contentHash": "6e3fb20e1dd907f6c92f854f58203833",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -1326,11 +1416,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1440,11 +1530,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1498,8 +1588,8 @@
       }
     },
     "src/interfaces/IGaugeController.sol": {
-      "lastModificationDate": 1672963473707,
-      "contentHash": "71603c3314ce799cc3ed8acfe30b06ca",
+      "lastModificationDate": 1676494003169,
+      "contentHash": "6b7e16f281224eea2fdec323fe41e3be",
       "sourceName": "src/interfaces/IGaugeController.sol",
       "solcConfig": {
         "settings": {
@@ -1510,11 +1600,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1544,11 +1634,8 @@
       "imports": [],
       "versionRequirement": ">0.8.6",
       "artifacts": {
-        "IGaugeController": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IGaugeController.sol/IGaugeController.json"
-        },
-        "ISaddleGaugeController": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IGaugeController.sol/ISaddleGaugeController.json"
+        "IFraxGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IGaugeController.sol/IFraxGaugeController.json"
         }
       }
     },
@@ -1565,11 +1652,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1605,8 +1692,8 @@
       }
     },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1676320407888,
-      "contentHash": "842ee59125855fed426f3ea5c409e015",
+      "lastModificationDate": 1676675302938,
+      "contentHash": "2e61112bfe83c36c45c0aaf760bf6bb6",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -1617,11 +1704,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1667,9 +1754,12 @@
         "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
         "src/ConvexBoosterImprovedInitializer.sol",
         "src/ConvexVaultTransferrable.sol",
+        "src/FraxFamilialPitchGauge.sol",
         "src/TransferrableConvexFrxEthFarm.sol",
         "src/interfaces/IFraxFarm.sol",
         "src/interfaces/ILockReceiver.sol",
+        "test/mocks/FraxFXSRewardDistributor.sol",
+        "test/mocks/MockERC20.sol",
         "test/mocks/MockVaultOwner.sol"
       ],
       "versionRequirement": ">=0.8.0",
@@ -1679,6 +1769,100 @@
         },
         "IDeposits": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20TransfersTest.t.sol/IDeposits.json"
+        }
+      }
+    },
+    "test/mocks/FraxFXSRewardDistributor.sol": {
+      "lastModificationDate": 1676663053772,
+      "contentHash": "75d99c2204ed28fad240f28525a3799b",
+      "sourceName": "test/mocks/FraxFXSRewardDistributor.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "cse": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.6.11",
+      "artifacts": {
+        "Address": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/Address.json"
+        },
+        "Context": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/Context.json"
+        },
+        "ERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/ERC20.json"
+        },
+        "FraxGaugeFXSRewardsDistributor": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/FraxGaugeFXSRewardsDistributor.json"
+        },
+        "FraxMiddlemanGauge": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/FraxMiddlemanGauge.json"
+        },
+        "IERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/IERC20.json"
+        },
+        "IFraxGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/IFraxGaugeController.json"
+        },
+        "IFraxGaugeFXSRewardsDistributor": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/IFraxGaugeFXSRewardsDistributor.json"
+        },
+        "IRootChainManager": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/IRootChainManager.json"
+        },
+        "Math": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/Math.json"
+        },
+        "Owned": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/Owned.json"
+        },
+        "ReentrancyGuard": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/ReentrancyGuard.json"
+        },
+        "SafeERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/SafeERC20.json"
+        },
+        "SafeMath": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/SafeMath.json"
+        },
+        "TransferHelper": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFXSRewardDistributor.sol/TransferHelper.json"
         }
       }
     },
@@ -1695,11 +1879,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },
@@ -1741,8 +1925,8 @@
       }
     },
     "test/mocks/MockVaultOwner.sol": {
-      "lastModificationDate": 1676325648345,
-      "contentHash": "c64df81f871529eeda645be7148e0458",
+      "lastModificationDate": 1676326731255,
+      "contentHash": "74057a5954d101c8498989d99af9c0e5",
       "sourceName": "test/mocks/MockVaultOwner.sol",
       "solcConfig": {
         "settings": {
@@ -1753,11 +1937,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
+              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true,
-                "optimizerSteps": ""
+                "stackAllocation": true
               }
             }
           },

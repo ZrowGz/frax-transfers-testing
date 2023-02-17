@@ -2354,10 +2354,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     ) internal updateRewardAndBalanceMdf(addrs[0], true) updateRewardAndBalanceMdf(addrs[1], true) returns (uint256,uint256) {
         // on transfer, call addrs[0] to verify sending is ok
         if (addrs[0].code.length > 0) {
-            console2.log("farm calling before");
-            console2.logBytes4(ILockReceiver.beforeLockTransfer.selector);
-            console2.logBytes4(ILockReceiver(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, ""));
-            console2.log("ok, farm try it now", address(this));
             require(
                 ILockReceiver(addrs[0]).beforeLockTransfer(addrs[0], addrs[1], sender_lock_index, "") 
                 == 

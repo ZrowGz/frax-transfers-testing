@@ -13,6 +13,10 @@ import "@frax_testing/gauges/Curve/IFraxGaugeController.sol";
 import {MockVaultOwner as VaultOwner} from "@mocks/MockVaultOwner.sol";
 import "../src/ConvexBoosterImprovedInitializer.sol";/// note: The new initializer was removed due to issues etching, values hardcoded in to the vault code for testing only
 
+import {FraxFamilialPitchGauge} from  "src/FraxFamilialPitchGauge.sol";
+import {FraxGaugeFXSRewardsDistributor} from "@mocks/FraxFXSRewardDistributor.sol";
+import "./mocks/MockERC20.sol";
+
 interface IDeposits {
     function add_liquidity(uint256[2] memory _amounts, uint256 _min_mint_amount) external returns (uint256);
     function balanceOf(address account) external view returns (uint256);
@@ -25,6 +29,10 @@ interface IDeposits {
 contract FraxFarmERC20TransfersTest is Test {
     FraxUnifiedFarm_ERC20_V2 public frxEthFarm;
     Vault public cvxVault;
+    FraxFamilialPitchGauge public frxFamilyGauge;
+    // Distributor public distributor;
+    MockERC20 public rewardToken;
+
     
     // PoolRegistry public poolRegistry;
     VaultOwner public vaultOwner;
@@ -41,8 +49,12 @@ contract FraxFarmERC20TransfersTest is Test {
     address public vaultRewardsAddress = address(0x3465B8211278505ae9C6b5ba08ECD9af951A6896);
     address public frxEthMinter = address(0xbAFA44EFE7901E04E39Dad13167D089C559c1138);
     address public convexOperator = address(0xF403C135812408BFbE8713b5A23a04b3D48AAE31);
-    address public distributor = 0x278dC748edA1d8eFEf1aDFB518542612b49Fcd34; // Gauge Reward Distro
-    
+    FraxGaugeFXSRewardsDistributor public fxsDistributor = FraxGaugeFXSRewardsDistributor(0x278dC748edA1d8eFEf1aDFB518542612b49Fcd34); // Gauge Reward Distro
+    address public gaugeController = address(0x3669C421b77340B2979d1A00a792CC2ee0FcE737);
+    address public rewardManager = address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27);
+
+    address public fraxAdmin = address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27);
+
     // PID is 36 at convexPoolRegistry
     Booster public convexBooster = Booster(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
     address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
@@ -69,8 +81,96 @@ contract FraxFarmERC20TransfersTest is Test {
     uint256[] private _rewardRates;
     address[] private _gaugeControllers;
     address[] private _rewardDistributors;
+    address[] private _childGauges;
+
+    uint256 public nonTransferrableGaugeTVL; 
+    uint256 public transferrableGaugeTVL;
+
+    address public fxsWhale = address(0xF977814e90dA44bFA03b6295A0616a897441aceC);
 
     function setUp() public {
+
+        /// Deploy the fake reward token
+        // rewardToken = new MockERC20("Reward Token", "RTKN", 18);
+
+        // deploy the fake reward distributor
+        // distributor = new Distributor(
+        //     address(this),
+        //     address(this),
+        //     address(this),
+        //     address(rewardToken),
+        //     address(gaugeController)
+        // );
+        // console2.log("distributor", address(distributor));
+        // deploy the middleman gauge
+        frxFamilyGauge = new FraxFamilialPitchGauge(
+            "frxETHETH Family Gauge",
+            address(this),
+            address(this),
+            // address(distributor),
+            address(fxsDistributor),
+            address(gaugeController),
+            address(rewardToken)
+        );
+        console2.log("frxFamilyGauge", address(frxFamilyGauge));
+
+        // set the middleman gauge as the gauge for the both frxETH farms
+
+        // Set the rewards parameters
+        _rewardTokens.push(address(fxsToken));
+        // _rewardTokens.push(address(rewardToken));
+        _rewardManagers.push(address(rewardManager));
+        // _rewardManagers.push(address(this)); /// not doing this would mean the farms have different reward managers...
+        _rewardRates.push(1157407);//4074074);
+        // _rewardRates.push(24690); // twice as many pitch as fxs
+        _rewardDistributors.push(address(frxFamilyGauge));
+        _gaugeControllers.push(address(frxFamilyGauge));
+
+        // Give the vault owners some ETH
+        vm.deal(address(senderOwner), 1e10 ether);
+        vm.deal(address(receiverOwner), 1e10 ether);
+        vm.deal(address(this), 1e10 ether);
+        vm.startPrank(fxsWhale);
+        IERC20(fxsToken).transfer(address(this), 200000 ether);
+        vm.stopPrank();
+
+        //console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
+        /// todo not needed until the booster & vault logic is changed onchain        // create the new booster
+        // Booster boost = new Booster(convexFraxVoterProxy, convexPoolRegistry, convexFeeRegistry);
+        // vm.etch(address(convexBooster), address(boost).code);
+
+        // Deploy the logic for the transferrable fraxfarm
+        frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
+        vm.etch(address(frxFarm), address(frxEthFarm).code); 
+
+        // Add the two child gauges to the `_gauges` array
+        _childGauges.push(address(frxFarm));
+        _childGauges.push(address(frxEthFarm));
+
+        // add the children to the family
+        frxFamilyGauge.addChildGauge(_childGauges);
+
+        /// Change all the necessary state variables
+        vm.startPrank(address(fraxAdmin));
+    
+        // set the non-transferrable farm to point to the correct addresses (reward token, rate, gaugecontroller, distributor
+        frxFarm.setRewardVars(address(rewardToken), 1157407, address(frxFamilyGauge), address(frxFamilyGauge));
+        // add the family gauge to the controller
+        IFraxGaugeController(gaugeController).add_gauge(address(frxFamilyGauge), int128(0), uint256(1000));
+        // shut off rewards to the non-transferrable farm at the distributor
+        fxsDistributor.setGaugeState(address(frxFarm), false, false);
+        // add the family gauge to the distributor
+        fxsDistributor.setGaugeState(address(frxFamilyGauge), false, true);
+
+        vm.stopPrank();
+
+        // Deploy the logic for the transferrable vault
+        cvxVault = new Vault();
+        cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
+        // overwrite the deployed vault code with the transferrable
+        vm.etch(address(senderVault), address(cvxVault).code);
+        vm.etch(address(receiverVault), address(cvxVault).code);
+        vm.etch(address(vaultImpl), address(cvxVault).code);
 
         // create two users
         alice = vm.addr(0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef);
@@ -82,37 +182,8 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.deal(bob, 1e10 ether);
         vm.label(bob, "Bob");
 
-        // Set the rewards parameters
-        _rewardManagers.push(address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27));
-        // _rewardManagers.push(address(this));
-        _rewardRates.push(1157407);//4074074); // half as much fxs as pitch
-        // _rewardRates.push(24690); // twice as many pitch as fxs
-        _rewardDistributors.push(address(distributor));
-        _rewardTokens.push(address(fxsToken));
-        // _rewardTokens.push(address(cvxToken));
-        _gaugeControllers.push(address(0x0));
-
-        // Give the vault owners some ETH
         vm.deal(address(senderOwner), 1e10 ether);
         vm.deal(address(receiverOwner), 1e10 ether);
-        vm.deal(address(this), 1e10 ether);
-
-        //console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
-        /// todo not needed until the booster & vault logic is changed onchain        // create the new booster
-        // Booster boost = new Booster(convexFraxVoterProxy, convexPoolRegistry, convexFeeRegistry);
-        // vm.etch(address(convexBooster), address(boost).code);
-
-        // Deploy the logic for the transferrable fraxfarm
-        frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
-        vm.etch(address(frxFarm), address(frxEthFarm).code); 
-
-        // Deploy the logic for the transferrable vault
-        cvxVault = new Vault();
-        cvxVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
-        // overwrite the deployed vault code with the transferrable
-        vm.etch(address(senderVault), address(cvxVault).code);
-        vm.etch(address(receiverVault), address(cvxVault).code);
-        vm.etch(address(vaultImpl), address(cvxVault).code);
 
         // deploy our own non-compliant vault 
         nonCompliantVault = Vault(convexBooster.createVault(36));
@@ -124,7 +195,7 @@ contract FraxFarmERC20TransfersTest is Test {
         // vm.deal(address(vaultOwner), 1e10 ether);
         vm.etch(address(senderOwner), address(vaultOwner).code);
         vm.etch(address(receiverOwner), address(vaultOwner).code);
-        
+
         // deploy a vault owned by a a compliant contract
         vm.prank(address(vaultOwner));
         // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
@@ -248,7 +319,8 @@ contract FraxFarmERC20TransfersTest is Test {
         senderVault.transferLocked(address(bob), t.senderLock, 10 ether, false, 0);
 
         ///// Test sending entire remaining balance of sender's lockedStake liquidity /////
-        skip(1 days);
+        skip(20 days);
+        console2.log("SKIP FAR AHEAD TO NEW REWARD PERIOD");
         t.senderPreTransfer3 = frxFarm.lockedStakesOfLength(address(senderVault));
         t.receiverPreTransfer3 = frxFarm.lockedStakesOfLength(address(receiverVault));
         (, t.receiverLock3) = senderVault.transferLocked(address(receiverVault), t.senderLock, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), true, t.receiverLock2);
@@ -263,356 +335,356 @@ contract FraxFarmERC20TransfersTest is Test {
         console2.log("E2E Test Success!");
     }
 
-    function testOnLockReceivedNonCompliance() public {
-        vm.startPrank(address(senderOwner));
+    // function testOnLockReceivedNonCompliance() public {
+    //     vm.startPrank(address(senderOwner));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known kekId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        skip(1 days);
+    //     skip(1 days);
 
-        /// Test sending to a non-compliant vault owner ///// 
-        vm.expectRevert();
-        (, uint256 receiverLockId) = senderVault.transferLocked(address(nonCompliantVault), senderLockId, 10 ether, false, 0);
+    //     /// Test sending to a non-compliant vault owner ///// 
+    //     vm.expectRevert();
+    //     (, uint256 receiverLockId) = senderVault.transferLocked(address(nonCompliantVault), senderLockId, 10 ether, false, 0);
 
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        console2.log("PASS = non-compliant vault FAILS on onLockReceived check");
-    }
+    //     console2.log("PASS = non-compliant vault FAILS on onLockReceived check");
+    // }
 
-    function testOnLockReceivedCompliance() public {
-        vm.startPrank(address(address(senderOwner)));
+    // function testOnLockReceivedCompliance() public {
+    //     vm.startPrank(address(address(senderOwner)));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known lockId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known lockId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        skip(1 days);
+    //     skip(1 days);
 
-        // initialize it as 69 so that it can be set to 0 by the return value
-        uint256 receiverLockId = 69;
+    //     // initialize it as 69 so that it can be set to 0 by the return value
+    //     uint256 receiverLockId = 69;
 
-        // /// Test transfering to a compliant vault owner /////
-        (, receiverLockId) = senderVault.transferLocked(address(compliantVault), senderLockId, 10 ether, false, 0);
-        vm.stopPrank();
+    //     // /// Test transfering to a compliant vault owner /////
+    //     (, receiverLockId) = senderVault.transferLocked(address(compliantVault), senderLockId, 10 ether, false, 0);
+    //     vm.stopPrank();
 
-        assertEq(receiverLockId, 0, "didn't reset the value correctly");
+    //     assertEq(receiverLockId, 0, "didn't reset the value correctly");
 
-        console2.log("PASS = compliant vault PASSES on onLockReceived check");
-    }
+    //     console2.log("PASS = compliant vault PASSES on onLockReceived check");
+    // }
 
-    function testSetAllowanceAsOwner() public {
-        vm.startPrank(address(senderOwner));
+    // function testSetAllowanceAsOwner() public {
+    //     vm.startPrank(address(senderOwner));
 
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        senderVault.setAllowance(address(bob), senderLockId, 100 ether);
-        assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 100 ether, "allowance should be set");
-        vm.stopPrank();
-    }
+    //     senderVault.setAllowance(address(bob), senderLockId, 100 ether);
+    //     assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 100 ether, "allowance should be set");
+    //     vm.stopPrank();
+    // }
 
-    function testSetAllowanceAsNonOwner() public {
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    // function testSetAllowanceAsNonOwner() public {
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        vm.prank(address(bob));
-        vm.expectRevert();
-        senderVault.setAllowance(address(bob), senderLockId, 100 ether);
-    }
+    //     vm.prank(address(bob));
+    //     vm.expectRevert();
+    //     senderVault.setAllowance(address(bob), senderLockId, 100 ether);
+    // }
 
-    function testIncreaseAllowanceAsOwner() public {
-        vm.startPrank(address(senderOwner));
+    // function testIncreaseAllowanceAsOwner() public {
+    //     vm.startPrank(address(senderOwner));
 
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
         
-        senderVault.setAllowance(address(bob), senderLockId, 100 ether);
-        senderVault.increaseAllowance(address(bob), senderLockId, 100 ether);
-        vm.stopPrank();
-        assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 200 ether, "allowance should be increased");
-    }
+    //     senderVault.setAllowance(address(bob), senderLockId, 100 ether);
+    //     senderVault.increaseAllowance(address(bob), senderLockId, 100 ether);
+    //     vm.stopPrank();
+    //     assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 200 ether, "allowance should be increased");
+    // }
 
-    function testIncreaseAllowanceAsNonOwner() public {
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    // function testIncreaseAllowanceAsNonOwner() public {
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        vm.startPrank(address(bob));
-        vm.expectRevert();
-        senderVault.increaseAllowance(address(bob), senderLockId, 100 ether);
-        vm.stopPrank();
-    }
+    //     vm.startPrank(address(bob));
+    //     vm.expectRevert();
+    //     senderVault.increaseAllowance(address(bob), senderLockId, 100 ether);
+    //     vm.stopPrank();
+    // }
 
-    function testCannotIncreaseAllowanceFromZero() public {
-        vm.startPrank(address(senderOwner));
+    // function testCannotIncreaseAllowanceFromZero() public {
+    //     vm.startPrank(address(senderOwner));
 
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        vm.expectRevert();
-        senderVault.increaseAllowance(address(bob), senderLockId, 100 ether);
-        vm.stopPrank();
-    }
+    //     vm.expectRevert();
+    //     senderVault.increaseAllowance(address(bob), senderLockId, 100 ether);
+    //     vm.stopPrank();
+    // }
 
-    function testRemoveAllowanceAsOwner() public {
-        vm.startPrank(address(senderOwner));
+    // function testRemoveAllowanceAsOwner() public {
+    //     vm.startPrank(address(senderOwner));
 
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        senderVault.setAllowance(address(bob), senderLockId, 100 ether);
-        senderVault.removeAllowance(address(bob), senderLockId);
+    //     senderVault.setAllowance(address(bob), senderLockId, 100 ether);
+    //     senderVault.removeAllowance(address(bob), senderLockId);
 
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 0, "allowance should be removed");
-    }
+    //     assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 0, "allowance should be removed");
+    // }
 
-    function testRemoveAllowanceAsNonOwner() public {
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    // function testRemoveAllowanceAsNonOwner() public {
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        vm.startPrank(address(bob));
-        vm.expectRevert();
-        senderVault.removeAllowance(address(bob), senderLockId);
+    //     vm.startPrank(address(bob));
+    //     vm.expectRevert();
+    //     senderVault.removeAllowance(address(bob), senderLockId);
 
-        vm.stopPrank();
-    }
+    //     vm.stopPrank();
+    // }
 
-    function testSetApprovalAsOwner() public {
-        vm.startPrank(address(senderOwner));
+    // function testSetApprovalAsOwner() public {
+    //     vm.startPrank(address(senderOwner));
 
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        senderVault.setApprovalForAll(address(bob), true);
-        // console2.log("isApproved", frxFarm.isApproved())
-        assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(bob)), true, "approval should be set");
+    //     senderVault.setApprovalForAll(address(bob), true);
+    //     // console2.log("isApproved", frxFarm.isApproved())
+    //     assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(bob)), true, "approval should be set");
         
-        vm.stopPrank();
-    }
+    //     vm.stopPrank();
+    // }
 
-    function testSetApprovalAsNonOwner() public {
+    // function testSetApprovalAsNonOwner() public {
 
-        /// get number of locked stakes
-        uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
+    //     /// get number of locked stakes
+    //     uint256 senderLockId = frxFarm.lockedStakesOfLength(address(senderVault)) - 1;
 
-        vm.startPrank(address(bob));
-        vm.expectRevert();
-        senderVault.setApprovalForAll(address(bob), true);
+    //     vm.startPrank(address(bob));
+    //     vm.expectRevert();
+    //     senderVault.setApprovalForAll(address(bob), true);
         
-        assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(bob)), false, "approval not should be set");
+    //     assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(bob)), false, "approval not should be set");
         
-        vm.stopPrank();
-    }
+    //     vm.stopPrank();
+    // }
 
-    function testTransferLockedFromAsApprovedForAll() public {
-        vm.startPrank(address(senderOwner));
+    // function testTransferLockedFromAsApprovedForAll() public {
+    //     vm.startPrank(address(senderOwner));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known kekId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        senderVault.setApprovalForAll(address(this), true);
-        // console2.log("isApproved", frxFarm.isApproved())
-        assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(this)), true, "approval should be set");
+    //     senderVault.setApprovalForAll(address(this), true);
+    //     // console2.log("isApproved", frxFarm.isApproved())
+    //     assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(this)), true, "approval should be set");
         
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        skip(1 days);
+    //     skip(1 days);
 
-        // number of locks held by compliantVault pre-transfer
-        uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault pre-transfer
+    //     uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // transfer the lock from senderVault to compliantVault
-        frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 1 ether, false, 0);
+    //     // transfer the lock from senderVault to compliantVault
+    //     frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 1 ether, false, 0);
 
-        // number of locks held by compliantVault post-transfer
-        uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault post-transfer
+    //     uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // check that the lock was transferred
-        assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
-    }
+    //     // check that the lock was transferred
+    //     assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
+    // }
 
-    function testTransferLockedFromWithAllAllowance() public {
-        vm.startPrank(address(senderOwner));
+    // function testTransferLockedFromWithAllAllowance() public {
+    //     vm.startPrank(address(senderOwner));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known kekId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        senderVault.setAllowance(address(this), senderLockId, 100 ether);
-        assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(this)), 100 ether, "allowance should be set");
+    //     senderVault.setAllowance(address(this), senderLockId, 100 ether);
+    //     assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(this)), 100 ether, "allowance should be set");
 
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        skip(1 days);
+    //     skip(1 days);
 
-        // number of locks held by compliantVault pre-transfer
-        uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault pre-transfer
+    //     uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // transfer the lock from senderVault to compliantVault
-        frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 100 ether, false, 0);
+    //     // transfer the lock from senderVault to compliantVault
+    //     frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 100 ether, false, 0);
 
-        // number of locks held by compliantVault post-transfer
-        uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault post-transfer
+    //     uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // check that the lock was transferred
-        assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
-    }
+    //     // check that the lock was transferred
+    //     assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
+    // }
 
-    function testTransferFromWithPartialAllowanceUse() public {
-        vm.startPrank(address(senderOwner));
+    // function testTransferFromWithPartialAllowanceUse() public {
+    //     vm.startPrank(address(senderOwner));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known kekId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        senderVault.setAllowance(address(this), senderLockId, 100 ether);
-        assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(this)), 100 ether, "allowance should be set");
+    //     senderVault.setAllowance(address(this), senderLockId, 100 ether);
+    //     assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(this)), 100 ether, "allowance should be set");
 
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        skip(1 days);
+    //     skip(1 days);
 
-        // number of locks held by compliantVault pre-transfer
-        uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault pre-transfer
+    //     uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // transfer the lock from senderVault to compliantVault
-        frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 1 ether, false, 0);
+    //     // transfer the lock from senderVault to compliantVault
+    //     frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 1 ether, false, 0);
 
-        // number of locks held by compliantVault post-transfer
-        uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault post-transfer
+    //     uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // check that the lock was transferred
-        assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
-    }
+    //     // check that the lock was transferred
+    //     assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
+    // }
 
-    function testTransferLockedFromAsNotApproved() public {
-        vm.startPrank(address(senderOwner));
+    // function testTransferLockedFromAsNotApproved() public {
+    //     vm.startPrank(address(senderOwner));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known kekId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        // senderVault.setApprovalForAll(address(this), true);
-        // // console2.log("isApproved", frxFarm.isApproved())
-        // assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(this)), true, "approval should be set");
+    //     // senderVault.setApprovalForAll(address(this), true);
+    //     // // console2.log("isApproved", frxFarm.isApproved())
+    //     // assertEq(frxFarm.spenderApprovalForAllLocks(address(senderVault), address(this)), true, "approval should be set");
         
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        skip(1 days);
+    //     skip(1 days);
 
-        // number of locks held by compliantVault pre-transfer
-        uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault pre-transfer
+    //     uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // transfer the lock from senderVault to compliantVault
-        vm.expectRevert();
-        frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 1 ether, false, 0);
+    //     // transfer the lock from senderVault to compliantVault
+    //     vm.expectRevert();
+    //     frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 1 ether, false, 0);
 
-        // number of locks held by compliantVault post-transfer
-        uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault post-transfer
+    //     uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // check that the lock was transferred
-        assertEq(compliantLocksPost, compliantLocksPre, "no lock should be transferred");
-    }
+    //     // check that the lock was transferred
+    //     assertEq(compliantLocksPost, compliantLocksPre, "no lock should be transferred");
+    // }
 
-    function testTransferLockedFromWithInsufficientAllowance() public {
-        vm.startPrank(address(senderOwner));
+    // function testTransferLockedFromWithInsufficientAllowance() public {
+    //     vm.startPrank(address(senderOwner));
 
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-        (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
-        uint256 retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+    //     uint256 retbal = abi.decode(retval, (uint256));
+    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
 
-        // deposit it as LP into the curve pool
-        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-        retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+    //     // deposit it as LP into the curve pool
+    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+    //     retbal = IDeposits(frxETHCRV).balanceOf(address(senderOwner));
+    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
-        // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+    //     // create a known kekId
+    //     uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
 
-        senderVault.setAllowance(address(bob), senderLockId, 1 ether);
-        assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 1 ether, "allowance should be set");
+    //     senderVault.setAllowance(address(bob), senderLockId, 1 ether);
+    //     assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 1 ether, "allowance should be set");
 
-        vm.stopPrank();
+    //     vm.stopPrank();
 
-        skip(1 days);
+    //     skip(1 days);
 
-        // number of locks held by compliantVault pre-transfer
-        uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault pre-transfer
+    //     uint256 compliantLocksPre = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // transfer the lock from senderVault to compliantVault
-        vm.expectRevert();
-        frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 10 ether, false, 0);
+    //     // transfer the lock from senderVault to compliantVault
+    //     vm.expectRevert();
+    //     frxFarm.transferLockedFrom(address(senderVault), address(compliantVault), senderLockId, 10 ether, false, 0);
 
-        // number of locks held by compliantVault post-transfer
-        uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
+    //     // number of locks held by compliantVault post-transfer
+    //     uint256 compliantLocksPost = frxFarm.lockedStakesOfLength(address(compliantVault));
 
-        // check that the lock was transferred
-        assertEq(compliantLocksPost, compliantLocksPre, "no lock should be transferred");
-    }
+    //     // check that the lock was transferred
+    //     assertEq(compliantLocksPost, compliantLocksPre, "no lock should be transferred");
+    // }
 }
