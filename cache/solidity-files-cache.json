@@ -1154,8 +1154,8 @@
       }
     },
     "src/FraxFamilialPitchGauge.sol": {
-      "lastModificationDate": 1676675228780,
-      "contentHash": "7291a62643bc1d1ef056501888911c4d",
+      "lastModificationDate": 1676675981126,
+      "contentHash": "946126c365f333c86ba02146f20041c6",
       "sourceName": "src/FraxFamilialPitchGauge.sol",
       "solcConfig": {
         "settings": {
@@ -1691,10 +1691,10 @@
         }
       }
     },
-    "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1676675302938,
-      "contentHash": "2e61112bfe83c36c45c0aaf760bf6bb6",
-      "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
+    "test/FamilialGaugeTest.t.sol": {
+      "lastModificationDate": 1676676682241,
+      "contentHash": "478d6b0c5b385c0cf87816f7edd3a327",
+      "sourceName": "test/FamilialGaugeTest.t.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -1760,6 +1760,84 @@
         "src/interfaces/ILockReceiver.sol",
         "test/mocks/FraxFXSRewardDistributor.sol",
         "test/mocks/MockERC20.sol",
+        "test/mocks/MockVaultOwner.sol"
+      ],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "FraxFarmERC20TransfersTest": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FamilialGaugeTest.t.sol/FraxFarmERC20TransfersTest.json"
+        },
+        "IDeposits": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FamilialGaugeTest.t.sol/IDeposits.json"
+        }
+      }
+    },
+    "test/FraxFarmERC20TransfersTest.t.sol": {
+      "lastModificationDate": 1676676450627,
+      "contentHash": "842ee59125855fed426f3ea5c409e015",
+      "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "cse": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Common.sol",
+        "lib/forge-std/src/Components.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
+        "src/ConvexBoosterImprovedInitializer.sol",
+        "src/ConvexVaultTransferrable.sol",
+        "src/TransferrableConvexFrxEthFarm.sol",
+        "src/interfaces/IFraxFarm.sol",
+        "src/interfaces/ILockReceiver.sol",
         "test/mocks/MockVaultOwner.sol"
       ],
       "versionRequirement": ">=0.8.0",

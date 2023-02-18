@@ -56,10 +56,10 @@ contract FraxFarmERC20TransfersTest is Test {
     address public fraxAdmin = address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27);
 
     // PID is 36 at convexPoolRegistry
-    Booster public convexBooster = Booster(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
-    address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
-    address public convexFraxVoterProxy = address(0x59CFCD384746ec3035299D90782Be065e466800B);
-    address public convexFeeRegistry = address(0xC9aCB83ADa68413a6Aa57007BC720EE2E2b3C46D);
+    // Booster public convexBooster = Booster(0x569f5B842B5006eC17Be02B8b94510BA8e79FbCa); // VAULT DEPLOYER
+    // address public convexPoolRegistry = address(0x41a5881c17185383e19Df6FA4EC158a6F4851A69); // The deployed vaults use this, not the hardcoded address
+    // address public convexFraxVoterProxy = address(0x59CFCD384746ec3035299D90782Be065e466800B);
+    // address public convexFeeRegistry = address(0xC9aCB83ADa68413a6Aa57007BC720EE2E2b3C46D);
     // address public convexVaultImpl = address(0x03fb8543E933624b45abdd31987548c0D9892F07); // The deployed vaults use this, not the hardcoded address
     /// @notice The sending vault
     Vault public senderVault = Vault(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41);
@@ -72,9 +72,9 @@ contract FraxFarmERC20TransfersTest is Test {
     Vault public compliantVault;
     address public vaultImpl = address(0x03fb8543E933624b45abdd31987548c0D9892F07);
 
-    address public fraxToken = 0x853d955aCEf822Db058eb8505911ED77F175b99e; // FRAX
+    // address public fraxToken = 0x853d955aCEf822Db058eb8505911ED77F175b99e; // FRAX
     address public fxsToken = address(0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0); // FXS
-    address public cvxToken = address(0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B);
+    // address public cvxToken = address(0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B);
     // Local values
     address[] private _rewardTokens;
     address[] private _rewardManagers;
@@ -186,7 +186,7 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.deal(address(receiverOwner), 1e10 ether);
 
         // deploy our own non-compliant vault 
-        nonCompliantVault = Vault(convexBooster.createVault(36));
+        // nonCompliantVault = Vault(convexBooster.createVault(36));
 
         // Deploy the compliant vault owner logic /////
         console2.log("create compliant vault owner");
@@ -197,11 +197,11 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.etch(address(receiverOwner), address(vaultOwner).code);
 
         // deploy a vault owned by a a compliant contract
-        vm.prank(address(vaultOwner));
+        // vm.prank(address(vaultOwner));
         // (success, retBytes) = convexBooster.call(abi.encodeWithSignature("createVault(uint256)", 36)); 
         // require(success, "createVault failed");
-        console2.log("create compliant vault");
-        compliantVault = Vault(convexBooster.createVault(36));//Vault(abi.decode(retBytes, (address)));
+        // console2.log("create compliant vault");
+        // compliantVault = Vault(convexBooster.createVault(36));//Vault(abi.decode(retBytes, (address)));
         //compliantVault.initialize(address(this), address(frxFarm), cvxStkFrxEthLp, vaultRewardsAddress);//, convexPoolRegistry, 36);
 
     }
