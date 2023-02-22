@@ -10,25 +10,41 @@
   },
   "ast": {
     "absolutePath": "src/FraxFarmERC20Transferrable.sol",
-    "id": 40856,
-    "exportedSymbols": {},
+    "id": 32823,
+    "exportedSymbols": {
+      "console2": [
+        25013
+      ]
+    },
     "nodeType": "SourceUnit",
-    "src": "45:36666:75",
+    "src": "110:110793:19",
     "nodes": [
       {
-        "id": 40855,
+        "id": 32821,
+        "nodeType": "ImportDirective",
+        "src": "110:40:19",
+        "nodes": [],
+        "absolutePath": "lib/forge-std/src/console2.sol",
+        "file": "lib/forge-std/src/console2.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 32823,
+        "sourceUnit": 25014,
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 32822,
         "nodeType": "PragmaDirective",
-        "src": "45:24:75",
+        "src": "153:23:19",
         "nodes": [],
         "literals": [
           "solidity",
-          ">=",
           "0.8",
-          ".0"
+          ".17"
         ]
       }
     ],
     "license": "GPL-2.0-or-later"
   },
-  "id": 75
+  "id": 19
 }

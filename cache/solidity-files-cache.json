@@ -1244,8 +1244,8 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1676406474909,
-      "contentHash": "fd415f3c68616d8aa1d5a3182923ebaf",
+      "lastModificationDate": 1677024867432,
+      "contentHash": "e82726f572eacb2f190bb44aea796c28",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
         "settings": {
@@ -1292,62 +1292,8 @@
       ],
       "versionRequirement": "=0.8.17",
       "artifacts": {
-        "Context": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/Context.json"
-        },
-        "FraxUnifiedFarmTemplate_V2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/FraxUnifiedFarmTemplate_V2.json"
-        },
-        "FraxUnifiedFarm_ERC20_V2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/FraxUnifiedFarm_ERC20_V2.json"
-        },
-        "I2pool": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/I2pool.json"
-        },
-        "I2poolToken": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/I2poolToken.json"
-        },
-        "IConvexBaseRewardPool": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IConvexBaseRewardPool.json"
-        },
-        "IConvexStakingWrapperFrax": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IConvexStakingWrapperFrax.json"
-        },
-        "ICurvefrxETHETHPool": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/ICurvefrxETHETHPool.json"
-        },
-        "IDepositToken": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IDepositToken.json"
-        },
-        "IERC20": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IERC20.json"
-        },
-        "IFraxGaugeController": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IFraxGaugeController.json"
-        },
-        "IFraxGaugeControllerV2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IFraxGaugeControllerV2.json"
-        },
-        "IFraxGaugeFXSRewardsDistributor": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IFraxGaugeFXSRewardsDistributor.json"
-        },
-        "ILockReceiver": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/ILockReceiver.json"
-        },
-        "IveFXS": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/IveFXS.json"
-        },
-        "Math": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/Math.json"
-        },
-        "OwnedV2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/OwnedV2.json"
-        },
-        "ReentrancyGuard": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/ReentrancyGuard.json"
-        },
-        "TransferHelperV2": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/TransferHelperV2.json"
+        "FraxFarmERC20Transferrable": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmERC20Transferrable.sol/FraxFarmERC20Transferrable.json"
         }
       }
     },
@@ -1404,8 +1350,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1676326938973,
-      "contentHash": "6e3fb20e1dd907f6c92f854f58203833",
+      "lastModificationDate": 1677024678247,
+      "contentHash": "6b89d22f13f9a235a024c170166efcfd",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
