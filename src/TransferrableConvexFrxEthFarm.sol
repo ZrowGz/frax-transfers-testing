@@ -2157,7 +2157,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         if (stakingPaused) revert StakingPaused();
         if (secs < lock_time_min) revert MinimumStakeTimeNotMet();
         if (secs > lock_time_for_max_multiplier) revert TryingToLockForTooLong();
-
+        console2.log("Checks Passed");
         // Pull in the required token(s)
         // Varies per farm
         if (liquidity > 0) {
