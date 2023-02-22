@@ -1,3 +1,4 @@
+
 cache/
 out/
 bin/
@@ -8,3 +9,5 @@ node_modules/
 *.log
 lcov.info
 .DS_Store
+out
+out/

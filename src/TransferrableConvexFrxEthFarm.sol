@@ -2153,6 +2153,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         bool useTargetStakeIndex,
         uint256 targetIndex
     ) internal updateRewardAndBalanceMdf(staker_address, true) returns (uint256) {
+        console2.log("MANAGESTAKE");
         if (stakingPaused) revert StakingPaused();
         if (secs < lock_time_min) revert MinimumStakeTimeNotMet();
         if (secs > lock_time_for_max_multiplier) revert TryingToLockForTooLong();

@@ -192,7 +192,7 @@ contract FraxFarmERC20TransfersTest is Test {
         t.senderBaseLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
 
         /// create a known kekId
-        t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
         t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");
         t.senderInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
@@ -278,7 +278,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         skip(1 days);
 
@@ -306,7 +306,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known lockId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         skip(1 days);
 
@@ -442,7 +442,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         senderVault.setApprovalForAll(address(this), true);
         // console2.log("isApproved", frxFarm.isApproved())
@@ -480,7 +480,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         senderVault.setAllowance(address(this), senderLockId, 100 ether);
         assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(this)), 100 ether, "allowance should be set");
@@ -517,7 +517,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         senderVault.setAllowance(address(this), senderLockId, 100 ether);
         assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(this)), 100 ether, "allowance should be set");
@@ -554,7 +554,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         // senderVault.setApprovalForAll(address(this), true);
         // // console2.log("isApproved", frxFarm.isApproved())
@@ -593,7 +593,7 @@ contract FraxFarmERC20TransfersTest is Test {
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
 
         // create a known kekId
-        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300));
+        uint256 senderLockId = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
 
         senderVault.setAllowance(address(bob), senderLockId, 1 ether);
         assertEq(frxFarm.spenderAllowance(address(senderVault), senderLockId, address(bob)), 1 ether, "allowance should be set");
