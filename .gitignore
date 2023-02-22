@@ -1,6 +1,5 @@
 
 cache/
-out/
 bin/
 broadcast/
 node_modules/
@@ -9,5 +8,4 @@ node_modules/
 *.log
 lcov.info
 .DS_Store
-out
 out/

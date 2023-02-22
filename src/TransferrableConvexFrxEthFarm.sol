@@ -2161,10 +2161,13 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         // Pull in the required token(s)
         // Varies per farm
         if (liquidity > 0) {
+            console2.log("Pulling liquidity");
             TransferHelperV2.safeTransferFrom(address(stakingToken), source_address, address(this), liquidity);
         }
 
         if (!useTargetStakeIndex) {
+            console2.log("creating new stake", liquidity, secs);
+            console2.log("use target index", useTargetStakeIndex);
             // Create the locked stake
             _createNewStake(
                 staker_address, 
@@ -2174,20 +2177,25 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 lockMultiplier(secs)
             );
         } else {
+            console2.log("updating existing stake", liquidity, secs);
+            console2.log("use target index", useTargetStakeIndex);
+            console2.log("index", targetIndex);
             // Otherwise, we are either locking additional or extending lock duration
 
             // Get the stake by its index
             LockedStake memory thisStake = lockedStakes[msg.sender][targetIndex];
-
+            console2.log("stake params", thisStake.start_timestamp, thisStake.liquidity, thisStake.ending_timestamp);
             uint256 new_ending_ts = secs + block.timestamp;
+            console2.log("new ending ts", new_ending_ts);
 
             if (new_ending_ts < thisStake.ending_timestamp) revert CannotShortenLockTime();
-
+            console2.log("update stake:", msg.sender, targetIndex, block.timestamp);
+            console2.log("update stake:", thisStake.liquidity + liquidity, new_ending_ts, lockMultiplier(secs));
             // Update the stake
             _updateStake(
                 msg.sender, 
                 targetIndex, 
-                block.timestamp, 
+                block.timestamp, /// TODO should this even be altered? probably not, just use the original start timestamp
                 thisStake.liquidity + liquidity, // if locking additional, add to existing liquidity
                 new_ending_ts, 
                 lockMultiplier(secs)
@@ -2195,19 +2203,23 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         }
 
         if (liquidity == 0) {
+            console2.log("liquidity is 0");
             // Need to call to update the combined weights
             updateRewardAndBalance(msg.sender, false);
+            console2.log("updated reward and balance");
         } else {
+            console2.log("liquidity is not 0");
             // Update liquidities
             _updateLiqAmts(staker_address, liquidity, true);
+            console2.log("updated liquidity amounts");
         }
 
         emit StakeLocked(staker_address, liquidity, secs, lockedStakes[staker_address].length - 1, source_address);
 
         uint256 num_stakes = lockedStakes[staker_address].length;
-
+        console2.log("num stakes", num_stakes);
         if (num_stakes > max_locked_stakes) revert TooManyStakes();
-
+        console2.log("didn't revert, returning num stakes - 1", num_stakes - 1);
         return num_stakes - 1;
     }
 
