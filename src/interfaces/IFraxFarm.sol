@@ -156,11 +156,11 @@ interface IFraxFarmERC20 is IFraxFarm, IFraxFarmTransfers {
 
     function lockedStakesOfLength(address account) external view returns (uint256);
 
-    function lockAdditional(uint256 lockId, uint256 addl_liq) external;
+    // function lockAdditional(uint256 lockId, uint256 addl_liq) external;
 
-    function lockLonger(uint256 lockId, uint256 _newUnlockTimestamp) external;
+    // function lockLonger(uint256 lockId, uint256 _newUnlockTimestamp) external;
 
-    function stakeLocked(uint256 liquidity, uint256 secs) external returns (uint256);
+    function manageStake(uint256 liquidity, uint256 secs, bool useTargetStakeIndex, uint256 targetIndex) external returns (uint256);
 
     function withdrawLocked(uint256 lockId, address destination_address) external returns (uint256);
 }
