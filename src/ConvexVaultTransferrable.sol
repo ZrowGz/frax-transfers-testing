@@ -1044,6 +1044,8 @@ contract StakingProxyConvex is StakingProxyBase, ReentrancyGuard{
 
     //create a new locked state of _secs timelength with a Curve LP token
     function stakeLockedCurveLp(uint256 _liquidity, uint256 _secs, bool _useTargetStakeIndex, uint256 targetIndex) external onlyOwner nonReentrant returns (uint256 lockId){
+        console2.log("stakeLockedCurveLp", _liquidity, _secs);
+        console2.log("staker", stakingAddress);
         if(_liquidity > 0){
             //pull tokens from user
             IERC20(curveLpToken).safeTransferFrom(msg.sender, address(this), _liquidity);

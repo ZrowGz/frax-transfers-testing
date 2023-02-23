@@ -955,10 +955,10 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
     bool internal rewardsCollectionPaused; // For emergencies
     bool internal stakingPaused; // For emergencies
 
-    /// @notice Maximum number of locked stakes allowed per address (prevent dust attacks)
-    /// @dev In the unlikely event that we need to increase this, we can using `setMiscVars`, but only ever increase (prevent making user's stakes unreachable)
-    /// @notice default to 5, as that is the most that users tend to have, on average
-    uint256 public max_locked_stakes = 5;
+    // /// @notice Maximum number of locked stakes allowed per address (prevent dust attacks)
+    // /// @dev In the unlikely event that we need to increase this, we can using `setMiscVars`, but only ever increase (prevent making user's stakes unreachable)
+    // /// @notice default to 5, as that is the most that users tend to have, on average
+    // uint256 public max_locked_stakes = 5;
 
     /* ========== STRUCTS ========== */
     // In children...
@@ -1564,37 +1564,37 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         }
     }
 
-    function setMiscVariables(
-        uint256[7] memory _misc_vars
-        // [0]: uint256 _lock_max_multiplier, 
-        // [1] uint256 _vefxs_max_multiplier, 
-        // [2] uint256 _vefxs_per_frax_for_max_boost,
-        // [3] uint256 _vefxs_boost_scale_factor,
-        // [4] uint256 _lock_time_for_max_multiplier,
-        // [5] uint256 _lock_time_min
-    ) external onlyByOwnGov {
-        // require(_misc_vars[0] >= MULTIPLIER_PRECISION, "Must be >= MUL PREC");
-        // require((_misc_vars[1] >= 0) && (_misc_vars[2] >= 0) && (_misc_vars[3] >= 0), "Must be >= 0");
-        // require((_misc_vars[4] >= 1) && (_misc_vars[5] >= 1), "Must be >= 1");
-        /// TODO check this rewrite
-        if(_misc_vars[4] < _misc_vars[5]) revert MustBeGEMulPrec();
-        if((_misc_vars[1] < 0) || (_misc_vars[2] < 0) || (_misc_vars[3] < 0)) revert MustBeGEZero();
-        if((_misc_vars[4] < 1) || (_misc_vars[5] < 1)) revert MustBeGEOne();
+    // function setMiscVariables(
+    //     uint256[7] memory _misc_vars
+    //     // [0]: uint256 _lock_max_multiplier, 
+    //     // [1] uint256 _vefxs_max_multiplier, 
+    //     // [2] uint256 _vefxs_per_frax_for_max_boost,
+    //     // [3] uint256 _vefxs_boost_scale_factor,
+    //     // [4] uint256 _lock_time_for_max_multiplier,
+    //     // [5] uint256 _lock_time_min
+    // ) external onlyByOwnGov {
+    //     // require(_misc_vars[0] >= MULTIPLIER_PRECISION, "Must be >= MUL PREC");
+    //     // require((_misc_vars[1] >= 0) && (_misc_vars[2] >= 0) && (_misc_vars[3] >= 0), "Must be >= 0");
+    //     // require((_misc_vars[4] >= 1) && (_misc_vars[5] >= 1), "Must be >= 1");
+    //     /// TODO check this rewrite
+    //     if(_misc_vars[4] < _misc_vars[5]) revert MustBeGEMulPrec();
+    //     if((_misc_vars[1] < 0) || (_misc_vars[2] < 0) || (_misc_vars[3] < 0)) revert MustBeGEZero();
+    //     if((_misc_vars[4] < 1) || (_misc_vars[5] < 1)) revert MustBeGEOne();
 
-        lock_max_multiplier = _misc_vars[0];
-        vefxs_max_multiplier = _misc_vars[1];
-        vefxs_per_frax_for_max_boost = _misc_vars[2];
-        vefxs_boost_scale_factor = _misc_vars[3];
-        lock_time_for_max_multiplier = _misc_vars[4];
-        lock_time_min = _misc_vars[5];
+    //     lock_max_multiplier = _misc_vars[0];
+    //     vefxs_max_multiplier = _misc_vars[1];
+    //     vefxs_per_frax_for_max_boost = _misc_vars[2];
+    //     vefxs_boost_scale_factor = _misc_vars[3];
+    //     lock_time_for_max_multiplier = _misc_vars[4];
+    //     lock_time_min = _misc_vars[5];
 
-        /// This value can only ever be increased.
-        /// If it were decreased, user locked stakes would be un-reachable for transfers & management, although they would be withdrawable once unlocked.
-        /// If we must be able to decrease, stakes above this value could be made immediately withdrawable
-        if (_misc_vars[6] > max_locked_stakes) {
-            max_locked_stakes = _misc_vars[6];
-        }
-    }
+    //     /// This value can only ever be increased.
+    //     /// If it were decreased, user locked stakes would be un-reachable for transfers & management, although they would be withdrawable once unlocked.
+    //     /// If we must be able to decrease, stakes above this value could be made immediately withdrawable
+    //     if (_misc_vars[6] > max_locked_stakes) {
+    //         max_locked_stakes = _misc_vars[6];
+    //     }
+    // }
 
     // The owner or the reward token managers can set reward rates 
     function setRewardVars(
@@ -1752,7 +1752,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /* ========== STRUCTS ========== */
 
     // Struct for the stake
+    /// @dev kekID storage slot preserved FOR TESTING ONLY - causes underflow failure due to using with existing deployed logic.
     struct LockedStake {
+        bytes32 nothingToSeeHereFolks;
         uint256 start_timestamp;
         uint256 liquidity;
         uint256 ending_timestamp;
@@ -1765,8 +1767,17 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     mapping(address => mapping(uint256 => mapping(address => uint256))) public spenderAllowance;
     // staker => spender => bool (true if approved)
     mapping(address => mapping(address => bool)) public spenderApprovalForAllLocks;
-
     
+    
+    /// @dev moved here for testing due to memory collisions
+    AggregatorV3Interface internal priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+
+    /// @notice Maximum number of locked stakes allowed per address (prevent dust attacks)
+    /// @dev In the unlikely event that we need to increase this, we can using `setMiscVars`, but only ever increase (prevent making user's stakes unreachable)
+    /// @notice default to 5, as that is the most that users tend to have, on average
+    uint256 public max_locked_stakes = 10;
+    /// @dev moved here for testing purposes due to storage slot collisions
+
     /* ========== CONSTRUCTOR ========== */
 
     constructor (
@@ -1780,7 +1791,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     ) 
     FraxUnifiedFarmTemplate_V2(_owner, _rewardTokens, _rewardManagers, _rewardRatesManual, _gaugeControllers, _rewardDistributors)
     {
-
         // -------------------- VARIES (USE CHILD FOR LOGIC) --------------------
 
         // Fraxswap
@@ -2038,12 +2048,13 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // ------ STAKING ------
 
+    /// @dev bytes32 kekID preserved due to memory collision in TESTING ONLY
     function _updateStake(address staker, uint256 index, uint256 start_timestamp, uint256 liquidity, uint256 ending_timestamp, uint256 lock_multiplier) internal {
-        lockedStakes[staker][index] = LockedStake(start_timestamp, liquidity, ending_timestamp, lock_multiplier);
+        lockedStakes[staker][index] = LockedStake(bytes32(0), start_timestamp, liquidity, ending_timestamp, lock_multiplier);
     }
-
+    /// @dev bytes32 kekID preserved due to memory collision in TESTING ONLY
     function _createNewStake(address staker, uint256 start_timestamp, uint256 liquidity, uint256 ending_timestamp, uint256 lock_multiplier) internal {
-        lockedStakes[staker].push(LockedStake(start_timestamp, liquidity, ending_timestamp, lock_multiplier));
+        lockedStakes[staker].push(LockedStake(bytes32(0), start_timestamp, liquidity, ending_timestamp, lock_multiplier));
     }
 
     function _updateLiqAmts(address staker_address, uint256 amt, bool is_add) internal {
@@ -2138,12 +2149,27 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     // }
 
     // Two different stake functions are needed because of delegateCall and msg.sender issues (important for proxies)
+    /// @notice Creation, extension, and addition of liquidity to a locked stake.
+    /// @notice Combines the functionality of stakeLocked, lockAdditional, and lockLonger into a single function.
+    /// @dev Note that `secs` is now only ever the amount of time to add to block.timestamp - secs can be 0 if locking additional only.
+    /// @param liquidity The amount of liquidity to stake.
+    /// @param secs The number of seconds to lock the liquidity for.
+    /// @param useTargetStakeIndex If true, alter certain parameters of an existing stake. If false, create a new stake.
+    /// @param targetIndex The index of the stake to alter, if applicable.
+    /// @return The index of the stake that was created or altered.
     function manageStake(uint256 liquidity, uint256 secs, bool useTargetStakeIndex, uint256 targetIndex) nonReentrant external returns (uint256) {
         return _manageStake(msg.sender, msg.sender, liquidity, secs, useTargetStakeIndex, targetIndex);//block.timestamp, 
     }
 
     // If this were not internal, and source_address had an infinite approve, this could be exploitable
     // (pull funds from source_address and stake for an arbitrary staker_address)
+    /// @notice Creation, extension, and addition of liquidity to a locked stake.
+    /// @notice Combines the functionality of stakeLocked, lockAdditional, and lockLonger into a single function.
+    /// @dev Note that `secs` is now only ever the amount of time to add to block.timestamp - secs can be 0 if locking additional only.
+    /// @param staker_address The address of the staker.
+    /// @param source_address The address of the source of the liquidity.
+    /// @param liquidity The amount of liquidity to stake.
+    /// @param secs The number of seconds to lock the liquidity for.
     function _manageStake(
         address staker_address,
         address source_address,
@@ -2152,22 +2178,19 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         // uint256 start_timestamp, 
         bool useTargetStakeIndex,
         uint256 targetIndex
-    ) internal updateRewardAndBalanceMdf(staker_address, true) returns (uint256) {
-        console2.log("MANAGESTAKE");
+    ) internal updateRewardAndBalanceMdf(staker_address, true) returns (uint256 stakeIndex) {
         if (stakingPaused) revert StakingPaused();
         if (secs < lock_time_min) revert MinimumStakeTimeNotMet();
         if (secs > lock_time_for_max_multiplier) revert TryingToLockForTooLong();
-        console2.log("Checks Passed");
+
         // Pull in the required token(s)
         // Varies per farm
         if (liquidity > 0) {
-            console2.log("Pulling liquidity");
             TransferHelperV2.safeTransferFrom(address(stakingToken), source_address, address(this), liquidity);
         }
 
+        // If we are not using a target stake index, we are creating a new stake
         if (!useTargetStakeIndex) {
-            console2.log("creating new stake", liquidity, secs);
-            console2.log("use target index", useTargetStakeIndex);
             // Create the locked stake
             _createNewStake(
                 staker_address, 
@@ -2176,51 +2199,53 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 block.timestamp + secs, 
                 lockMultiplier(secs)
             );
+            
+            // set the return value to the index of the new stake
+            stakeIndex = lockedStakes[staker_address].length - 1;
+
+            // check that the number of this address' stakes are not over the limit
+            /// @dev Hardcode in the stake count limit FOR TESTING ONLY
+            if (lockedStakes[staker_address].length > 10) revert TooManyStakes();
+
         } else {
-            console2.log("updating existing stake", liquidity, secs);
-            console2.log("use target index", useTargetStakeIndex);
-            console2.log("index", targetIndex);
             // Otherwise, we are either locking additional or extending lock duration
 
             // Get the stake by its index
             LockedStake memory thisStake = lockedStakes[msg.sender][targetIndex];
-            console2.log("stake params", thisStake.start_timestamp, thisStake.liquidity, thisStake.ending_timestamp);
-            uint256 new_ending_ts = secs + block.timestamp;
-            console2.log("new ending ts", new_ending_ts);
 
+            // calculate the new ending timestamp (can = block.timestamp if secs = 0)
+            uint256 new_ending_ts = secs + block.timestamp;
+
+            // if `secs` is 0, we are "locking additional"
             if (new_ending_ts < thisStake.ending_timestamp) revert CannotShortenLockTime();
-            console2.log("update stake:", msg.sender, targetIndex, block.timestamp);
-            console2.log("update stake:", thisStake.liquidity + liquidity, new_ending_ts, lockMultiplier(secs));
-            // Update the stake
+
+            // Update the stake. If `secs` is 0, we are "locking additional" so don't need to change the time values
             _updateStake(
                 msg.sender, 
                 targetIndex, 
-                block.timestamp, /// TODO should this even be altered? probably not, just use the original start timestamp
+                secs == 0 ? thisStake.start_timestamp : block.timestamp, 
                 thisStake.liquidity + liquidity, // if locking additional, add to existing liquidity
-                new_ending_ts, 
+                secs == 0 ? thisStake.ending_timestamp : new_ending_ts, 
                 lockMultiplier(secs)
             );
+            
+            // set the return value to the index of the stake we altered
+            stakeIndex = targetIndex;
+
+            // no need to check the number of stakes here because we are not creating a new stake
         }
 
         if (liquidity == 0) {
-            console2.log("liquidity is 0");
-            // Need to call to update the combined weights
+            // Need to call to update the combined weights if we are just extending the lock time
             updateRewardAndBalance(msg.sender, false);
-            console2.log("updated reward and balance");
         } else {
-            console2.log("liquidity is not 0");
-            // Update liquidities
+            // Update liquidities if we are creating a new stake or locking additional
             _updateLiqAmts(staker_address, liquidity, true);
-            console2.log("updated liquidity amounts");
         }
 
         emit StakeLocked(staker_address, liquidity, secs, lockedStakes[staker_address].length - 1, source_address);
 
-        uint256 num_stakes = lockedStakes[staker_address].length;
-        console2.log("num stakes", num_stakes);
-        if (num_stakes > max_locked_stakes) revert TooManyStakes();
-        console2.log("didn't revert, returning num stakes - 1", num_stakes - 1);
-        return num_stakes - 1;
+        return stakeIndex;
     }
 
     // ------ WITHDRAWING ------
@@ -2459,7 +2484,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             }
         } else {
             // check that the receiver doesn't have too many stakes
-            if (lockedStakes[addrs[1]].length + 1 > max_locked_stakes) revert TooManyStakes();
+            /// @dev memory collision here, so hardcoding the max locked stakes value
+            if (lockedStakes[addrs[1]].length + 1 > 10) revert TooManyStakes();
 
             // create the new lockedStake
             _createNewStake(
@@ -2500,7 +2526,38 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /* ========== RESTRICTED FUNCTIONS - Owner or timelock only ========== */
 
     // Inherited...
+    /// @dev moved here for testing purposes due to storage slot collisions
+    function setMiscVariables(
+        uint256[7] memory _misc_vars
+        // [0]: uint256 _lock_max_multiplier, 
+        // [1] uint256 _vefxs_max_multiplier, 
+        // [2] uint256 _vefxs_per_frax_for_max_boost,
+        // [3] uint256 _vefxs_boost_scale_factor,
+        // [4] uint256 _lock_time_for_max_multiplier,
+        // [5] uint256 _lock_time_min
+    ) external onlyByOwnGov {
+        // require(_misc_vars[0] >= MULTIPLIER_PRECISION, "Must be >= MUL PREC");
+        // require((_misc_vars[1] >= 0) && (_misc_vars[2] >= 0) && (_misc_vars[3] >= 0), "Must be >= 0");
+        // require((_misc_vars[4] >= 1) && (_misc_vars[5] >= 1), "Must be >= 1");
+        /// TODO check this rewrite
+        if(_misc_vars[4] < _misc_vars[5]) revert MustBeGEMulPrec();
+        if((_misc_vars[1] < 0) || (_misc_vars[2] < 0) || (_misc_vars[3] < 0)) revert MustBeGEZero();
+        if((_misc_vars[4] < 1) || (_misc_vars[5] < 1)) revert MustBeGEOne();
 
+        lock_max_multiplier = _misc_vars[0];
+        vefxs_max_multiplier = _misc_vars[1];
+        vefxs_per_frax_for_max_boost = _misc_vars[2];
+        vefxs_boost_scale_factor = _misc_vars[3];
+        lock_time_for_max_multiplier = _misc_vars[4];
+        lock_time_min = _misc_vars[5];
+
+        /// This value can only ever be increased.
+        /// If it were decreased, user locked stakes would be un-reachable for transfers & management, although they would be withdrawable once unlocked.
+        /// If we must be able to decrease, stakes above this value could be made immediately withdrawable
+        if (_misc_vars[6] > max_locked_stakes) {
+            max_locked_stakes = _misc_vars[6];
+        }
+    }
     /* ========== EVENTS ========== */
     event LockedAdditional(address indexed user, uint256 locked_stake_index, uint256 amount);
     event LockedLonger(address indexed user, uint256 locked_stake_index, uint256 new_secs, uint256 new_start_ts, uint256 new_end_ts);
@@ -2524,7 +2581,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 // import "../../ERC20/IERC20.sol";
 
 contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
-    AggregatorV3Interface internal priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+    // AggregatorV3Interface internal priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
 
     constructor (
         address _owner,
@@ -2538,7 +2595,6 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
     FraxUnifiedFarm_ERC20_V2(_owner , _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, _stakingToken)
     {
         // COMMENTED OUT SO COMPILER DOESNT COMPLAIN. UNCOMMENT WHEN DEPLOYING
-
         // Convex frxETHETH only
         stakingToken = IConvexStakingWrapperFrax(_stakingToken);
         curveToken = I2poolToken(stakingToken.curveToken());
@@ -2588,3 +2644,5 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
         stakingToken.user_checkpoint(to);
     }
 }
+/// @dev preserve the kekId slot in the locked stake FOR TESTING ONLY
+/// @dev moved the setMiscVars & the max stakes to the erc20 farm from template FOR TESTING ONLY

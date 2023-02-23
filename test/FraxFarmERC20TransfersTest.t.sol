@@ -35,7 +35,7 @@ contract FraxFarmERC20TransfersTest is Test {
     address public frxEth = 0x5E8422345238F34275888049021821E8E08CAa1f;
     address public frxETHCRV = 0xf43211935C781D5ca1a41d2041F397B8A7366C7A; // frxeth/eth crv LP token
     address public cvxfrxEthFrxEth = address(0xC07e540DbFecCF7431EA2478Eb28A03918c1C30E);
-    address public cvxStkFrxEthLp = 0x4659d5fF63A1E1EDD6D5DD9CC315e063c95947d0; // convex wrapped curve lp token STAKING TOKEN
+    address public cvxStkFrxEthLp = address(0x4659d5fF63A1E1EDD6D5DD9CC315e063c95947d0); // convex wrapped curve lp token STAKING TOKEN
     FraxUnifiedFarm_ERC20_V2 public frxFarm = FraxUnifiedFarm_ERC20_V2(0xa537d64881b84faffb9Ae43c951EEbF368b71cdA); // frxEthFraxFarm
     address public curveLpMinter = address(0xa1F8A6807c402E4A15ef4EBa36528A3FED24E577);
     address public vaultRewardsAddress = address(0x3465B8211278505ae9C6b5ba08ECD9af951A6896);
@@ -103,8 +103,16 @@ contract FraxFarmERC20TransfersTest is Test {
         // vm.etch(address(convexBooster), address(boost).code);
 
         // Deploy the logic for the transferrable fraxfarm
-        frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
+        frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, address(cvxStkFrxEthLp));
+        console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
+        console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
+        console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
         vm.etch(address(frxFarm), address(frxEthFarm).code); 
+        console2.log("address of frxFarm", address(frxFarm));
+        console2.log("address of frxEthFarm", address(frxEthFarm));
+        console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
+        console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
+        console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
 
         // Deploy the logic for the transferrable vault
         cvxVault = new Vault();
@@ -164,6 +172,40 @@ contract FraxFarmERC20TransfersTest is Test {
         uint256 senderPostTransfer3;
         uint256 receiverPostTransfer3;
         uint256 transferAmount;
+        uint256 maxStakes;
+    }
+
+    function testCannotCreateTooManyStakes() public {
+        TestState memory t;
+        t.transferAmount = 10 ether;
+        t.maxStakes = 10; // have to hardcode this in due to storage slot conflicts with deployed version
+
+        vm.startPrank(address(senderOwner));
+
+        // mint some frxETH
+        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+        (,t.retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(senderOwner)));
+        t.retbal = abi.decode(t.retval, (uint256));
+        assertGe(t.retbal, 990 ether, "invalid mint amount frxETH");
+
+        // add liquidity to curve to get the staking token for the vault
+        IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
+        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+
+        // calculate the number of stakes needing to add before we hit the max (without going over)
+        t.senderPreAdd = frxFarm.lockedStakesOfLength(address(senderVault));
+        uint256 numStakesToAdd = t.maxStakes - t.senderPreAdd;
+        
+        // create stakes
+        uint256 lockDuration = 60*60*24*15; // 15 days
+        for (uint256 i; i < numStakesToAdd; i++) {
+            senderVault.stakeLockedCurveLp(t.transferAmount, lockDuration, false, 0);
+            lockDuration += lockDuration; // each stake is 15 days longer
+        }
+
+        // now attempt to create one more stake! (should revert)
+        vm.expectRevert();
+        senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
     }
 
     function testEnd2End() public {
@@ -172,7 +214,7 @@ contract FraxFarmERC20TransfersTest is Test {
         // assertEq(senderVault.stakingAddress(), address(frxEthFarm), "invalid staking address");
 
         t.transferAmount = 10 ether;
-        
+
         ///// Let the testing begin! /////
         vm.startPrank(address(senderOwner));
         /// obtain some frxEth
@@ -191,6 +233,11 @@ contract FraxFarmERC20TransfersTest is Test {
         t.senderPreAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         t.senderBaseLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
 
+        console2.log("cvxStkLp", address(cvxStkFrxEthLp));
+        console2.log("frxFarmStakingToken", address(frxFarm.stakingToken()));
+        console2.log("senderVaultStaker", address(senderVault.stakingAddress()));
+        console2.log("vaultCurveToken", address(senderVault.curveLpToken()));
+        console2.log("farmMaxLockedStakes", uint256(frxFarm.max_locked_stakes()));
         /// create a known kekId
         t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
         t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
