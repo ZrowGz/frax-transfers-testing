@@ -104,15 +104,15 @@ contract FraxFarmERC20TransfersTest is Test {
 
         // Deploy the logic for the transferrable fraxfarm
         frxEthFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, address(cvxStkFrxEthLp));
-        console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
-        console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
-        console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
+        // console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
+        // console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
+        // console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
         vm.etch(address(frxFarm), address(frxEthFarm).code); 
-        console2.log("address of frxFarm", address(frxFarm));
-        console2.log("address of frxEthFarm", address(frxEthFarm));
-        console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
-        console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
-        console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
+        // console2.log("address of frxFarm", address(frxFarm));
+        // console2.log("address of frxEthFarm", address(frxEthFarm));
+        // console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
+        // console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
+        // console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
 
         // Deploy the logic for the transferrable vault
         cvxVault = new Vault();
@@ -195,7 +195,7 @@ contract FraxFarmERC20TransfersTest is Test {
         // calculate the number of stakes needing to add before we hit the max (without going over)
         t.senderPreAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         uint256 numStakesToAdd = t.maxStakes - t.senderPreAdd;
-        
+
         // create stakes
         uint256 lockDuration = 60*60*24*15; // 15 days
         for (uint256 i; i < numStakesToAdd; i++) {
@@ -237,13 +237,13 @@ contract FraxFarmERC20TransfersTest is Test {
         console2.log("frxFarmStakingToken", address(frxFarm.stakingToken()));
         console2.log("senderVaultStaker", address(senderVault.stakingAddress()));
         console2.log("vaultCurveToken", address(senderVault.curveLpToken()));
-        console2.log("farmMaxLockedStakes", uint256(frxFarm.max_locked_stakes()));
+
         /// create a known kekId
         t.senderLock = senderVault.stakeLockedCurveLp(990 ether, (60*60*24*300), false, 0);
         t.senderPostAdd = frxFarm.lockedStakesOfLength(address(senderVault));
         assertEq(t.senderPostAdd, t.senderPreAdd + 1, "sender should have new LockedStake");
         t.senderInitialLockedLiquidity = frxFarm.lockedLiquidityOf(address(senderVault));
- 
+
         ///// transfer the lockKek to receiverVault /////
         skip(1 days);
 
@@ -271,7 +271,7 @@ contract FraxFarmERC20TransfersTest is Test {
 
         ///// Send more to same kek_id /////
         skip(1 days);
-        
+
         /// transfer to a specific receiver lockKek (the same as was created last time)
         assertEq(frxFarm.lockedStakesOfLength(address(receiverVault)), t.receiverPostTransfer1, "receiver should still have same number locks");
         assertEq(frxFarm.lockedStakesOfLength(address(senderVault)), t.senderPostTransfer1, "sender should still have same number locks");
@@ -296,6 +296,7 @@ contract FraxFarmERC20TransfersTest is Test {
 
         ///// Test sending entire remaining balance of sender's lockedStake liquidity /////
         skip(1 days);
+
         t.senderPreTransfer3 = frxFarm.lockedStakesOfLength(address(senderVault));
         t.receiverPreTransfer3 = frxFarm.lockedStakesOfLength(address(receiverVault));
         (, t.receiverLock3) = senderVault.transferLocked(address(receiverVault), t.senderLock, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), true, t.receiverLock2);

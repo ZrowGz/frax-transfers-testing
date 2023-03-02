@@ -1710,6 +1710,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     error OnLockReceivedFailed();
     error CannotBeZero();
     error AllowanceIsZero();
+    error NoStakeIndexProvided();
 
     /* ========== STATE VARIABLES ========== */
 
@@ -1776,7 +1777,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /// @notice Maximum number of locked stakes allowed per address (prevent dust attacks)
     /// @dev In the unlikely event that we need to increase this, we can using `setMiscVars`, but only ever increase (prevent making user's stakes unreachable)
     /// @notice default to 5, as that is the most that users tend to have, on average
-    uint256 public max_locked_stakes = 10;
+    // uint256 public max_locked_stakes = 12;
     /// @dev moved here for testing purposes due to storage slot collisions
 
     /* ========== CONSTRUCTOR ========== */
@@ -2198,9 +2199,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         if (liquidity > 0) {
             TransferHelperV2.safeTransferFrom(address(stakingToken), source_address, address(this), liquidity);
         }
-
+        console2.log("FRAX FARM: _MANAGE STAKE number stakes, num max", lockedStakes[staker_address].length, 12);//max_locked_stakes);
         // If we are not using a target stake index, we are creating a new stake
-        if (!useTargetStakeIndex && lockedStakes[staker_address].length < max_locked_stakes) {
+        if (!useTargetStakeIndex && lockedStakes[staker_address].length < 12){// max_locked_stakes) {
             // Create the locked stake
             _createNewStake(
                 staker_address, 
@@ -2215,7 +2216,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
             // check that the number of this address' stakes are not over the limit
             // if (lockedStakes[staker_address].length > max_locked_stakes) revert TooManyStakes();
-        } else if (!useTargetStakeIndex && lockedStakes[staker_address].length == max_locked_stakes) {
+        } else if (!useTargetStakeIndex && lockedStakes[staker_address].length == 12){//max_locked_stakes) {
             // look for unused stakes that were previously used but zeroed out by withdrawals or transfers
             (uint256 index, bool success) = _findUnusedStakeIndex(staker_address);
 
@@ -2237,6 +2238,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
         } else {
             // Otherwise, we are either locking additional or extending lock duration
+            if (!useTargetStakeIndex) revert NoStakeIndexProvided();
 
             // Get the stake by its index
             LockedStake memory thisStake = lockedStakes[msg.sender][targetIndex];
@@ -2259,8 +2261,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             
             // set the return value to the index of the stake we altered
             stakeIndex = targetIndex;
-
-            // no need to check the number of stakes here because we are not creating a new stake
         }
 
         // if altering balances of a stake, update the liquidities
@@ -2457,7 +2457,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         bool use_receiver_lock_index,
         uint256 receiver_lock_index
     ) internal updateRewardAndBalanceMdf(addrs[0], true) updateRewardAndBalanceMdf(addrs[1], true) returns (uint256,uint256) {
-
+        console2.log("TRANSFER, MAX STAKES", 12);//max_locked_stakes);
         // on transfer, call addrs[0] to verify sending is ok
         if (addrs[0].code.length > 0) {
             if (
@@ -2507,7 +2507,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         ) {
             // Get the stake and its index
             LockedStake memory receiverStake = getLockedStake(addrs[1], receiver_lock_index);
-
+            console2.log("ADDING TO STAKE", addrs[1], receiver_lock_index, lockedStakes[addrs[1]].length);
             if (receiver_lock_index < lockedStakes[addrs[1]].length) {
                 if (receiverStake.liquidity > 0) {
                     if (receiverStake.ending_timestamp > block.timestamp) {
@@ -2518,7 +2518,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             }
         } else {
             // if receiver would have too many stakes to create a new one, look for zeroed out stakes
-            if (lockedStakes[addrs[1]].length == max_locked_stakes) {
+            if (lockedStakes[addrs[1]].length == 12){//max_locked_stakes) {
+                console2.log("AT MAX STAKES, SEEKING UNUSED", addrs[1], lockedStakes[addrs[1]].length);
                 // look for unused stakes that were previously used but zeroed out by withdrawals or transfers
                 (uint256 index, bool success) = _findUnusedStakeIndex(addrs[1]);
                 
@@ -2537,9 +2538,11 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                     senderStake.ending_timestamp, 
                     senderStake.lock_multiplier
                 );
+                console2.log("FARM TRANSFER STAKE - REUSED STAKE INDEX:", addrs[1], receiver_lock_index);
 
             // otherwise, create a new locked stake
             } else {
+                console2.log("FARM TRANSFER STAKE - CREATE NEW", addrs[1], lockedStakes[addrs[1]].length);
                 // create the new lockedStake
                 _createNewStake(
                     addrs[1], 
@@ -2551,6 +2554,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 
                 // update the return value of the locked index 
                 receiver_lock_index = lockedStakes[addrs[1]].length - 1;
+                console2.log("FARM TRANSFER STAKE - CREATED NEW POST", addrs[1], lockedStakes[addrs[1]].length);
             }
         }
 
@@ -2607,9 +2611,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         /// This value can only ever be increased.
         /// If it were decreased, user locked stakes would be un-reachable for transfers & management, although they would be withdrawable once unlocked.
         /// If we must be able to decrease, stakes above this value could be made immediately withdrawable
-        if (_misc_vars[6] > max_locked_stakes) {
-            max_locked_stakes = _misc_vars[6];
-        }
+        // if (_misc_vars[6] > max_locked_stakes) {
+        //     max_locked_stakes = _misc_vars[6];
+        // }
     }
     /* ========== EVENTS ========== */
     event LockedAdditional(address indexed user, uint256 locked_stake_index, uint256 amount);
