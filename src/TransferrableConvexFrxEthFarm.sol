@@ -2199,7 +2199,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         if (liquidity > 0) {
             TransferHelperV2.safeTransferFrom(address(stakingToken), source_address, address(this), liquidity);
         }
-        console2.log("FRAX FARM: _MANAGE STAKE number stakes, num max", lockedStakes[staker_address].length, 12);//max_locked_stakes);
         // If we are not using a target stake index, we are creating a new stake
         if (!useTargetStakeIndex && lockedStakes[staker_address].length < 12){// max_locked_stakes) {
             // Create the locked stake
@@ -2457,7 +2456,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         bool use_receiver_lock_index,
         uint256 receiver_lock_index
     ) internal updateRewardAndBalanceMdf(addrs[0], true) updateRewardAndBalanceMdf(addrs[1], true) returns (uint256,uint256) {
-        console2.log("TRANSFER, MAX STAKES", 12);//max_locked_stakes);
         // on transfer, call addrs[0] to verify sending is ok
         if (addrs[0].code.length > 0) {
             if (
@@ -2507,7 +2505,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         ) {
             // Get the stake and its index
             LockedStake memory receiverStake = getLockedStake(addrs[1], receiver_lock_index);
-            console2.log("ADDING TO STAKE", addrs[1], receiver_lock_index, lockedStakes[addrs[1]].length);
             if (receiver_lock_index < lockedStakes[addrs[1]].length) {
                 if (receiverStake.liquidity > 0) {
                     if (receiverStake.ending_timestamp > block.timestamp) {
@@ -2519,7 +2516,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         } else {
             // if receiver would have too many stakes to create a new one, look for zeroed out stakes
             if (lockedStakes[addrs[1]].length == 12){//max_locked_stakes) {
-                console2.log("AT MAX STAKES, SEEKING UNUSED", addrs[1], lockedStakes[addrs[1]].length);
                 // look for unused stakes that were previously used but zeroed out by withdrawals or transfers
                 (uint256 index, bool success) = _findUnusedStakeIndex(addrs[1]);
                 
@@ -2538,11 +2534,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                     senderStake.ending_timestamp, 
                     senderStake.lock_multiplier
                 );
-                console2.log("FARM TRANSFER STAKE - REUSED STAKE INDEX:", addrs[1], receiver_lock_index);
 
             // otherwise, create a new locked stake
             } else {
-                console2.log("FARM TRANSFER STAKE - CREATE NEW", addrs[1], lockedStakes[addrs[1]].length);
                 // create the new lockedStake
                 _createNewStake(
                     addrs[1], 
@@ -2554,7 +2548,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 
                 // update the return value of the locked index 
                 receiver_lock_index = lockedStakes[addrs[1]].length - 1;
-                console2.log("FARM TRANSFER STAKE - CREATED NEW POST", addrs[1], lockedStakes[addrs[1]].length);
             }
         }
 
