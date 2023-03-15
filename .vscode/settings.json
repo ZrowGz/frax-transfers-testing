@@ -5,13 +5,11 @@
     "solidity.remappings": [
         "forge-std/=lib/forge-std/src/", 
         "@openzeppelin/=lib/openzeppelin-contracts/",
-        "@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/",
+        "@openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
         "@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/",
-        "@frax/=lib/frax-solidity/src/hardhat/contracts/Staking/",
+        "@frax/=lib/frax-solidity/src/hardhat/contracts/",
         "@convex/=lib/frax-cvx-platform/contracts/contracts/",
         "@mocks/=test/mocks/",
-        "@frax_testing/=lib/frax_testing/src/",
-        "@openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
         "@interfaces/=src/interfaces/"
     ]
 }

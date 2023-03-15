@@ -8,13 +8,15 @@ import "forge-std/Vm.sol";
 // import {FraxUnifiedFarm_ERC20_Convex_frxETH_V2 as FraxUnifiedFarm_ERC20_V2} from "../src/TransferrableConvexFrxEthFarm.sol";
 // import {StakingProxyConvex as Vault} from "../src/ConvexVaultTransferrable.sol";
 /// import the actual convex & frax contracts, not mocks
-i?mport "@staking/Variants/
+import "@staking/Variants/FraxUnifiedFarm_ERC20_Convex_frxETH_V2.sol";
+// import "@convex/ConvexStakingProxy.sol";
+import "lib/frax-cvx-platform/contracts/contracts/StakingProxyConvex.sol";
 
 // import {FRAXStablecoin} from "@frax/../Frax/Frax.sol";
 import {IFraxFarmTransfers, IFraxFarmERC20} from "@interfaces/IFraxFarm.sol";
-import "@frax_testing/gauges/Curve/IFraxGaugeController.sol";
+import "@interfaces/IFraxGaugeController.sol";
 import {MockVaultOwner as VaultOwner} from "@mocks/MockVaultOwner.sol";
-import "../src/ConvexBoosterImprovedInitializer.sol";/// note: The new initializer was removed due to issues etching, values hardcoded in to the vault code for testing only
+// import "../src/ConvexBoosterImprovedInitializer.sol";/// note: The new initializer was removed due to issues etching, values hardcoded in to the vault code for testing only
 
 interface IDeposits {
     function add_liquidity(uint256[2] memory _amounts, uint256 _min_mint_amount) external returns (uint256);

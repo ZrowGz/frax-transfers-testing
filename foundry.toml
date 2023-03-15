@@ -3,14 +3,13 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 remappings = [
-    '@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/',
+    '@openzeppelin-contracts/=lib/openzeppelin-contracts/',
+    'openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/',
+    '@openzeppelin/=lib/openzeppelin-contracts/',
     '@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/',
     '@frax/=lib/frax-solidity/src/hardhat/contracts/',
     '@convex/=lib/frax-cvx-platform/contracts/contracts/',
     '@mocks/=test/mocks/',
-    '@openzeppelin-contracts/=lib/openzeppelin-contracts/',
-    'openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/',
-    '@openzeppelin/=lib/openzeppelin-contracts/',
     '@interfaces/=src/interfaces/'
 ]
 
