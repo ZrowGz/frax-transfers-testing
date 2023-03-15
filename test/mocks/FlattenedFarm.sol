@@ -1,7 +1,8 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity 0.8.17;
 
-import "lib/forge-std/src/console2.sol";
+// File: src/hardhat/contracts/Oracle/AggregatorV3Interface.sol
+
+
+pragma solidity >=0.6.0;
 
 interface AggregatorV3Interface {
 
@@ -37,6 +38,7 @@ interface AggregatorV3Interface {
 // File: src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol
 
 
+pragma solidity >=0.8.0;
 
 interface I2poolToken {
   function decimals() external view returns (uint256);
@@ -57,6 +59,9 @@ interface I2poolToken {
   function minter() external view returns (address);
 }
 // File: src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol
+
+
+pragma solidity >=0.8.0;
 
 interface I2pool {
     function decimals() external view returns (uint256);
@@ -114,6 +119,8 @@ interface I2pool {
 // File: src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol
 
 
+pragma solidity >=0.8.0;
+
 interface IDepositToken {
   function allowance(address owner, address spender) external view returns (uint256);
   function approve(address spender, uint256 amount) external returns (bool);
@@ -133,6 +140,8 @@ interface IDepositToken {
 
 // File: src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol
 
+
+pragma solidity >=0.8.0;
 
 interface IConvexStakingWrapperFrax {
   function addRewards() external;
@@ -185,6 +194,7 @@ interface IConvexStakingWrapperFrax {
 // File: src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol
 
 
+pragma solidity ^0.8.0;
 
 interface ICurvefrxETHETHPool {
   function A() external view returns (uint256);
@@ -233,7 +243,10 @@ interface ICurvefrxETHETHPool {
   function ma_last_time() external view returns (uint256);
 }
 
-// File: src/hardhat/contracts/Staking/.sol
+// File: src/hardhat/contracts/Staking/ILockReceiver.sol
+
+
+pragma solidity >=0.8.0;
 
 interface ILockReceiver {
     function beforeLockTransfer(
@@ -251,6 +264,9 @@ interface ILockReceiver {
     ) external returns (bytes4);
 }
 // File: src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol
+
+
+pragma solidity ^0.8.0;
 
 interface IConvexBaseRewardPool {
   function addExtraReward(address _reward) external returns (bool);
@@ -293,6 +309,8 @@ interface IConvexBaseRewardPool {
 // File: src/hardhat/contracts/Staking/OwnedV2.sol
 
 
+pragma solidity >=0.8.4;
+
 // https://docs.synthetix.io/contracts/Owned
 contract OwnedV2 {
     error OwnerCannotBeZero();
@@ -333,6 +351,8 @@ contract OwnedV2 {
 }
 // File: src/hardhat/contracts/Utils/ReentrancyGuardV2.sol
 
+
+pragma solidity ^0.8.4;
 
 /**
  * @dev Contract module that helps prevent reentrant calls to a function.
@@ -396,6 +416,8 @@ abstract contract ReentrancyGuardV2 {
 // File: src/hardhat/contracts/Uniswap/TransferHelperV2.sol
 
 
+pragma solidity >=0.8.4;
+
 // helper methods for interacting with ERC20 tokens and sending ETH that do not consistently return true/false
 library TransferHelperV2 {
     error TransferHelperApproveFailed();
@@ -434,6 +456,8 @@ library TransferHelperV2 {
 
 // OpenZeppelin Contracts v4.4.1 (utils/Context.sol)
 
+pragma solidity ^0.8.0;
+
 /**
  * @dev Provides information about the current execution context, including the
  * sender of the transaction and its data. While these are generally available
@@ -458,6 +482,7 @@ abstract contract Context {
 
 // OpenZeppelin Contracts (last updated v4.6.0) (token/ERC20/IERC20.sol)
 
+pragma solidity ^0.8.0;
 
 // import "../Math/SafeMath.sol";
 
@@ -537,6 +562,8 @@ interface IERC20 {
 // File: src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol
 
 
+pragma solidity ^0.8.0;
+
 interface IFraxGaugeFXSRewardsDistributor {
   function acceptOwnership() external;
   function curator_address() external view returns(address);
@@ -559,6 +586,8 @@ interface IFraxGaugeFXSRewardsDistributor {
 }
 // File: src/hardhat/contracts/Curve/IFraxGaugeController.sol
 
+
+pragma solidity ^0.8.0;
 
 // https://github.com/swervefi/swerve/edit/master/packages/swerve-contracts/interfaces/IGaugeController.sol
 
@@ -640,6 +669,8 @@ interface IFraxGaugeController {
 // File: src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol
 
 
+pragma solidity ^0.8.0;
+
 
 // https://github.com/swervefi/swerve/edit/master/packages/swerve-contracts/interfaces/IGaugeController.sol
 
@@ -655,6 +686,8 @@ interface IFraxGaugeControllerV2 is IFraxGaugeController {
 
 // File: src/hardhat/contracts/Curve/IveFXS.sol
 
+
+pragma solidity ^0.8.0;
 
 interface IveFXS {
 
@@ -711,6 +744,8 @@ interface IveFXS {
 
 
 // OpenZeppelin Contracts (last updated v4.8.0) (utils/math/Math.sol)
+
+pragma solidity ^0.8.0;
 
 /**
  * @dev Standard math utilities missing in the Solidity language.
@@ -823,6 +858,8 @@ library Math {
 // File: src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol
 
 
+pragma solidity >=0.8.4;
+
 // ====================================================================
 // |     ______                   _______                             |
 // |    / _____________ __  __   / ____(_____  ____ _____  ________   |
@@ -831,7 +868,7 @@ library Math {
 // | /_/   /_/   \__,_/_/|_|  /_/   /_/_/ /_/\__,_/_/ /_/\___/\___/   |
 // |                                                                  |
 // ====================================================================
-// ====================== FraxUnifiedFarmTemplate =====================
+// ==================== FraxUnifiedFarmTemplate_V2 ====================
 // ====================================================================
 // Farming contract that accounts for veFXS
 // Overrideable for UniV3, ERC20s, etc
@@ -966,8 +1003,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
     /// @notice Maximum number of locked stakes allowed per address (prevent dust attacks)
     /// @dev In the unlikely event that we need to increase this, we can using `setMiscVars`, but only ever increase (prevent making user's stakes unreachable)
     /// @notice default to 5, as that is the most that users tend to have, on average
-    // uint256 public max_locked_stakes;
-    /// @dev COMMENTED OUT FOR TESTING - hardcoded `12` in place of this var due to storage slot issues
+    uint256 public max_locked_stakes;
 
     /* ========== STRUCTS ========== */
     // In children...
@@ -1032,7 +1068,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         lastUpdateTime = block.timestamp;
         
         // Set the max locked stakes
-        // max_locked_stakes = 12;
+        max_locked_stakes = 12;
 
         // Sync the first period finish here with the gauge's 
         // periodFinish = IFraxGaugeController(gaugeControllers[0]).time_total();
@@ -1055,7 +1091,8 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         return false; 
     }
 
-    // All the reward tokens
+    /// @notice Gets all the reward tokens this contract handles
+    /// @return rewardTokens_ The reward tokens array
     function getAllRewardTokens() external view returns (address[] memory) {
         return rewardTokens;
     }
@@ -1065,6 +1102,9 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         return Math.min(block.timestamp, periodFinish);
     }
 
+    /// @notice The amount of reward tokens being paid out per second this period
+    /// @param token_idx The index of the reward token
+    /// @return rwd_rate The reward rate
     function rewardRates(uint256 token_idx) public view returns (uint256 rwd_rate) {
         // address gauge_controller_address = gaugeControllers[token_idx];
         if (gaugeControllers[token_idx] != address(0)) {
@@ -1078,7 +1118,8 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         }
     }
 
-    // Amount of reward tokens per LP token / liquidity unit
+    /// @notice The rate of reward tokens earned per liquidity unit
+    /// @return newRewardsPerTokenStored The new rewards per token stored array
     function rewardsPerToken() public view returns (uint256[] memory newRewardsPerTokenStored) {
         if (_total_liquidity_locked == 0 || _total_combined_weight == 0) {
             return rewardsPerTokenStored;
@@ -1094,9 +1135,10 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         }
     }
 
-    // Amount of reward tokens an account has earned / accrued
-    // Note: In the edge-case of one of the account's stake expiring since the last claim, this will
-    // return a slightly inflated number
+    /// @notice The amount of reward tokens an account has earned / accrued
+    /// @dev In the edge-case of one of the account's stake expiring since the last claim, this will
+    /// @param account The account to check
+    /// @return new_earned Array of reward token amounts earned by the account
     function earned(address account) public view returns (uint256[] memory new_earned) {
         uint256[] memory reward_arr = rewardsPerToken();
         new_earned = new uint256[](rewardTokens.length);
@@ -1112,7 +1154,8 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         }
     }
 
-    // Total reward tokens emitted in the given period
+    /// @notice The total reward tokens emitted in the given period
+    /// @return rewards_per_duration_arr Array of reward token amounts emitted in the current period
     function getRewardForDuration() external view returns (uint256[] memory rewards_per_duration_arr) {
         rewards_per_duration_arr = new uint256[](rewardRatesManual.length);
 
@@ -1124,28 +1167,36 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
 
     // ------ LIQUIDITY AND WEIGHTS ------
 
-    // User locked liquidity / LP tokens
+    /// @notice The farm's total locked liquidity / LP tokens
+    /// @return The total locked liquidity
     function totalLiquidityLocked() external view returns (uint256) {
         return _total_liquidity_locked;
     }
 
-    // Total locked liquidity / LP tokens
+    /// @notice A user's locked liquidity / LP tokens
+    /// @param account The address of the account
+    /// @return The locked liquidity
     function lockedLiquidityOf(address account) external view returns (uint256) {
         return _locked_liquidity[account];
     }
 
-    // Total combined weight
+    /// @notice The farm's total combined weight of all users
+    /// @return The total combined weight
     function totalCombinedWeight() external view returns (uint256) {
         return _total_combined_weight;
     }
 
-    // Total 'balance' used for calculating the percent of the pool the account owns
-    // Takes into account the locked stake time multiplier and veFXS multiplier
+    /// @notice Total 'balance' used for calculating the percent of the pool the account owns
+    /// @notice Takes into account the locked stake time multiplier and veFXS multiplier
+    /// @param account The address of the account
+    /// @return The combined weight
     function combinedWeightOf(address account) external view returns (uint256) {
         return _combined_weights[account];
     }
 
-    // Calculated the combined weight for an account
+    /// @notice Calculates the combined weight for an account
+    /// @notice Must be overriden by the child contract
+    /// @dev account The address of the account
     function calcCurCombinedWeight(address) public virtual view 
         returns (
             uint256,
@@ -1267,7 +1318,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
 
     /* =============== MUTATIVE FUNCTIONS =============== */
 
-
+    /// @notice Toggle whether a staker can use the proxy's veFXS balance to boost yields
     /// @notice Proxy must call this first, then the staker must call stakerSetVeFXSProxy
     function proxyToggleStaker(address staker_address) external {
         if(!valid_vefxs_proxies[msg.sender]) revert InvalidProxy();
@@ -1416,6 +1467,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         return _getReward(msg.sender, destination_address, claim_extra_too);
     }
 
+    // No withdrawer == msg.sender check needed since this is only internally callable
     function _getReward(
         address rewardee, 
         address destination_address, 
@@ -1581,6 +1633,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
 
     /* ========== RESTRICTED FUNCTIONS - Owner or timelock only ========== */
     
+    /// @notice Owner or governance can unlock stakes - irreversible!
     function unlockStakes() external onlyByOwnGov {
         stakesUnlocked = !stakesUnlocked;
     }
@@ -1649,10 +1702,9 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         /// This value can only ever be increased.
         /// If it were decreased, user locked stakes would be un-reachable for transfers & management, although they would be withdrawable once unlocked.
         /// If we must be able to decrease, stakes above this value could be made immediately withdrawable
-        /// @dev note this is being hardcoded to 12 stakes for testing ONLY
-        // if (_misc_vars[6] > max_locked_stakes) {
-        //     max_locked_stakes = _misc_vars[6];
-        // }
+        if (_misc_vars[6] > max_locked_stakes) {
+            max_locked_stakes = _misc_vars[6];
+        }
     }
 
     // The owner or the reward token managers can set reward rates 
@@ -1705,7 +1757,11 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
     //
     // [hjw] https://textart.io/art/vw6Sa3iwqIRGkZsN1BC2vweF/chicken
 }
+
 // File: src/hardhat/contracts/Staking/FraxUnifiedFarm_ERC20_V2.sol
+
+
+pragma solidity ^0.8.17;
 
 // ====================================================================
 // |     ______                   _______                             |
@@ -1715,7 +1771,7 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
 // | /_/   /_/   \__,_/_/|_|  /_/   /_/_/ /_/\__,_/_/ /_/\___/\___/   |
 // |                                                                  |
 // ====================================================================
-// ======================= FraxUnifiedFarm_ERC20 ======================
+// ===================== FraxUnifiedFarm_ERC20_V2 =====================
 // ====================================================================
 // For ERC20 Tokens
 // Uses FraxUnifiedFarmTemplate.sol
@@ -1759,7 +1815,6 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
 
 contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
-    
     // use custom errors to reduce contract size
     error TransferLockNotAllowed(address,uint256); // spender, locked_stake_index
     error StakeStillLocked(uint256,uint256); // ending_timestamp, block.timestamp
@@ -1821,13 +1876,11 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /* ========== STRUCTS ========== */
 
     // Struct for the stake
-    /// @dev kekID storage slot preserved FOR TESTING ONLY - causes underflow failure due to using with existing deployed logic.
     struct LockedStake {
-        bytes32 nothingToSeeHereFolks;
         uint256 start_timestamp;
         uint256 liquidity;
         uint256 ending_timestamp;
-        uint256 lock_multiplier; // 6 decimals of precision. 1x = 1000000
+        uint256 lock_multiplier;
     }
 
 
@@ -1836,17 +1889,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     mapping(address => mapping(uint256 => mapping(address => uint256))) public spenderAllowance;
     // staker => spender => bool (true if approved)
     mapping(address => mapping(address => bool)) public spenderApprovalForAllLocks;
-    
-    
-    /// @dev moved here for testing due to memory collisions
-    AggregatorV3Interface internal priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
 
-    /// @notice Maximum number of locked stakes allowed per address (prevent dust attacks)
-    /// @dev In the unlikely event that we need to increase this, we can using `setMiscVars`, but only ever increase (prevent making user's stakes unreachable)
-    /// @notice default to 5, as that is the most that users tend to have, on average
-    // uint256 public max_locked_stakes = 12;
-    /// @dev moved here for testing purposes due to storage slot collisions
-
+    
     /* ========== CONSTRUCTOR ========== */
 
     constructor (
@@ -1860,6 +1904,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     ) 
     FraxUnifiedFarmTemplate_V2(_owner, _rewardTokens, _rewardManagers, _rewardRatesManual, _gaugeControllers, _rewardDistributors)
     {
+
         // -------------------- VARIES (USE CHILD FOR LOGIC) --------------------
 
         // Fraxswap
@@ -1895,6 +1940,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // ------ FRAX RELATED ------
 
+    /// @notice Get the amount of FRAX 'inside' an LP token
+    /// @dev Override if needing to do something special
     function fraxPerLPToken() public virtual view override returns (uint256) {
         // Get the amount of FRAX 'inside' of the lp tokens
         uint256 frax_per_lp_token;
@@ -2099,22 +2146,34 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // ------ LOCK RELATED ------
 
-    // All the locked stakes for a given account
+    /// @notice Returns the locked stakes for a given account
+    /// @param account The address of the account
+    /// @return The array of locked stakes for a given account
     function lockedStakesOf(address account) external view returns (LockedStake[] memory) {
         return lockedStakes[account];
     }
 
-    // Returns the length of the locked stakes for a given account
+    /// @notice Returns the length of the locked stakes for a given account
+    /// @param account The address of the account
+    /// @return The length of the locked stakes for a given account
     function lockedStakesOfLength(address account) external view returns (uint256) {
         return lockedStakes[account].length;
     }
 
+    /// @notice Returns the locked stake at a given index
+    /// @param staker The address of the staker
+    /// @param locked_stake_index The index of the locked stake
+    /// @return locked_stake The locked stake struct
     function getLockedStake(address staker, uint256 locked_stake_index) public view returns (LockedStake memory locked_stake) {
         return(lockedStakes[staker][locked_stake_index]);
     }
 
 
     /// @notice Returns the liquidity and ending timestamp of a locked stake
+    /// @param staker The address of the staker
+    /// @param locked_stake_index The index of the locked stake
+    /// @return The liquidity of the locked stake
+    /// @return The ending timestamp of the locked stake
     function getStakeLiquidityAndEnding(address staker, uint256 locked_stake_index) external view returns (uint256,uint256) {
         return(
             lockedStakes[staker][locked_stake_index].liquidity,
@@ -2125,6 +2184,11 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /* =============== MUTATIVE FUNCTIONS =============== */
 
     // ------ STAKING ------
+
+    /// @notice Searches for previous used, but currently zeroed out stake positions within the array
+    /// @param staker The address of the staker
+    /// @return The index of the unused stake position
+    /// @return Whether or not an unused stake position was found
     function _findUnusedStakeIndex(address staker) internal view returns (uint256,bool) {
         uint256 i;
         while (i < lockedStakes[staker].length) {
@@ -2135,9 +2199,16 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         }
         return (i,false);
     }
-    /// @dev bytes32 kekID preserved due to memory collision in TESTING ONLY
+
+    /// @notice Updates a stake for a given staker
+    /// @param staker The address of the staker
+    /// @param index The index of the stake
+    /// @param start_timestamp The timestamp of when the stake started
+    /// @param liquidity The amount of liquidity to stake
+    /// @param ending_timestamp The timestamp of when the stake ends
+    /// @param lock_multiplier The multiplier of the stake
     function _updateStake(address staker, uint256 index, uint256 start_timestamp, uint256 liquidity, uint256 ending_timestamp, uint256 lock_multiplier) internal {
-        lockedStakes[staker][index] = LockedStake(bytes32(0), start_timestamp, liquidity, ending_timestamp, lock_multiplier);
+        lockedStakes[staker][index] = LockedStake(start_timestamp, liquidity, ending_timestamp, lock_multiplier);
     }
 
     /// @notice Creates a new stake for a given staker
@@ -2147,9 +2218,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /// @param ending_timestamp The timestamp of when the stake ends
     /// @param lock_multiplier The multiplier of the stake
     /// @return The index of the new stake
-    /// @dev THIS INCLUDES BYTES32 for the testing version only - prevent memory collision with etched code!
     function _createNewStake(address staker, uint256 start_timestamp, uint256 liquidity, uint256 ending_timestamp, uint256 lock_multiplier) internal returns(uint256) {
-        lockedStakes[staker].push(LockedStake(bytes32(0), start_timestamp, liquidity, ending_timestamp, lock_multiplier));
+        lockedStakes[staker].push(LockedStake(start_timestamp, liquidity, ending_timestamp, lock_multiplier));
         return lockedStakes[staker].length - 1;
     }
 
@@ -2272,7 +2342,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     /// @param secs The number of seconds to lock the liquidity for.
     /// @param useTargetStakeIndex If true, alter certain parameters of an existing stake. If false, create a new stake.
     /// @param targetIndex The index of the stake to alter, if applicable.
-   function _manageStake(
+    function _manageStake(
         address staker_address,
         address source_address,
         uint256 liquidity,
@@ -2292,7 +2362,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
         // If we are not using a target stake index, we are creating a new stake
         // AND if there's enough stake space, create a new one, otherwise check for zeroed out stakes
-        if (!useTargetStakeIndex && lockedStakes[staker_address].length < 12) { //max_locked_stakes
+        if (!useTargetStakeIndex && lockedStakes[staker_address].length < max_locked_stakes) {
             // Create the locked stake
             stakeIndex = _createNewStake(
                 staker_address, 
@@ -2302,9 +2372,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 lockMultiplier(secs)
             );
 
-            emit StakeLocked(staker_address, liquidity, secs, stakeIndex, source_address);
-
-        } else if (!useTargetStakeIndex && lockedStakes[staker_address].length == 12) {//max_locked_stakes
+            // check that the number of this address' stakes are not over the limit
+        } else if (!useTargetStakeIndex && lockedStakes[staker_address].length == max_locked_stakes) {
             // look for unused stakes that were previously used but zeroed out by withdrawals or transfers
             (uint256 index, bool success) = _findUnusedStakeIndex(staker_address);
 
@@ -2324,8 +2393,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
                 lockMultiplier(secs)
             );
 
-            emit StakeLocked(staker_address, liquidity, secs, stakeIndex, source_address);
-            
         } else {
             // Otherwise, we are either locking additional or extending lock duration
             if (!useTargetStakeIndex) revert NoStakeIndexProvided();
@@ -2351,8 +2418,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             
             // set the return value to the index of the stake we altered
             stakeIndex = targetIndex;
-
-            emit StakeManaged(staker_address, liquidity, secs, stakeIndex, source_address);
         }
 
         // if altering balances of a stake, update the liquidities
@@ -2365,6 +2430,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             // otherwise, only update rewards and balances
             _updateRewardAndBalance(msg.sender, false);
         }
+        emit StakeLocked(staker_address, liquidity, secs, lockedStakes[staker_address].length - 1, source_address);
 
         return stakeIndex;
     }
@@ -2435,6 +2501,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     // Approve `spender` to transfer `lockedStake` on behalf of `owner`
     /// @notice Used to increase allowance when it is at zero
     /// @dev separating this from the `increaseAllowance` function to avoid the allowance exploit
+    /// @param spender The address of the account that is allowed to transfer the tokens
+    /// @param lockedStakeIndex The index of the locked stake
+    /// @param amount The amount of tokens to be approved for transfer
     function setAllowance(address spender, uint256 lockedStakeIndex, uint256 amount) external {
         if(spenderAllowance[msg.sender][lockedStakeIndex][spender] > 0) revert CannotBeZero();
         spenderAllowance[msg.sender][lockedStakeIndex][spender] = amount;
@@ -2443,6 +2512,9 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     /// @notice Used to increase allowance when it is not at zero
     /// @dev separating this from the `setAllowance` function to avoid the allowance exploit
+    /// @param spender The address of the account that is allowed to transfer the tokens
+    /// @param lockedStakeIndex The index of the locked stake
+    /// @param amount The amount of tokens to be approved for transfer
     function increaseAllowance(address spender, uint256 lockedStakeIndex, uint256 amount) external {
         if (spenderAllowance[msg.sender][lockedStakeIndex][spender] == 0) revert AllowanceIsZero();
         spenderAllowance[msg.sender][lockedStakeIndex][spender] += amount;
@@ -2450,6 +2522,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     }
 
     /// @notice Revoke approval for a single lockedStake
+    /// @param spender The address of the account that is allowed to transfer the tokens
+    /// @param lockedStakeIndex The index of the locked stake
     function removeAllowance(address spender, uint256 lockedStakeIndex) external {
         spenderAllowance[msg.sender][lockedStakeIndex][spender] = 0;
         emit Approval(msg.sender, spender, lockedStakeIndex, 0);
@@ -2457,6 +2531,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 
     // Approve or revoke `spender` to transfer any/all locks on behalf of the owner
     /// @notice Set's `spender` approval for all locks: true=approve, false=remove approval
+    /// @param spender The address of the account that is allowed to transfer the tokens
+    /// @param approved The approval status
     function setApprovalForAll(address spender, bool approved) external {
         spenderApprovalForAllLocks[msg.sender][spender] = approved; 
         emit ApprovalForAll(msg.sender, spender, approved);
@@ -2512,9 +2588,6 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
         bool use_receiver_lock_index,
         uint256 receiver_lock_index
     ) external nonReentrant returns (uint256,uint256) {
-        // check approvals NOTE not needed as _spendAllowance does this also
-        // if (!isApproved(sender_address, sender_lock_index, transfer_amount)) revert TransferLockNotAllowed(msg.sender, sender_lock_index);
-
         /// if spender is not approved for all, spend allowance, otherwise, carry on
         if(!spenderApprovalForAllLocks[sender_address][msg.sender]) {
             // adjust the allowance down & performs checks
@@ -2609,7 +2682,7 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
             lockedStakes[addrs[1]][receiver_lock_index].liquidity += transfer_amount;
         } else {
             // if receiver would have too many stakes to create a new one, look for zeroed out stakes
-            if (lockedStakes[addrs[1]].length == 12) {
+            if (lockedStakes[addrs[1]].length == max_locked_stakes) {
                 // look for unused stakes that were previously used but zeroed out by withdrawals or transfers
                 (uint256 index, bool success) = _findUnusedStakeIndex(addrs[1]);
                 
@@ -2670,10 +2743,11 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
     // Inherited...
 
     /* ========== EVENTS ========== */
+    event LockedAdditional(address indexed user, uint256 locked_stake_index, uint256 amount);
+    event LockedLonger(address indexed user, uint256 locked_stake_index, uint256 new_secs, uint256 new_start_ts, uint256 new_end_ts);
     event StakeLocked(address indexed user, uint256 amount, uint256 secs, uint256 locked_stake_index, address source_address);
-    event StakeManaged(address indexed user, uint256 liquidity, uint256 secs, uint256 stakeIndex, address source_address);
     event WithdrawLocked(address indexed user, uint256 liquidity, uint256 locked_stake_index, address destination_address);
-
+    
     event Approval(address indexed owner, address indexed spender, uint256 locked_stake_index, uint256 amount);
     event ApprovalForAll(address indexed owner, address indexed spender, bool approved);
     
@@ -2681,6 +2755,8 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 }
 // File: src/hardhat/contracts/Staking/Variants/FraxUnifiedFarm_ERC20_Convex_frxETH_V2.sol
 
+
+pragma solidity >=0.8.0;
 
 // import "../../Curve/ICurvefrxETHETHPool.sol";
 // import "../../Misc_AMOs/convex/IConvexStakingWrapperFrax.sol";
@@ -2691,7 +2767,10 @@ contract FraxUnifiedFarm_ERC20_V2 is FraxUnifiedFarmTemplate_V2 {
 // import "../../ERC20/IERC20.sol";
 
 contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
-    // AggregatorV3Interface internal priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+    AggregatorV3Interface internal priceFeedETHUSD = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+
+    /// Added this as an override to the I2Pool version in FraxFarmERC20 to fix compiler warnings
+    // ICurvefrxETHETHPool public immutable curvePool;
 
     constructor (
         address _owner,
@@ -2705,6 +2784,7 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
     FraxUnifiedFarm_ERC20_V2(_owner , _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, _stakingToken)
     {
         // COMMENTED OUT SO COMPILER DOESNT COMPLAIN. UNCOMMENT WHEN DEPLOYING
+
         // Convex frxETHETH only
         stakingToken = IConvexStakingWrapperFrax(_stakingToken);
         curveToken = I2poolToken(stakingToken.curveToken());
@@ -2715,16 +2795,15 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
 
     function getLatestETHPriceE8() public view returns (int) {
         // Returns in E8
-        // (uint80 roundID, int price, , uint256 updatedAt, uint80 answeredInRound) = priceFeedETHUSD.latestRoundData();
-        // if (price < 0 || updatedAt == 0 || answeredInRound < roundID) revert InvalidChainlinkPrice();
-        // roundID; // silence warning
-        // updatedAt; // silence warning
-        // answeredInRound; // silence warning
-        // price; // silence warning
-        return 131820711091;
+        (uint80 roundID, int price, , uint256 updatedAt, uint80 answeredInRound) = priceFeedETHUSD.latestRoundData();
+        // require(price >= 0 && updatedAt!= 0 && answeredInRound >= roundID, "Invalid chainlink price");
+        if (price < 0 || updatedAt == 0 || answeredInRound < roundID) revert InvalidChainlinkPrice();
+        
+        return price;
     }
 
     function setETHUSDOracle(address _eth_usd_oracle_address) public onlyByOwnGov {
+        // require(_eth_usd_oracle_address != address(0), "Zero address detected");
         if (_eth_usd_oracle_address == address(0)) revert CannotBeZero();
 
         priceFeedETHUSD = AggregatorV3Interface(_eth_usd_oracle_address);
@@ -2749,5 +2828,3 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
         return frax_per_lp_token;
     }
 }
-/// @dev preserve the kekId slot in the locked stake FOR TESTING ONLY
-/// @dev moved the setMiscVars & the max stakes to the erc20 farm from template FOR TESTING ONLY
