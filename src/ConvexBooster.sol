@@ -1,11 +1,10 @@
-
-// File: @openzeppelin/contracts/utils/Address.sol
-
+// SPDX-License-Identifier: MIT
 
 // OpenZeppelin Contracts (last updated v4.8.0) (utils/Address.sol)
 
 pragma solidity ^0.8.10;
 
+// import "lib/forge-std/src/console2.sol";
 /**
  * @dev Collection of functions related to the address type
  */
@@ -251,7 +250,6 @@ library Address {
 
 // OpenZeppelin Contracts v4.4.1 (token/ERC20/extensions/draft-IERC20Permit.sol)
 
-// pragma solidity ^0.8.0;
 
 /**
  * @dev Interface of the ERC20 Permit extension allowing approvals to be made via signatures, as defined in
@@ -314,7 +312,6 @@ interface IERC20Permit {
 
 // OpenZeppelin Contracts (last updated v4.6.0) (token/ERC20/IERC20.sol)
 
-// pragma solidity ^0.8.0;
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP.
@@ -398,11 +395,6 @@ interface IERC20 {
 
 
 // OpenZeppelin Contracts (last updated v4.8.0) (token/ERC20/utils/SafeERC20.sol)
-
-// pragma solidity ^0.8.0;
-
-
-
 
 /**
  * @title SafeERC20
@@ -512,177 +504,374 @@ library SafeERC20 {
     }
 }
 
-// File: contracts/contracts/interfaces/IConvexWrapper.sol
+// File: contracts/contracts/interfaces/IProxyOwner.sol
 
 
-// pragma solidity 0.8.10;
-
-interface IConvexWrapper{
-
-   struct EarnedData {
-        address token;
-        uint256 amount;
-    }
-
-  function collateralVault() external view returns(address vault);
-  function convexPoolId() external view returns(uint256 _poolId);
-  function curveToken() external view returns(address);
-  function convexToken() external view returns(address);
-  function balanceOf(address _account) external view returns(uint256);
-  function totalBalanceOf(address _account) external view returns(uint256);
-  function deposit(uint256 _amount, address _to) external;
-  function stake(uint256 _amount, address _to) external;
-  function withdraw(uint256 _amount) external;
-  function withdrawAndUnwrap(uint256 _amount) external;
-  function getReward(address _account) external;
-  function getReward(address _account, address _forwardTo) external;
-  function rewardLength() external view returns(uint256);
-  function earned(address _account) external view returns(EarnedData[] memory claimable);
-  function setVault(address _vault) external;
-  function user_checkpoint(address[2] calldata _accounts) external returns(bool);
+interface IProxyOwner {
+    function proxyToggleStaker(address _vault) external;
 }
-// File: contracts/contracts/interfaces/IFraxFarmERC20.sol
+// File: contracts/contracts/interfaces/IProxyVault.sol
 
 
-// pragma solidity >=0.8.0;
-
-interface IFraxFarmERC20 {
-    
-    struct LockedStake {
-        bytes32 kek_id;
-        uint256 start_timestamp;
-        uint256 liquidity;
-        uint256 ending_timestamp;
-        uint256 lock_multiplier; // 6 decimals of precision. 1x = 1000000
-    }
-
-    function owner() external view returns (address);
-    function stakingToken() external view returns (address);
-    function fraxPerLPToken() external view returns (uint256);
-    function calcCurCombinedWeight(address account) external view
-        returns (
-            uint256 old_combined_weight,
-            uint256 new_vefxs_multiplier,
-            uint256 new_combined_weight
-        );
-    function lockedStakesOf(address account) external view returns (LockedStake[] memory);
-    function lockedStakesOfLength(address account) external view returns (uint256);
-    function lockAdditional(bytes32 kek_id, uint256 addl_liq) external;
-    function lockLonger(bytes32 kek_id, uint256 new_ending_ts) external;
-    function stakeLocked(uint256 liquidity, uint256 secs) external returns (bytes32);
-    function withdrawLocked(bytes32 kek_id, address destination_address) external returns (uint256);
-
-
-
-    function periodFinish() external view returns (uint256);
-    function rewardsDuration() external view returns (uint256);
-    function getAllRewardTokens() external view returns (address[] memory);
-    function earned(address account) external view returns (uint256[] memory new_earned);
-    function totalLiquidityLocked() external view returns (uint256);
-    function lockedLiquidityOf(address account) external view returns (uint256);
-    function totalCombinedWeight() external view returns (uint256);
-    function combinedWeightOf(address account) external view returns (uint256);
-    function lockMultiplier(uint256 secs) external view returns (uint256);
-    function rewardRates(uint256 token_idx) external view returns (uint256 rwd_rate);
-
-    function userStakedFrax(address account) external view returns (uint256);
-    function proxyStakedFrax(address proxy_address) external view returns (uint256);
-    function maxLPForMaxBoost(address account) external view returns (uint256);
-    function minVeFXSForMaxBoost(address account) external view returns (uint256);
-    function minVeFXSForMaxBoostProxy(address proxy_address) external view returns (uint256);
-    function veFXSMultiplier(address account) external view returns (uint256 vefxs_multiplier);
-
-    function toggleValidVeFXSProxy(address proxy_address) external;
-    function proxyToggleStaker(address staker_address) external;
-    function stakerSetVeFXSProxy(address proxy_address) external;
-    function getReward(address destination_address) external returns (uint256[] memory);
-    function vefxs_max_multiplier() external view returns(uint256);
-    function vefxs_boost_scale_factor() external view returns(uint256);
-    function vefxs_per_frax_for_max_boost() external view returns(uint256);
-    function getProxyFor(address addr) external view returns (address);
-
-    function sync() external;
-
-    function setAllowance(address spender, bytes32 kek_id, uint256 amount) external;
-    function increaseAllowance(address spender, bytes32 kek_id, uint256 amount) external;
-    function removeAllowance(address spender, bytes32 kek_id) external;
-    function setApprovalForAll(address spender, bool approved) external;
-    function transferLocked(address receiver_address, bytes32 source_kek_id, uint256 transfer_amount, bytes32 destination_kek_id) external returns(bytes32,bytes32);
-    function setRewardVars(address reward_token_address, uint256 _new_rate, address _gauge_controller_address, address _rewards_distributor_address) external;
+interface IProxyVault {
+    function initialize(address _owner, address _stakingAddress, address _stakingToken, address _rewardsAddress) external;//, address _poolRegistry, uint256 _pid) external;
+    function usingProxy() external returns(address);
+    function owner() external returns(address);
+    function stakingAddress() external returns(address);
+    function rewards() external returns(address);
+    function getReward() external;
+    function getReward(bool _claim) external;
+    function getReward(bool _claim, address[] calldata _rewardTokenList) external;
+    function earned() external view returns (address[] memory token_addresses, uint256[] memory total_earned);
 }
 
-// File: contracts/contracts/GaugeExtraRewardDistributor.sol
+interface ITransferChecker {
+    function vaultMap(uint256 _poolId, address _user) external returns(address);
+}
+
+interface IVaultType {
+    enum VaultType{
+        Erc20Basic,
+        UniV3,
+        Convex,
+        Erc20Joint
+    }
+}
+// File: contracts/contracts/interfaces/IPoolRegistry.sol
+
+interface IPoolRegistry {
+    function poolLength() external view returns(uint256);
+    function poolInfo(uint256 _pid) external view returns(address, address, address, uint8);
+    function vaultMap(uint256 _pid, address _user) external view returns(address vault);
+    function addUserVault(uint256 _pid, address _user) external returns(address vault, address stakeAddress, address stakeToken, address rewards);
+    function deactivatePool(uint256 _pid) external;
+    function addPool(address _implementation, address _stakingAddress, address _stakingToken) external;
+    function setRewardActiveOnCreation(bool _active) external;
+    function setRewardImplementation(address _imp) external;
+}
+// File: contracts/contracts/interfaces/IStaker.sol
 
 
-// pragma solidity 0.8.10;
+interface IStaker{
+    function createLock(uint256, uint256) external returns (bool);
+    function increaseAmount(uint256) external returns (bool);
+    function increaseTime(uint256) external returns (bool);
+    function release() external returns (bool);
+    function checkpointFeeRewards(address) external;
+    function claimFees(address,address,address) external returns (uint256);
+    function voteGaugeWeight(address,uint256) external returns (bool);
+    function operator() external view returns (address);
+    function execute(address _to, uint256 _value, bytes calldata _data) external returns (bool, bytes memory);
+}
+// File: contracts/contracts/Booster.sol
 
+/*
+Main interface for the whitelisted proxy contract.
 
+**This contract is meant to be able to be replaced for upgrade purposes. use IVoterProxy.operator() to always reference the current booster
 
-
-
-
-    
-contract GaugeExtraRewardDistributor {
+*/
+contract Booster{
     using SafeERC20 for IERC20;
 
-    address public farm;
-    address public wrapper;
+    address public constant fxs = address(0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0);
 
-    address public constant cvx = address(0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B);
-    address public constant crv = address(0xD533a949740bb3306d119CC777fa900bA034cd52);
+    address public immutable proxy;
+    address public immutable poolRegistry;
+    address public immutable feeRegistry;
+    address public owner;
+    address public pendingOwner;
+    address public poolManager;
+    address public rewardManager;
+    address public feeclaimer;
+    bool public isShutdown;
+    address public feeQueue;
 
-    event Recovered(address _token, uint256 _amount);
-    event Distributed(address _token, uint256 _rate);
+    mapping(address=>mapping(address=>bool)) public feeClaimMap;
 
-    constructor(){}
+    mapping(address=>address) public proxyOwners;
 
-    function initialize(address _farm, address _wrapper) external {
-        require(farm == address(0),"init fail");
 
-        farm = _farm;
-        wrapper = _wrapper;
+    constructor(address _proxy, address _poolReg, address _feeReg) {
+        proxy = _proxy;
+        poolRegistry = _poolReg;
+        feeRegistry = _feeReg;
+        isShutdown = false;
+        owner = msg.sender;
+        rewardManager = msg.sender;
+        poolManager = msg.sender;
+
+
+        //TODO: consider moving to a module so dont have to set everything again if upgraded
+        feeclaimer = address(0);//msg.sender;
+        feeClaimMap[address(0xc6764e58b36e26b08Fd1d2AeD4538c02171fA872)][fxs] = true;
+        emit FeeClaimPairSet(address(0xc6764e58b36e26b08Fd1d2AeD4538c02171fA872), fxs, true);
+        feeQueue = address(0x4f3AD55D7b884CDC48ADD1e2451A13af17887F26);//stash for cvxfxs convex pool
+        emit FeeQueueChanged(address(0x4f3AD55D7b884CDC48ADD1e2451A13af17887F26));
+
+        //set our proxy as its own owner
+        proxyOwners[_proxy] = _proxy;
+        //temple
+        proxyOwners[address(0xC0223fB0562555Bec938de5363D63EDd65102283)] = address(0x4A136F836961860E599d9BF6e03BBb4BcD0E39dd);
     }
 
-    //owner is farm owner
+    /////// Owner Section /////////
+
     modifier onlyOwner() {
-        require(msg.sender == IFraxFarmERC20(farm).owner(), "!owner");
+        require(owner == msg.sender, "!auth");
         _;
     }
 
-    function recoverERC20(address _tokenAddress, uint256 _tokenAmount) external onlyOwner {
-        require(_tokenAddress != crv && _tokenAddress != cvx, "invalid");
-        IERC20(_tokenAddress).safeTransfer(IFraxFarmERC20(farm).owner(), _tokenAmount);
+    modifier onlyPoolManager() {
+        require(poolManager == msg.sender, "!auth");
+        _;
+    }
+
+    //set pending owner
+    function setPendingOwner(address _po) external onlyOwner{
+        pendingOwner = _po;
+        emit SetPendingOwner(_po);
+    }
+
+    function _proxyCall(address _to, bytes memory _data) internal{
+        (bool success,) = IStaker(proxy).execute(_to,uint256(0),_data);
+        require(success, "Proxy Call Fail");
+    }
+
+    //claim ownership
+    function acceptPendingOwner() external {
+        require(pendingOwner != address(0) && msg.sender == pendingOwner, "!p_owner");
+
+        owner = pendingOwner;
+        pendingOwner = address(0);
+        emit OwnerChanged(owner);
+    }
+
+    //set fee queue, a contract fees are moved to when claiming
+    function setFeeQueue(address _queue) external onlyOwner{
+        feeQueue = _queue;
+        emit FeeQueueChanged(_queue);
+    }
+
+    //set who can call claim fees, 0x0 address will allow anyone to call
+    function setFeeClaimer(address _claimer) external onlyOwner{
+        feeclaimer = _claimer;
+        emit FeeClaimerChanged(_claimer);
+    }
+
+    function setFeeClaimPair(address _claimAddress, address _token, bool _active) external onlyOwner{
+        feeClaimMap[_claimAddress][_token] = _active;
+        emit FeeClaimPairSet(_claimAddress, _token, _active);
+    }
+
+    function addProxyOwner(address _proxy, address _owner) external onlyOwner{
+        proxyOwners[_proxy] = _owner;
+        emit ProxyOwnerSet(_proxy, _owner);
+    }
+
+    //set a reward manager address that controls extra reward contracts for each pool
+    function setRewardManager(address _rmanager) external onlyOwner{
+        rewardManager = _rmanager;
+        emit RewardManagerChanged(_rmanager);
+    }
+
+    //set pool manager
+    function setPoolManager(address _pmanager) external onlyOwner{
+        poolManager = _pmanager;
+        emit PoolManagerChanged(_pmanager);
+    }
+    
+    //shutdown this contract.
+    function shutdownSystem() external onlyOwner{
+        //This version of booster does not require any special steps before shutting down
+        //and can just immediately be set.
+        isShutdown = true;
+        emit Shutdown();
+    }
+
+    //claim operator roles for certain systems for direct access
+    function claimOperatorRoles() external onlyOwner{
+        require(!isShutdown,"shutdown");
+
+        //claim operator role of pool registry
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("setOperator(address)")), address(this));
+        _proxyCall(poolRegistry,data);
+    }
+
+    //set fees on user vaults
+    function setPoolFees(uint256 _cvxfxs, uint256 _cvx, uint256 _platform) external onlyOwner{
+        require(!isShutdown,"shutdown");
+
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("setFees(uint256,uint256,uint256)")), _cvxfxs, _cvx, _platform);
+        _proxyCall(feeRegistry,data);
+    }
+
+    //set fee deposit address for all user vaults
+    function setPoolFeeDeposit(address _deposit) external onlyOwner{
+        require(!isShutdown,"shutdown");
+
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("setDepositAddress(address)")), _deposit);
+        _proxyCall(feeRegistry,data);
+    }
+
+    //add pool on registry
+    function addPool(address _implementation, address _stakingAddress, address _stakingToken) external onlyPoolManager{
+        IPoolRegistry(poolRegistry).addPool(_implementation, _stakingAddress, _stakingToken);
+    }
+
+    //set a new reward pool implementation for future pools
+    function setPoolRewardImplementation(address _impl) external onlyPoolManager{
+        IPoolRegistry(poolRegistry).setRewardImplementation(_impl);
+    }
+
+    //deactivate a pool
+    function deactivatePool(uint256 _pid) external onlyPoolManager{
+        IPoolRegistry(poolRegistry).deactivatePool(_pid);
+    }
+
+    //set extra reward contracts to be active when pools are created
+    function setRewardActiveOnCreation(bool _active) external onlyPoolManager{
+        IPoolRegistry(poolRegistry).setRewardActiveOnCreation(_active);
+    }
+
+    //vote for gauge weights
+    function voteGaugeWeight(address _controller, address[] calldata _gauge, uint256[] calldata _weight) external onlyOwner{
+        for(uint256 i = 0; i < _gauge.length; ){
+            bytes memory data = abi.encodeWithSelector(bytes4(keccak256("vote_for_gauge_weights(address,uint256)")), _gauge[i], _weight[i]);
+            _proxyCall(_controller,data);
+            unchecked{ ++i; }
+        }
+    }
+
+    //set voting delegate
+    function setDelegate(address _delegateContract, address _delegate, bytes32 _space) external onlyOwner{
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("setDelegate(bytes32,address)")), _space, _delegate);
+        _proxyCall(_delegateContract,data);
+        emit DelegateSet(_delegate);
+    }
+
+    //recover tokens on this contract
+    function recoverERC20(address _tokenAddress, uint256 _tokenAmount, address _withdrawTo) external onlyOwner{
+        IERC20(_tokenAddress).safeTransfer(_withdrawTo, _tokenAmount);
         emit Recovered(_tokenAddress, _tokenAmount);
     }
 
-    // Add a new reward token to be distributed to stakers
-    function distributeReward(address _farm) external{
-        //only allow farm to call
-        require(msg.sender == farm);
+    //manually set vefxs proxy for a given vault
+    function setVeFXSProxy(address _vault, address _newproxy) external{
+        require(!isShutdown,"shutdown");
+
+        //get owner of vault
+        address vaultOwner = IProxyVault(_vault).owner();
+
+        //require vault owner or convex admin to call
+        require(vaultOwner == msg.sender || owner == msg.sender, "!auth" );
+
+        //require new proxy to be known
+        require(proxyOwners[_newproxy] != address(0),"!proxy");
         
-        //get rewards
-        IConvexWrapper(wrapper).getReward(_farm);
+        //call checkpoint to checkpoint rewards with current boost
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("checkpointRewards()")));
+        _proxyCall(_vault,data);
 
-        //get last period update from farm and figure out period
-        uint256 duration = IFraxFarmERC20(_farm).rewardsDuration();
-        uint256 periodLength = ((block.timestamp + duration) / duration) - IFraxFarmERC20(_farm).periodFinish();
+        //get current proxy
+        address currentProxy = IProxyVault(_vault).usingProxy();
 
-        //reward tokens on farms are constant so dont need to loop, just distribute crv and cvx
-        uint256 balance = IERC20(crv).balanceOf(address(this));
-        uint256 rewardRate = IERC20(crv).balanceOf(address(this)) / periodLength;
-        if(balance > 0){
-            IERC20(crv).transfer(farm, balance);
+        //tell current proxy admin to remove
+        if(currentProxy == proxy){
+            //proxy is currently convex, call internal
+            data = abi.encodeWithSelector(bytes4(keccak256("proxyToggleStaker(address)")), _vault);
+            _proxyCall(IProxyVault(_vault).stakingAddress(),data);
+        }else{
+            //get proxy owner from list
+            IProxyOwner(proxyOwners[currentProxy]).proxyToggleStaker(_vault);
         }
-        //if balance is 0, still need to call so reward rate is set to 0
-        IFraxFarmERC20(_farm).setRewardVars(crv, rewardRate, address(0), address(this));
-        emit Distributed(crv, rewardRate);
 
-        balance = IERC20(cvx).balanceOf(address(this));
-        rewardRate = IERC20(cvx).balanceOf(address(this)) / periodLength;
-        if(balance > 0){
-            IERC20(cvx).transfer(farm, balance);
+        //tell next proxy admin to add
+        if(_newproxy == proxy){
+            //new proxy is convex, call internal
+            data = abi.encodeWithSelector(bytes4(keccak256("proxyToggleStaker(address)")), _vault);
+            _proxyCall(IProxyVault(_vault).stakingAddress(),data);
+        }else{
+            //get proxy owner from list
+            IProxyOwner(proxyOwners[_newproxy]).proxyToggleStaker(_vault);
         }
-        IFraxFarmERC20(_farm).setRewardVars(cvx, rewardRate, address(0), address(0)); //keep distributor 0 since its shared
-        emit Distributed(cvx, rewardRate);
+
+
+        //set proxy on vault
+        data = abi.encodeWithSelector(bytes4(keccak256("setVeFXSProxy(address)")), _newproxy);
+        _proxyCall(_vault,data);
+
+        //call get rewards to checkpoint with new boosted weight
+        //should be a bit cheaper than call above since there should be no token transfers in second call
+        data = abi.encodeWithSelector(bytes4(keccak256("checkpointRewards()")));
+        _proxyCall(_vault,data);
+
     }
+
+    //recover tokens on the proxy
+    function recoverERC20FromProxy(address _tokenAddress, uint256 _tokenAmount, address _withdrawTo) external onlyOwner{
+
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("transfer(address,uint256)")), _withdrawTo, _tokenAmount);
+        _proxyCall(_tokenAddress,data);
+
+        emit Recovered(_tokenAddress, _tokenAmount);
+    }
+
+    //////// End Owner Section ///////////
+
+
+    function createVault(uint256 _pid) external returns (address){
+    	//create minimal proxy vault for specified pool
+        (address vault, address stakeAddress, address stakeToken, address rewards) = IPoolRegistry(poolRegistry).addUserVault(_pid, msg.sender);
+
+    	//make voterProxy call proxyToggleStaker(vault) on the pool's stakingAddress to set it as a proxied child
+        bytes memory data = abi.encodeWithSelector(bytes4(keccak256("proxyToggleStaker(address)")), vault);
+        _proxyCall(stakeAddress,data);
+
+    	//call proxy initialize
+        IProxyVault(vault).initialize(msg.sender, stakeAddress, stakeToken, rewards);//, poolRegistry, _pid);
+
+        //set vault vefxs proxy
+        data = abi.encodeWithSelector(bytes4(keccak256("setVeFXSProxy(address)")), proxy);
+        _proxyCall(vault,data);
+
+        return vault;
+    }
+
+
+    //claim fees - if set, move to a fee queue that rewards can pull from
+    function claimFees(address _distroContract, address _token) external {
+        require(feeclaimer == address(0) || feeclaimer == msg.sender, "!auth");
+        require(feeClaimMap[_distroContract][_token],"!claimPair");
+
+        uint256 bal;
+        if(feeQueue != address(0)){
+            bal = IStaker(proxy).claimFees(_distroContract, _token, feeQueue);
+        }else{
+            bal = IStaker(proxy).claimFees(_distroContract, _token, address(this));
+        }
+        emit FeesClaimed(bal);
+    }
+
+    //call vefxs checkpoint
+    function checkpointFeeRewards(address _distroContract) external {
+        require(feeclaimer == address(0) || feeclaimer == msg.sender, "!auth");
+
+        IStaker(proxy).checkpointFeeRewards(_distroContract);
+    }
+
+    
+    /* ========== EVENTS ========== */
+    event SetPendingOwner(address indexed _address);
+    event OwnerChanged(address indexed _address);
+    event FeeQueueChanged(address indexed _address);
+    event FeeClaimerChanged(address indexed _address);
+    event FeeClaimPairSet(address indexed _address, address indexed _token, bool _value);
+    event ProxyOwnerSet(address indexed _address, address _owner);
+    event RewardManagerChanged(address indexed _address);
+    event PoolManagerChanged(address indexed _address);
+    event Shutdown();
+    event DelegateSet(address indexed _address);
+    event FeesClaimed(uint256 _amount);
+    event Recovered(address indexed _token, uint256 _amount);
 }
