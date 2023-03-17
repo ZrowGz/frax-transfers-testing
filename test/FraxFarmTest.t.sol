@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity >=0.8.0;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 import "forge-std/Vm.sol";
 
 // import {FraxUnifiedFarm_ERC20_V2} from "../src/FraxFarmERC20Transferrable.sol";
-import {FraxUnifiedFarm_ERC20_Convex_frxETH_V2 as FraxUnifiedFarm_ERC20_V2} from "../src/TransferrableConvexFrxEthFarm.sol";
-import {MockERC20} from "@mocks/MockERC20.sol";
+// import {FraxUnifiedFarm_ERC20_Convex_frxETH_V2 as FraxUnifiedFarm_ERC20_V2} from "../src/TransferrableConvexFrxEthFarm.sol";
+import {MockERC20, MockLp} from "@mocks/MockERC20.sol";
 import "@staking/FraxUnifiedFarm_ERC20_V2.sol";
 // import {StakingProxyConvex as Vault} from "../src/ConvexVaultTransferrable.sol";
 // import "@convex/interfaces/IFraxFarmERC20.sol";
@@ -41,6 +41,7 @@ contract FraxFarmERC20TransfersTest is Test {
     FraxUnifiedFarm_ERC20_V2 public fraxFarm;
     MockERC20 public stakedToken;
     MockERC20 public rewardToken;
+    MockLp public stakingLp;
     // Vault public cvxVault;
     
     // PoolRegistry public poolRegistry;
@@ -48,6 +49,8 @@ contract FraxFarmERC20TransfersTest is Test {
 
     address public alice;
     address public bob;
+
+    uint256 public constant DURATION = 604800; // 7 days
     
     // address public frxEth = 0x5E8422345238F34275888049021821E8E08CAa1f;
     // address public frxETHCRV = 0xf43211935C781D5ca1a41d2041F397B8A7366C7A; // frxeth/eth crv LP token
@@ -89,6 +92,11 @@ contract FraxFarmERC20TransfersTest is Test {
 
     function setUp() public {
 
+        // Deploy the staked token`
+        stakedToken = new MockERC20("Staked Token", "STK", 18);
+        rewardToken = new MockERC20("Reward Token", "RTK", 18);
+        stakingLp = new MockLp("Staking LP", "SLP", 18);
+
         // create two users
         alice = vm.addr(0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef);
         vm.deal(alice, 1e10 ether);
@@ -99,20 +107,25 @@ contract FraxFarmERC20TransfersTest is Test {
         vm.deal(bob, 1e10 ether);
         vm.label(bob, "Bob");
 
-        // Set the rewards parameters
-        _rewardManagers.push(address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27));
+        // Set the rewards parameters - allow this address to set the reward rates for reward tokens, but only manually
+        _rewardManagers.push(address(this));
         // _rewardManagers.push(address(this));
-        _rewardRates.push(1157407);//4074074); // half as much fxs as pitch
+        _rewardRates.push(100000000000);//4074074); // half as much fxs as pitch
         // _rewardRates.push(24690); // twice as many pitch as fxs
-        _rewardDistributors.push(address(distributor));
+        _rewardDistributors.push(address(0x0));
         _rewardTokens.push(address(rewardToken));
         // _rewardTokens.push(address(cvxToken));
         _gaugeControllers.push(address(0x0));
 
         // Give the vault owners some ETH
-        vm.deal(address(senderOwner), 1e10 ether);
-        vm.deal(address(receiverOwner), 1e10 ether);
+        vm.deal(address(alice), 1e10 ether);
+        vm.deal(address(bob), 1e10 ether);
         vm.deal(address(this), 1e10 ether);
+
+        // Give the users some tokens
+        stakingLp.mint(alice, 1e10 ether);
+        stakingLp.mint(bob, 1e10 ether);
+
 
         //console2.log("GetProxyFor", frxEthFarm.getProxyFor(address(0x6f82cD44e8A757C0BaA7e841F4bE7506B529ce41)));
         /// todo not needed until the booster & vault logic is changed onchain        // create the new booster
@@ -120,7 +133,9 @@ contract FraxFarmERC20TransfersTest is Test {
         // vm.etch(address(convexBooster), address(boost).code);
 
         // Deploy the logic for the transferrable fraxfarm
-        fraxFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, address(cvxStkFrxEthLp));
+        fraxFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, address(stakingLp));
+        rewardToken.mint(address(fraxFarm), 1e10 ether);
+
         // console2.log("address of cvxStkFrxEthLp", address(cvxStkFrxEthLp));
         // console2.log("stakingTokenFrxFarm", address(frxEthFarm.stakingToken()));
         // console2.log("stakingTokenFrxEthFarm", address(frxEthFarm.stakingToken()));
