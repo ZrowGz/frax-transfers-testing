@@ -3,15 +3,14 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 remappings = [
-    '@fraxmocks/=lib/frax-solidity/src/hardhat/contracts/mocks/',
-    '@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/',
-    '@frax/=lib/frax-solidity/src/hardhat/contracts/',
-    '@convex/=lib/frax-cvx-platform/contracts/contracts/',
-    '@mocks/=test/mocks/',
-    '@frax_testing/=lib/frax_testing/src/',
     '@openzeppelin-contracts/=lib/openzeppelin-contracts/',
     'openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/',
     '@openzeppelin/=lib/openzeppelin-contracts/',
+    '@staking/=lib/frax-solidity/src/hardhat/contracts/Staking/',
+    '@frax/=lib/frax-solidity/src/hardhat/contracts/',
+    '@convex/=lib/frax-cvx-platform/contracts/contracts/',
+    '@convex-platform/=lib/platform/contracts/',
+    '@mocks/=test/mocks/',
     '@interfaces/=src/interfaces/'
 ]
 
@@ -37,7 +36,7 @@ stackAllocation = true
 
 # Have cse = true commented out for faster testing compilation, 
 ### but UNCOMMENT it for DEPLOYMENT! ###
- cse = true
+#cse = true
 
 
 [profile.default.optimizer_details.yulDetails]
@@ -45,4 +44,31 @@ stackAllocation = true
 
 # Have optimizerSteps = "" uncommented for faster testing compilation, 
 ### but COMMENT IT out for DEPLOYMENT!###
-#optimizerSteps = ""
+optimizerSteps = ""
+
+
+[profile.convex]
+# `src` must be different fot it to work.
+# We also recommend putting all Solidity test files and scripts inside `src*/`.
+#src = 'src_convex'
+#out = 'out'
+# The order matters! When using `forge install` with FOUNDRY_PROFILE=0_6_x,
+# it will use the first directory as the installation path.
+# If the library is compatible with all versions,
+# you can install it with the default profile.
+#libs = ['lib_convex', 'lib']
+#optimizer = true
+#solc_version = '0.8.10'
+
+# [profile.frax]
+## `src` must be different fot it to work.
+## We also recommend putting all Solidity test files and scripts inside `src*/`.
+## src = 'src_frax'
+## out = 'out'
+## The order matters! When using `forge install` with FOUNDRY_PROFILE=0_6_x,
+## it will use the first directory as the installation path.
+## If the library is compatible with all versions,
+## you can install it with the default profile.
+# libs = ['lib_frax', 'lib']
+# optimizer = true
+# solc_version = '0.8.17'

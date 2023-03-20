@@ -1354,11 +1354,6 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         revert NeedsGRELLogic();
     }
 
-    /// @notice A function that can be overridden to add extra logic to the pre-transfer process to process curve LP rewards
-    function preTransferProcess(address, address) public virtual {
-        revert NeedsPreTransferProcessLogic();
-    }
-
     // Two different getReward functions are needed because of delegateCall and msg.sender issues
     // For backwards-compatibility
     function getReward(address destination_address) external nonReentrant returns (uint256[] memory) {
@@ -2570,8 +2565,4 @@ contract FraxUnifiedFarm_ERC20_Convex_frxETH_V2 is FraxUnifiedFarm_ERC20_V2 {
         return frax_per_lp_token;
     }
 
-    function preTransferProcess(address from, address to) public override {
-        stakingToken.user_checkpoint(from);
-        stakingToken.user_checkpoint(to);
-    }
 }

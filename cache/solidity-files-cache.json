@@ -12,7 +12,7 @@
   },
   "files": {
     "lib/forge-std/lib/ds-test/src/test.sol": {
-      "lastModificationDate": 1672963753398,
+      "lastModificationDate": 1678908637195,
       "contentHash": "962996f0e05d5218857a538a62d7c47e",
       "sourceName": "lib/forge-std/lib/ds-test/src/test.sol",
       "solcConfig": {
@@ -24,11 +24,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -64,7 +64,7 @@
       }
     },
     "lib/forge-std/src/Common.sol": {
-      "lastModificationDate": 1672963752714,
+      "lastModificationDate": 1678908637132,
       "contentHash": "ea3ecfaf9e52274a3ca35df6f809f120",
       "sourceName": "lib/forge-std/src/Common.sol",
       "solcConfig": {
@@ -76,11 +76,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -130,7 +130,7 @@
       }
     },
     "lib/forge-std/src/Components.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637132,
       "contentHash": "17a6b3d6f1a6e6333081b9e1e5215ebf",
       "sourceName": "lib/forge-std/src/Components.sol",
       "solcConfig": {
@@ -142,11 +142,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -195,7 +195,7 @@
       }
     },
     "lib/forge-std/src/StdAssertions.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637132,
       "contentHash": "d3f7487aaf77c715fdbdea89ea4f8399",
       "sourceName": "lib/forge-std/src/StdAssertions.sol",
       "solcConfig": {
@@ -207,11 +207,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -250,7 +250,7 @@
       }
     },
     "lib/forge-std/src/StdChains.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637133,
       "contentHash": "8cece3d4e0c96031a414097a6c26517a",
       "sourceName": "lib/forge-std/src/StdChains.sol",
       "solcConfig": {
@@ -262,11 +262,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -304,7 +304,7 @@
       }
     },
     "lib/forge-std/src/StdCheats.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637133,
       "contentHash": "5960537b5094aeb68074b3798d16e189",
       "sourceName": "lib/forge-std/src/StdCheats.sol",
       "solcConfig": {
@@ -316,11 +316,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -362,7 +362,7 @@
       }
     },
     "lib/forge-std/src/StdError.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637133,
       "contentHash": "64c896e1276a291776e5ea5aecb3870a",
       "sourceName": "lib/forge-std/src/StdError.sol",
       "solcConfig": {
@@ -374,11 +374,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -414,7 +414,7 @@
       }
     },
     "lib/forge-std/src/StdJson.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637133,
       "contentHash": "1df82178ad2d4556c856d0ca4b8f614d",
       "sourceName": "lib/forge-std/src/StdJson.sol",
       "solcConfig": {
@@ -426,11 +426,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -468,7 +468,7 @@
       }
     },
     "lib/forge-std/src/StdMath.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637134,
       "contentHash": "9da8f453eba6bb98f3d75bc6822bfb29",
       "sourceName": "lib/forge-std/src/StdMath.sol",
       "solcConfig": {
@@ -480,11 +480,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -520,7 +520,7 @@
       }
     },
     "lib/forge-std/src/StdStorage.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637134,
       "contentHash": "3f1bd6d72997330e2f556ececa8114a7",
       "sourceName": "lib/forge-std/src/StdStorage.sol",
       "solcConfig": {
@@ -532,11 +532,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -577,7 +577,7 @@
       }
     },
     "lib/forge-std/src/StdUtils.sol": {
-      "lastModificationDate": 1672963752715,
+      "lastModificationDate": 1678908637134,
       "contentHash": "1d1d6bf7b4609a675d06cc41f8dcd5ad",
       "sourceName": "lib/forge-std/src/StdUtils.sol",
       "solcConfig": {
@@ -589,11 +589,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -631,7 +631,7 @@
       }
     },
     "lib/forge-std/src/Test.sol": {
-      "lastModificationDate": 1672963752716,
+      "lastModificationDate": 1678908637134,
       "contentHash": "cbdf558135f33c27c7577013f9a2dda8",
       "sourceName": "lib/forge-std/src/Test.sol",
       "solcConfig": {
@@ -643,11 +643,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -701,7 +701,7 @@
       }
     },
     "lib/forge-std/src/Vm.sol": {
-      "lastModificationDate": 1672963752716,
+      "lastModificationDate": 1678908637135,
       "contentHash": "7d92321fbeea01d10f89778af1d0e074",
       "sourceName": "lib/forge-std/src/Vm.sol",
       "solcConfig": {
@@ -713,11 +713,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -756,7 +756,7 @@
       }
     },
     "lib/forge-std/src/console.sol": {
-      "lastModificationDate": 1672963752716,
+      "lastModificationDate": 1678908637135,
       "contentHash": "100b8a33b917da1147740d7ab8b0ded3",
       "sourceName": "lib/forge-std/src/console.sol",
       "solcConfig": {
@@ -768,11 +768,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -808,7 +808,7 @@
       }
     },
     "lib/forge-std/src/console2.sol": {
-      "lastModificationDate": 1672963752716,
+      "lastModificationDate": 1678908637136,
       "contentHash": "493035087920d89b7c215d662e53ace3",
       "sourceName": "lib/forge-std/src/console2.sol",
       "solcConfig": {
@@ -820,11 +820,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -859,10 +859,10 @@
         }
       }
     },
-    "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol": {
-      "lastModificationDate": 1672963756343,
-      "contentHash": "8c5bf1977148153bc9fdd8d452f856b0",
-      "sourceName": "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
+    "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxFarmERC20.sol": {
+      "lastModificationDate": 1679109070290,
+      "contentHash": "6b3f3b06bc5531fbb571834e13a87214",
+      "sourceName": "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxFarmERC20.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -872,11 +872,63 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "IFraxFarmERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarmERC20.sol/IFraxFarmERC20.json"
+        }
+      }
+    },
+    "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxGaugeController.sol": {
+      "lastModificationDate": 1678908704196,
+      "contentHash": "de6fd5fd4000f18de5417f063d6c433c",
+      "sourceName": "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxGaugeController.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -907,12 +959,1212 @@
       "versionRequirement": ">=0.6.11",
       "artifacts": {
         "IFraxGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "interfaces/IFraxGaugeController.sol/IFraxGaugeController.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol": {
+      "lastModificationDate": 1678908680598,
+      "contentHash": "c4b296fb9a98a645ca52cc72c3fbae06",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "Context": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ContextV2.sol/Context.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol": {
+      "lastModificationDate": 1678908680602,
+      "contentHash": "57defcc84a903bb1ccc940ef7ec57bb3",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ICurvefrxETHETHPool": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ICurvefrxETHETHPool.sol/ICurvefrxETHETHPool.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol": {
+      "lastModificationDate": 1678908680602,
+      "contentHash": "5d3fc62b409c8f4d2ae9258d147a3b5b",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IFraxGaugeController": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxGaugeController.sol/IFraxGaugeController.json"
         }
       }
     },
+    "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol": {
+      "lastModificationDate": 1678908680603,
+      "contentHash": "dec008332ade6d432760b4643d68c32a",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IFraxGaugeControllerV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxGaugeControllerV2.sol/IFraxGaugeControllerV2.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol": {
+      "lastModificationDate": 1678908680603,
+      "contentHash": "69309462330a4f66822c2a9c58e0cc4d",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IFraxGaugeFXSRewardsDistributor": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxGaugeFXSRewardsDistributor.sol/IFraxGaugeFXSRewardsDistributor.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol": {
+      "lastModificationDate": 1678908680605,
+      "contentHash": "0f72c9962b47ad23fbe7467c82459f24",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IveFXS": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IveFXS.sol/IveFXS.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol": {
+      "lastModificationDate": 1678908680613,
+      "contentHash": "9ea3a853c512cf3e4308cac004bbe2a2",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IERC20V2.sol/IERC20.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol": {
+      "lastModificationDate": 1678908680694,
+      "contentHash": "614c6f13c1eb2404389894c0aacc16eb",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "Math": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MathV2.sol/Math.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol": {
+      "lastModificationDate": 1678908680735,
+      "contentHash": "02d76d029b5e927cbf901f928c3c23fe",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IConvexBaseRewardPool": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IConvexBaseRewardPool.sol/IConvexBaseRewardPool.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol": {
+      "lastModificationDate": 1678908680737,
+      "contentHash": "4176715a6759ae3bd7566a840d25e5ec",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "IConvexStakingWrapperFrax": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IConvexStakingWrapperFrax.sol/IConvexStakingWrapperFrax.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol": {
+      "lastModificationDate": 1678908680738,
+      "contentHash": "2cccdb399cbd70a360c93f233fb7a395",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "IDepositToken": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IDepositToken.sol/IDepositToken.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol": {
+      "lastModificationDate": 1678908680739,
+      "contentHash": "3698acdaf9a066db2ca4b57fcd439fa3",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "I2pool": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "I2pool.sol/I2pool.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol": {
+      "lastModificationDate": 1678908680740,
+      "contentHash": "ea06a05fab8286804be6562095d83eac",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "I2poolToken": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "I2poolToken.sol/I2poolToken.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Oracle/AggregatorV3Interface.sol": {
+      "lastModificationDate": 1679108773139,
+      "contentHash": "8e23314b120377fd91b8dca3a69acbf1",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Oracle/AggregatorV3Interface.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.6.0",
+      "artifacts": {
+        "AggregatorV3Interface": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "AggregatorV3Interface.sol/AggregatorV3Interface.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol": {
+      "lastModificationDate": 1678908680769,
+      "contentHash": "f2fd8e5b2d7bc94a11d304eda9474603",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol",
+        "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol"
+      ],
+      "versionRequirement": ">=0.8.4",
+      "artifacts": {
+        "FraxUnifiedFarmTemplate_V2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxUnifiedFarmTemplate_V2.sol/FraxUnifiedFarmTemplate_V2.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarm_ERC20_V2.sol": {
+      "lastModificationDate": 1678908680770,
+      "contentHash": "0ef4a72e7462d0baa8e430cfb471c5c7",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarm_ERC20_V2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol",
+        "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/ILockReceiver.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol"
+      ],
+      "versionRequirement": "^0.8.17",
+      "artifacts": {
+        "FraxUnifiedFarm_ERC20_V2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxUnifiedFarm_ERC20_V2.sol/FraxUnifiedFarm_ERC20_V2.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Staking/ILockReceiver.sol": {
+      "lastModificationDate": 1678908680773,
+      "contentHash": "b69a8702e4baf10cf32909c679237a4e",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Staking/ILockReceiver.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "ILockReceiver": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ILockReceiver.sol/ILockReceiver.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol": {
+      "lastModificationDate": 1678908680775,
+      "contentHash": "77aee08b23bec555b81d0ca9086c9815",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.4",
+      "artifacts": {
+        "OwnedV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "OwnedV2.sol/OwnedV2.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Staking/Variants/FraxUnifiedFarm_ERC20_Convex_frxETH_V2.sol": {
+      "lastModificationDate": 1679108773150,
+      "contentHash": "c303ca1b886730d08a0977741e39862e",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Staking/Variants/FraxUnifiedFarm_ERC20_Convex_frxETH_V2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol",
+        "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Oracle/AggregatorV3Interface.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarm_ERC20_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/ILockReceiver.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol"
+      ],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "FraxUnifiedFarm_ERC20_Convex_frxETH_V2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxUnifiedFarm_ERC20_Convex_frxETH_V2.sol/FraxUnifiedFarm_ERC20_Convex_frxETH_V2.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol": {
+      "lastModificationDate": 1678908680784,
+      "contentHash": "586e1f1583b81382a0b4559accbb9321",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.4",
+      "artifacts": {
+        "TransferHelperV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "TransferHelperV2.sol/TransferHelperV2.json"
+        }
+      }
+    },
+    "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol": {
+      "lastModificationDate": 1678908680791,
+      "contentHash": "6428426e51504daff8553f14c41a5587",
+      "sourceName": "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.4",
+      "artifacts": {
+        "ReentrancyGuardV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ReentrancyGuardV2.sol/ReentrancyGuardV2.json"
+        }
+      }
+    },
+    "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": {
+      "lastModificationDate": 1679108773987,
+      "contentHash": "ad7c2d0af148c8f9f097d65deeb4da6b",
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "IERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IERC20.sol/IERC20.json"
+        }
+      }
+    },
     "src/ConvexBoosterImprovedInitializer.sol": {
-      "lastModificationDate": 1673372705233,
+      "lastModificationDate": 1679083457118,
       "contentHash": "961f6309958f1a06de479736f1f2bab8",
       "sourceName": "src/ConvexBoosterImprovedInitializer.sol",
       "solcConfig": {
@@ -924,11 +2176,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -994,7 +2246,7 @@
       }
     },
     "src/ConvexPoolRegistry.sol": {
-      "lastModificationDate": 1673372705234,
+      "lastModificationDate": 1679083457118,
       "contentHash": "9e30fcc0989cac6955551af02c1357f1",
       "sourceName": "src/ConvexPoolRegistry.sol",
       "solcConfig": {
@@ -1006,11 +2258,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1052,7 +2304,7 @@
       }
     },
     "src/ConvexVaultTransferrable.sol": {
-      "lastModificationDate": 1676326697946,
+      "lastModificationDate": 1679083457119,
       "contentHash": "3ffb30998a7a8e88955ab7b7f1419a44",
       "sourceName": "src/ConvexVaultTransferrable.sol",
       "solcConfig": {
@@ -1064,11 +2316,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1153,8 +2405,99 @@
         }
       }
     },
+    "src/FraxFamilialGaugeDistributor.sol": {
+      "lastModificationDate": 1679084471070,
+      "contentHash": "4fdb5f66f0c5e7bc060c794cef93b575",
+      "sourceName": "src/FraxFamilialGaugeDistributor.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.17",
+      "artifacts": {
+        "FraxFamilialGaugeDistributor": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/FraxFamilialGaugeDistributor.json"
+        },
+        "IERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IERC20.json"
+        },
+        "IFraxFarm": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxFarm.json"
+        },
+        "IFraxFarmERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxFarmERC20.json"
+        },
+        "IFraxFarmTransfers": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxFarmTransfers.json"
+        },
+        "IFraxFarmUniV3": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxFarmUniV3.json"
+        },
+        "IFraxFarmUniV3TokenPositions": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxFarmUniV3TokenPositions.json"
+        },
+        "IFraxGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxGaugeController.json"
+        },
+        "IFraxGaugeControllerV2": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxGaugeControllerV2.json"
+        },
+        "IFraxGaugeFXSRewardsDistributor": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxGaugeFXSRewardsDistributor.json"
+        },
+        "IFraxswap": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxswap.json"
+        },
+        "IFraxswapERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/IFraxswapERC20.json"
+        },
+        "Owned": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/Owned.json"
+        },
+        "TransferHelper": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFamilialGaugeDistributor.sol/TransferHelper.json"
+        }
+      }
+    },
     "src/FraxFamilialPitchGauge.sol": {
-      "lastModificationDate": 1676675981126,
+      "lastModificationDate": 1679083457119,
       "contentHash": "946126c365f333c86ba02146f20041c6",
       "sourceName": "src/FraxFamilialPitchGauge.sol",
       "solcConfig": {
@@ -1166,11 +2509,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1244,7 +2587,7 @@
       }
     },
     "src/FraxFarmERC20Transferrable.sol": {
-      "lastModificationDate": 1677024867432,
+      "lastModificationDate": 1679083457120,
       "contentHash": "e82726f572eacb2f190bb44aea796c28",
       "sourceName": "src/FraxFarmERC20Transferrable.sol",
       "solcConfig": {
@@ -1256,11 +2599,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1298,7 +2641,7 @@
       }
     },
     "src/FraxFarmUnifiedTemplate.sol": {
-      "lastModificationDate": 1673372705236,
+      "lastModificationDate": 1679083457121,
       "contentHash": "1bd5af0721c41859eb496dedcf363b16",
       "sourceName": "src/FraxFarmUnifiedTemplate.sol",
       "solcConfig": {
@@ -1310,11 +2653,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1350,8 +2693,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1677024678247,
-      "contentHash": "6b89d22f13f9a235a024c170166efcfd",
+      "lastModificationDate": 1679256506945,
+      "contentHash": "fa0f3677f89b46ebfea8af61d148bc4b",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -1362,11 +2705,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1464,8 +2807,8 @@
       }
     },
     "src/interfaces/IFraxFarm.sol": {
-      "lastModificationDate": 1673372705237,
-      "contentHash": "f626a3be00759dd930afeec804960f16",
+      "lastModificationDate": 1679109152989,
+      "contentHash": "6b3f3b06bc5531fbb571834e13a87214",
       "sourceName": "src/interfaces/IFraxFarm.sol",
       "solcConfig": {
         "settings": {
@@ -1476,11 +2819,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1510,31 +2853,13 @@
       "imports": [],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
-        "IFraxFarm": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxFarm.json"
-        },
         "IFraxFarmERC20": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxFarmERC20.json"
-        },
-        "IFraxFarmTransfers": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxFarmTransfers.json"
-        },
-        "IFraxFarmUniV3": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxFarmUniV3.json"
-        },
-        "IFraxFarmUniV3TokenPositions": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxFarmUniV3TokenPositions.json"
-        },
-        "IFraxswap": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxswap.json"
-        },
-        "IFraxswapERC20": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "IFraxFarm.sol/IFraxswapERC20.json"
         }
       }
     },
     "src/interfaces/IGaugeController.sol": {
-      "lastModificationDate": 1676494003169,
+      "lastModificationDate": 1679083457122,
       "contentHash": "6b7e16f281224eea2fdec323fe41e3be",
       "sourceName": "src/interfaces/IGaugeController.sol",
       "solcConfig": {
@@ -1546,11 +2871,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1586,7 +2911,7 @@
       }
     },
     "src/interfaces/ILockReceiver.sol": {
-      "lastModificationDate": 1676322486794,
+      "lastModificationDate": 1677822380666,
       "contentHash": "b69a8702e4baf10cf32909c679237a4e",
       "sourceName": "src/interfaces/ILockReceiver.sol",
       "solcConfig": {
@@ -1598,11 +2923,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1638,8 +2963,8 @@
       }
     },
     "test/FamilialGaugeTest.t.sol": {
-      "lastModificationDate": 1676676682241,
-      "contentHash": "478d6b0c5b385c0cf87816f7edd3a327",
+      "lastModificationDate": 1679260774428,
+      "contentHash": "c4d78dda63c2fc3f0292cc14eeae49e5",
       "sourceName": "test/FamilialGaugeTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -1650,11 +2975,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1697,21 +3022,40 @@
         "lib/forge-std/src/Vm.sol",
         "lib/forge-std/src/console.sol",
         "lib/forge-std/src/console2.sol",
-        "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
-        "src/ConvexBoosterImprovedInitializer.sol",
-        "src/ConvexVaultTransferrable.sol",
+        "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxFarmERC20.sol",
+        "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxGaugeController.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol",
+        "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Oracle/AggregatorV3Interface.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarm_ERC20_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/ILockReceiver.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/Variants/FraxUnifiedFarm_ERC20_Convex_frxETH_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "src/FraxFamilialGaugeDistributor.sol",
         "src/FraxFamilialPitchGauge.sol",
-        "src/TransferrableConvexFrxEthFarm.sol",
-        "src/interfaces/IFraxFarm.sol",
-        "src/interfaces/ILockReceiver.sol",
         "test/mocks/FraxFXSRewardDistributor.sol",
         "test/mocks/MockERC20.sol",
-        "test/mocks/MockVaultOwner.sol"
+        "test/mocks/MockGaugeController.sol"
       ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
-        "FraxFarmERC20TransfersTest": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FamilialGaugeTest.t.sol/FraxFarmERC20TransfersTest.json"
+        "FamilialGaugeTest": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FamilialGaugeTest.t.sol/FamilialGaugeTest.json"
         },
         "IDeposits": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "FamilialGaugeTest.t.sol/IDeposits.json"
@@ -1719,8 +3063,8 @@
       }
     },
     "test/FraxFarmERC20TransfersTest.t.sol": {
-      "lastModificationDate": 1676676450627,
-      "contentHash": "842ee59125855fed426f3ea5c409e015",
+      "lastModificationDate": 1679109190858,
+      "contentHash": "697d14929873d18db5b5cb2e12fc8c07",
       "sourceName": "test/FraxFarmERC20TransfersTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -1731,11 +3075,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1778,7 +3122,7 @@
         "lib/forge-std/src/Vm.sol",
         "lib/forge-std/src/console.sol",
         "lib/forge-std/src/console2.sol",
-        "lib/frax_testing/src/gauges/Curve/IFraxGaugeController.sol",
+        "lib/frax-cvx-platform/contracts/contracts/interfaces/IFraxGaugeController.sol",
         "src/ConvexBoosterImprovedInitializer.sol",
         "src/ConvexVaultTransferrable.sol",
         "src/TransferrableConvexFrxEthFarm.sol",
@@ -1796,8 +3140,99 @@
         }
       }
     },
+    "test/FraxFarmTest.t.sol": {
+      "lastModificationDate": 1679009445469,
+      "contentHash": "6cb698dc928ffcc3ca146b1415ffa53a",
+      "sourceName": "test/FraxFarmTest.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Common.sol",
+        "lib/forge-std/src/Components.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Common/ContextV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/ICurvefrxETHETHPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeController.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeControllerV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IFraxGaugeFXSRewardsDistributor.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Curve/IveFXS.sol",
+        "lib/frax-solidity/src/hardhat/contracts/ERC20/IERC20V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Math/MathV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexBaseRewardPool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IConvexStakingWrapperFrax.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/convex/IDepositToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2pool.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Misc_AMOs/curve/I2poolToken.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarmTemplate_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/FraxUnifiedFarm_ERC20_V2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/ILockReceiver.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Staking/OwnedV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Uniswap/TransferHelperV2.sol",
+        "lib/frax-solidity/src/hardhat/contracts/Utils/ReentrancyGuardV2.sol",
+        "test/mocks/MockERC20.sol"
+      ],
+      "versionRequirement": "=0.8.17",
+      "artifacts": {
+        "FraxFarmERC20TransfersTest": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmTest.t.sol/FraxFarmERC20TransfersTest.json"
+        },
+        "IDeposits": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxFarmTest.t.sol/IDeposits.json"
+        }
+      }
+    },
     "test/mocks/FraxFXSRewardDistributor.sol": {
-      "lastModificationDate": 1676663053772,
+      "lastModificationDate": 1679085722836,
       "contentHash": "75d99c2204ed28fad240f28525a3799b",
       "sourceName": "test/mocks/FraxFXSRewardDistributor.sol",
       "solcConfig": {
@@ -1809,11 +3244,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1891,7 +3326,7 @@
       }
     },
     "test/mocks/MockERC20.sol": {
-      "lastModificationDate": 1672963473707,
+      "lastModificationDate": 1677822380666,
       "contentHash": "410b5bfce5cd64d236f4f7f4da613a95",
       "sourceName": "test/mocks/MockERC20.sol",
       "solcConfig": {
@@ -1903,11 +3338,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },
@@ -1948,8 +3383,60 @@
         }
       }
     },
+    "test/mocks/MockGaugeController.sol": {
+      "lastModificationDate": 1679260458925,
+      "contentHash": "deebbf46712f1548b082ba62b46ed1c9",
+      "sourceName": "test/mocks/MockGaugeController.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.17",
+      "artifacts": {
+        "MockFraxGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockGaugeController.sol/MockFraxGaugeController.json"
+        }
+      }
+    },
     "test/mocks/MockVaultOwner.sol": {
-      "lastModificationDate": 1676326731255,
+      "lastModificationDate": 1677822380667,
       "contentHash": "74057a5954d101c8498989d99af9c0e5",
       "sourceName": "test/mocks/MockVaultOwner.sol",
       "solcConfig": {
@@ -1961,11 +3448,11 @@
               "jumpdestRemover": true,
               "orderLiterals": true,
               "deduplicate": true,
-              "cse": true,
               "constantOptimizer": true,
               "yul": true,
               "yulDetails": {
-                "stackAllocation": true
+                "stackAllocation": true,
+                "optimizerSteps": ""
               }
             }
           },

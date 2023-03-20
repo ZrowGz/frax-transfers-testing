@@ -8,7 +8,7 @@ import "forge-std/Vm.sol";
 import {FraxUnifiedFarm_ERC20_Convex_frxETH_V2 as FraxUnifiedFarm_ERC20_V2} from "../src/TransferrableConvexFrxEthFarm.sol";
 import {StakingProxyConvex as Vault} from "../src/ConvexVaultTransferrable.sol";
 // import {FRAXStablecoin} from "@frax/../Frax/Frax.sol";
-import {IFraxFarmTransfers, IFraxFarmERC20} from "@interfaces/IFraxFarm.sol";
+import {IFraxFarmERC20} from "@interfaces/IFraxFarm.sol";
 import "@convex/interfaces/IFraxGaugeController.sol";
 import {MockVaultOwner as VaultOwner} from "@mocks/MockVaultOwner.sol";
 import "../src/ConvexBoosterImprovedInitializer.sol";/// note: The new initializer was removed due to issues etching, values hardcoded in to the vault code for testing only

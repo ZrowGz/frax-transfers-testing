@@ -12,7 +12,7 @@ import "@convex/interfaces/IFraxGaugeController.sol";
 import {FraxFamilialPitchGauge} from  "src/FraxFamilialPitchGauge.sol";
 import {FraxFamilialGaugeDistributor} from  "src/FraxFamilialGaugeDistributor.sol";
 import "./mocks/MockERC20.sol";
-import {FraxGaugeControllerV2} from "@mocks/MockGaugeController.sol";
+import {MockFraxGaugeController} from "@mocks/MockGaugeController.sol";
 import {FraxGaugeFXSRewardsDistributor} from "@mocks/FraxFXSRewardDistributor.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -26,7 +26,7 @@ interface IDeposits {
 }
 
 contract FamilialGaugeTest is Test {
-    FraxGaugeControllerV2 public gaugeController;
+    MockFraxGaugeController public gaugeController;
     FraxGaugeFXSRewardsDistributor public fxsDistributor;
 
     FraxUnifiedFarm_ERC20_V2 public transferrableFarm;
@@ -74,6 +74,8 @@ contract FamilialGaugeTest is Test {
     uint256 public senderLock;
     uint256 public senderPostAdd;
     uint256 public senderInitialLockedLiquidity;
+    uint256 public lockDuration = (60*60*24*300);
+    uint256 public aliceLockAmount = 900 ether;
 
     function setUp() public {
 
@@ -100,9 +102,10 @@ contract FamilialGaugeTest is Test {
         // );
         // console2.log("frxFamilyGauge", address(frxFamilyGauge));
         
-        gaugeController = new FraxGaugeControllerV2(
+        gaugeController = new MockFraxGaugeController(
             100 ether
         );
+        console2.log("gaugeController", address(gaugeController));
 
         fxsDistributor = new FraxGaugeFXSRewardsDistributor(
             address(this),
@@ -111,6 +114,7 @@ contract FamilialGaugeTest is Test {
             address(fxs),
             address(gaugeController)
         );
+        console2.log("fxsDistributor", address(fxsDistributor));
 
         frxFamilyDistributor = new FraxFamilialGaugeDistributor(
             "frxETHETH Family Gauge",
@@ -133,33 +137,38 @@ contract FamilialGaugeTest is Test {
 
         // Deploy the logic for the transferrable fraxfarm
         transferrableFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
+        console2.log("transferrableFarm", address(transferrableFarm));
 
         /// Set up the controller, familial, distributors, and old farm
         // Add the two child gauges to the `_gauges` array
         _childGauges.push(address(transferrableFarm));
         _childGauges.push(address(frxEthFarm));
         // add the familial gauge to the gauge controller
-        gaugeController.addGauge(address(frxFamilyDistributor));
+        gaugeController.add_gauge(address(frxFamilyDistributor), int128(0), uint256(1000));
         // add some other address to the controller (to vote on)
-        gaugeController.addGauge(address(69420));
+        gaugeController.add_gauge(address(69420), int128(0), uint256(1000));
         // add the children to the family
         frxFamilyDistributor.addChildren(_childGauges);
-        /// Change all the necessary state variables
-        vm.startPrank(address(fraxAdmin));
-        // set the non-transferrable farm to point to the correct addresses (reward token, rate, gaugecontroller, distributor
-        transferrableFarm.setRewardVars(address(fxs), 100000000000000, address(0), address(frxFamilyDistributor));
-        // add the family gauge to the controller
-        IFraxGaugeController(gaugeController).add_gauge(address(frxFamilyDistributor), int128(0), uint256(1000));
         // shut off rewards to the non-transferrable farm at the distributor
-        fxsDistributor.setGaugeState(address(transferrableFarm), false, false);
+        // fxsDistributor.setGaugeState(address(transferrableFarm), false, false);
         // add the family gauge to the distributor
         fxsDistributor.setGaugeState(address(frxFamilyDistributor), false, true);
+
+
+        /// Change all the necessary state variables
+        vm.startPrank(address(fraxAdmin));
+        // set the reward distributor as the token manager so it can set values
+        frxEthFarm.changeTokenManager(address(fxs), address(frxFamilyDistributor));
+        // set the non-transferrable farm to point to the correct addresses (reward token, rate, gaugecontroller, distributor
+        frxEthFarm.setRewardVars(address(fxs), 100000000000000, address(0), address(frxFamilyDistributor));
+        // remove the gauge controller from the non-transferrable farm
+        // add the family gauge to the controller
+        // gaugeController.add_gauge(address(frxFamilyDistributor), int128(0), uint256(1000));
         vm.stopPrank();
 
         // create two users
         alice = vm.addr(0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef);
         vm.label(alice, "Alice");
-
         bob = vm.addr(0xeeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef);
         vm.label(bob, "Bob");
 
@@ -173,6 +182,12 @@ contract FamilialGaugeTest is Test {
         IERC20(fxs).transfer(address(this), 200000 ether);
         vm.stopPrank();
 
+        // seed the contracts with some FXS to start
+        IERC20(fxs).transfer(address(fxsDistributor), 10000 ether);
+        // IERC20(fxs).transfer(address(frxFamilyDistributor), 10000 ether);
+        // IERC20(fxs).transfer(address(frxEthFarm), 10000 ether);
+        IERC20(fxs).transfer(address(transferrableFarm), 10000 ether);
+
         // Create some stakes
         vm.startPrank(address(alice));
         /// obtain some frxEth
@@ -183,23 +198,69 @@ contract FamilialGaugeTest is Test {
 
         /// deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-        IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
+        IDeposits(curveLpMinter).add_liquidity([uint256(0), retbal], 990 ether);
         retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
         assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+
+        /// Wrap the curve LP tokens into cvxStkFrxEthLp
+        // cvxStkFrxEthLp.deposit(990 ether, address(alice));
+        IDeposits(address(frxETHCRV)).approve(address(cvxStkFrxEthLp), type(uint256).max);
+        cvxStkFrxEthLp.call(abi.encodeWithSignature("deposit(uint256,address)", retbal, address(alice)));
 
         /// Since the `etch` completely overwrites the existing contract storage, pull these values to double check at each step
         senderPreAdd = transferrableFarm.lockedStakesOfLength(address(alice));
         senderBaseLockedLiquidity = transferrableFarm.lockedLiquidityOf(address(alice));
 
-        /// Wrap the curve LP tokens into cvxStkFrxEthLp
-        // cvxStkFrxEthLp.deposit(990 ether, address(alice));
-        cvxStkFrxEthLp.call(abi.encodeWithSignature("deposit(uint256,address)", 990 ether, address(alice)));
-
         /// create a known locked stake
-        senderLock = IFraxFarmERC20(transferrableFarm).manageStake(retbal, (60*60*24*300), false, 0);
+        IDeposits(address(cvxStkFrxEthLp)).approve(address(transferrableFarm), type(uint256).max);
+        senderLock = transferrableFarm.manageStake(aliceLockAmount, lockDuration, false, 0);
         senderPostAdd = transferrableFarm.lockedStakesOfLength(address(alice));
         assertEq(senderPostAdd, senderPreAdd + 1, "sender should have new LockedStake");
         senderInitialLockedLiquidity = transferrableFarm.lockedLiquidityOf(address(alice));
+        console2.log("senderInitialLockedLiquidity", senderInitialLockedLiquidity);
+
+        vm.stopPrank();
+    }
+
+    function testClaimRewards() public {
+        //
+        (, bytes memory retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
+        uint256 aliceFXSBalPrior = abi.decode(retval, (uint256));
+        console2.log("aliceFXSBalPrior", aliceFXSBalPrior);
+
+        skip(1 days);
+        vm.startPrank(address(alice));
+        // claim rewards
+        transferrableFarm.getReward(address(alice));
+
+        // check the rewards
+        (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
+        uint256 aliceFXSBalPost1 = abi.decode(retval, (uint256));
+        assertGt(aliceFXSBalPost1, aliceFXSBalPrior, "alice should have some rewards");
+        console2.log("aliceFXSBalPost1", aliceFXSBalPost1);
+
+        vm.stopPrank();
+
+        // gaugeController.reset(); // fake clear any existing votes
+        /// Cast votes
+        gaugeController.vote(address(transferrableFarm), 8 * 1e17);
+        gaugeController.vote(address(frxEthFarm), 2 * 1e17);
+        require(gaugeController.total_weight() == 1 * 1e18, "total weight should be 1");
+
+        // skip forward beyond the reward period
+        skip(7 days);
+
+        vm.startPrank(address(alice));
+        // claim rewards
+        transferrableFarm.getReward(address(alice));
+
+        // check the rewards
+        (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
+        uint256 aliceFXSBalPost2 = abi.decode(retval, (uint256));
+        assertGt(aliceFXSBalPost2, aliceFXSBalPost1, "alice should have some rewards");
+        console2.log("aliceFXSBalPost2", aliceFXSBalPost2);
+        
+        vm.stopPrank();
     }
 
     // // to prevent stack too deep errors, store informational values here

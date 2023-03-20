@@ -3,10 +3,10 @@ pragma solidity ^0.8.17;
 
 /// @title Mock Frax Gauge Controller
 
-contract FraxGaugeControllerV2 {
+contract MockFraxGaugeController {
 
     uint256 public time_total;
-    uint256 public global_emission_weight;
+    uint256 public global_emission_rate;
 
     address[] public gauges;
     mapping(address => uint256) public gauge_relative_weights;
@@ -14,11 +14,13 @@ contract FraxGaugeControllerV2 {
 
     constructor (uint256 _global_emission_rate) {
         time_total = block.timestamp;
-        global_emission_weight = _global_emission_rate; // FXS distributed per week
+        global_emission_rate = _global_emission_rate; // FXS distributed per week
         // gauges = _gauges;
     }
 
-    function addGauge(address gauge_address) external {
+    function add_gauge(address gauge_address, int128 gauge_type, uint256 weight) external {
+        gauge_type;
+        weight;
         gauges.push(gauge_address);
     }
 
@@ -37,7 +39,7 @@ contract FraxGaugeControllerV2 {
     }
 
     function change_emission_rate(uint256 new_rate) external {
-        global_emission_weight = new_rate;
+        global_emission_rate = new_rate;
     }
 
     function gauge_relative_weight_write(address gauge_address, uint256 time) external view returns (uint256){

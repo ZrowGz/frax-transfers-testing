@@ -11,6 +11,7 @@
 [submodule "lib/platform"]
 	path = lib/platform
 	url = https://github.com/convex-eth/platform.git
+	branch = main
 [submodule "lib/frax-cvx-platform"]
 	path = lib/frax-cvx-platform
-	url = https://github.com/ZrowGz/frax-cvx-platform.git
+	url = https://github.com/ZrowGz/frax-cvx-platform
