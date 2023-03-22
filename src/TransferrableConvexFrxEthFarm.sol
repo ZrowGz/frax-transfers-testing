@@ -1473,8 +1473,10 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
     }
 
     function sync_gauge_weights(bool force_update) public {
+        console2.log("NUMBER OF CONTROLLERS", gaugeControllers.length);
         // Loop through the gauge controllers
         for (uint256 i; i < gaugeControllers.length; i++){ 
+            console2.log("CONTROLLER", gaugeControllers[i]);
             // address gauge_controller_address = gaugeControllers[i];
             if (gaugeControllers[i] != address(0)) {
                 if (force_update || (block.timestamp > last_gauge_time_totals[i])){
@@ -1598,9 +1600,12 @@ contract FraxUnifiedFarmTemplate_V2 is OwnedV2, ReentrancyGuardV2 {
         address _gauge_controller_address, 
         address _rewards_distributor_address
     ) external onlyTknMgrs(reward_token_address) {
+        console2.log("SETREWARDVARS PRE CHANGE", gaugeControllers[rewardTokenAddrToIdx[reward_token_address]]);
         rewardRatesManual[rewardTokenAddrToIdx[reward_token_address]] = _new_rate;
         gaugeControllers[rewardTokenAddrToIdx[reward_token_address]] = _gauge_controller_address;
         rewardDistributors[rewardTokenAddrToIdx[reward_token_address]] = _rewards_distributor_address;
+        console2.log("SETREWARDVARS POST CHANGE", gaugeControllers[rewardTokenAddrToIdx[reward_token_address]]);
+
     }
 
     // The owner or the reward token managers can change managers

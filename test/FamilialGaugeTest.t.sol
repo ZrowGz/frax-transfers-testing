@@ -12,7 +12,8 @@ import "@convex/interfaces/IFraxGaugeController.sol";
 import {FraxFamilialPitchGauge} from  "src/FraxFamilialPitchGauge.sol";
 import {FraxFamilialGaugeDistributor} from  "src/FraxFamilialGaugeDistributor.sol";
 import "./mocks/MockERC20.sol";
-import {MockFraxGaugeController} from "@mocks/MockGaugeController.sol";
+// import {MockFraxGaugeController} from "@mocks/MockGaugeController.sol";
+import {GaugeController} from "@mocks/FraxGaugeController.sol";
 import {FraxGaugeFXSRewardsDistributor} from "@mocks/FraxFXSRewardDistributor.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -26,7 +27,8 @@ interface IDeposits {
 }
 
 contract FamilialGaugeTest is Test {
-    MockFraxGaugeController public gaugeController;
+    // MockFraxGaugeController public gaugeController;
+    GaugeController public gaugeController;
     FraxGaugeFXSRewardsDistributor public fxsDistributor;
 
     FraxUnifiedFarm_ERC20_V2 public transferrableFarm;
@@ -35,6 +37,7 @@ contract FamilialGaugeTest is Test {
 
     // MockERC20 public rewardToken;
     // MockLp public mockLp;
+    MockVotes public votes;
 
     address public alice;
     address public bob;
@@ -48,7 +51,7 @@ contract FamilialGaugeTest is Test {
 
     FraxUnifiedFarm_ERC20_V2 public frxEthFarm = FraxUnifiedFarm_ERC20_V2(0xa537d64881b84faffb9Ae43c951EEbF368b71cdA); // frxEthFraxFarm
     FraxGaugeFXSRewardsDistributor public _fxsDistributor = FraxGaugeFXSRewardsDistributor(0x278dC748edA1d8eFEf1aDFB518542612b49Fcd34); // Gauge Reward Distro
-    address public _gaugeController = address(0x3669C421b77340B2979d1A00a792CC2ee0FcE737);
+    GaugeController public _gaugeController = GaugeController(0x3669C421b77340B2979d1A00a792CC2ee0FcE737);
     // address public rewardManager = address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27);
     address public fraxAdmin = address(0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27);
 
@@ -75,7 +78,11 @@ contract FamilialGaugeTest is Test {
     uint256 public senderPostAdd;
     uint256 public senderInitialLockedLiquidity;
     uint256 public lockDuration = (60*60*24*300);
-    uint256 public aliceLockAmount = 900 ether;
+    uint256 public aliceLockAmount;
+    uint256 public frxEthFarmBalance;
+    uint256 public transferrableFarmBalance;
+    uint256 public frxFamilyGaugeBalance;
+    uint256 public fxsDistributorBalance;
 
     function setUp() public {
 
@@ -102,9 +109,19 @@ contract FamilialGaugeTest is Test {
         // );
         // console2.log("frxFamilyGauge", address(frxFamilyGauge));
         
-        gaugeController = new MockFraxGaugeController(
-            100 ether
+        // gaugeController = new MockFraxGaugeController(
+        //     100 ether
+        // );
+        // console2.log("gaugeController", address(gaugeController));
+        votes = new MockVotes("Votes", "VOTES", 18);
+        console2.log("votes", address(votes));
+
+        gaugeController = new GaugeController(
+            address(votes), 
+            address(votes)
         );
+        gaugeController.add_type("Ethereum", 1000000000000000000);
+        gaugeController.change_global_emission_rate(165343915343915); // approx 100 FXS/wk
         console2.log("gaugeController", address(gaugeController));
 
         fxsDistributor = new FraxGaugeFXSRewardsDistributor(
@@ -176,6 +193,14 @@ contract FamilialGaugeTest is Test {
         vm.deal(address(alice), 1e10 ether);
         vm.deal(address(bob), 1e10 ether);
         // vm.deal(address(this), 1e10 ether);
+        votes.mint(address(this), 1000000 ether);
+        votes.mint(address(alice), 500000 ether);
+        votes.mint(address(bob), 500000 ether);
+
+        gaugeController.checkpoint_gauge(address(frxFamilyDistributor));
+        gaugeController.vote_for_gauge_weights(address(frxFamilyDistributor), 8000);
+        gaugeController.vote_for_gauge_weights(address(69420), 2000);
+        gaugeController.checkpoint_gauge(address(frxFamilyDistributor));
 
         // pull in some FXS to be able to use as needed
         vm.startPrank(fxsWhale);
@@ -183,29 +208,32 @@ contract FamilialGaugeTest is Test {
         vm.stopPrank();
 
         // seed the contracts with some FXS to start
-        IERC20(fxs).transfer(address(fxsDistributor), 10000 ether);
+        IERC20(fxs).transfer(address(fxsDistributor), 1000 ether);
         // IERC20(fxs).transfer(address(frxFamilyDistributor), 10000 ether);
         // IERC20(fxs).transfer(address(frxEthFarm), 10000 ether);
-        IERC20(fxs).transfer(address(transferrableFarm), 10000 ether);
+        IERC20(fxs).transfer(address(transferrableFarm), 100 ether);
 
         // Create some stakes
         vm.startPrank(address(alice));
         /// obtain some frxEth
-        frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
+        frxEthMinter.call{value: 10000 ether}(abi.encodeWithSignature("submit()"));
         (, bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
         retbal = abi.decode(retval, (uint256));
-        assertGe(retbal, 990 ether, "invalid mint amount frxETH");
+        assertGe(retbal, 9900 ether, "invalid mint amount frxETH");
 
         /// deposit it as LP into the curve pool
         IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
         IDeposits(curveLpMinter).add_liquidity([uint256(0), retbal], 990 ether);
         retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-        assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
+        assertGt(retbal, 9900 ether, "invalid minimum mint amount frxETHCRV");
 
         /// Wrap the curve LP tokens into cvxStkFrxEthLp
         // cvxStkFrxEthLp.deposit(990 ether, address(alice));
         IDeposits(address(frxETHCRV)).approve(address(cvxStkFrxEthLp), type(uint256).max);
         cvxStkFrxEthLp.call(abi.encodeWithSignature("deposit(uint256,address)", retbal, address(alice)));
+
+        // should be equal to the previous value, but better safe than annoyed
+        aliceLockAmount = IDeposits(cvxStkFrxEthLp).balanceOf(address(alice));
 
         /// Since the `etch` completely overwrites the existing contract storage, pull these values to double check at each step
         senderPreAdd = transferrableFarm.lockedStakesOfLength(address(alice));
@@ -220,6 +248,20 @@ contract FamilialGaugeTest is Test {
         console2.log("senderInitialLockedLiquidity", senderInitialLockedLiquidity);
 
         vm.stopPrank();
+        // cast the votes for the familial gauges @ 80% of total emissions
+        // gaugeController.vote(address(frxFamilyDistributor), 8 * 1e17);
+        // // cast votes for fake gauge as 20% of total emissions
+        // gaugeController.vote(address(69420), 2 * 1e17);
+        // require(gaugeController.total_weight() == 1 ether, "total weight should be 1");
+        transferrableFarm.sync();
+        frxEthFarm.sync();
+
+        // store the balances
+        transferrableFarmBalance = IERC20(fxs).balanceOf(address(transferrableFarm));
+        frxEthFarmBalance = IERC20(fxs).balanceOf(address(frxEthFarm));
+        frxFamilyGaugeBalance = IERC20(fxs).balanceOf(address(frxFamilyDistributor));
+        fxsDistributorBalance = IERC20(fxs).balanceOf(address(fxsDistributor));
+
     }
 
     function testClaimRewards() public {
@@ -228,9 +270,10 @@ contract FamilialGaugeTest is Test {
         uint256 aliceFXSBalPrior = abi.decode(retval, (uint256));
         console2.log("aliceFXSBalPrior", aliceFXSBalPrior);
 
-        skip(1 days);
         vm.startPrank(address(alice));
-        // claim rewards
+
+        skip(2 days);
+                // claim rewards
         transferrableFarm.getReward(address(alice));
 
         // check the rewards
@@ -239,18 +282,21 @@ contract FamilialGaugeTest is Test {
         assertGt(aliceFXSBalPost1, aliceFXSBalPrior, "alice should have some rewards");
         console2.log("aliceFXSBalPost1", aliceFXSBalPost1);
 
-        vm.stopPrank();
-
-        // gaugeController.reset(); // fake clear any existing votes
-        /// Cast votes
-        gaugeController.vote(address(transferrableFarm), 8 * 1e17);
-        gaugeController.vote(address(frxEthFarm), 2 * 1e17);
-        require(gaugeController.total_weight() == 1 * 1e18, "total weight should be 1");
-
-        // skip forward beyond the reward period
+        // skip forward far enough that we can resync things
         skip(7 days);
+        gaugeController.checkpoint_gauge(address(frxFamilyDistributor));
 
-        vm.startPrank(address(alice));
+        // sync the farms
+        // transferrableFarm.sync();
+        // frxEthFarm.sync();
+        // gaugeController.reset();
+        // skip(1);    
+        
+        // // Cast votes
+        // gaugeController.vote(address(transferrableFarm), 8 * 1e17);
+        // gaugeController.vote(address(frxEthFarm), 2 * 1e17);
+        // require(gaugeController.total_weight() == 1 * 1e18, "total weight should be 1");
+
         // claim rewards
         transferrableFarm.getReward(address(alice));
 
@@ -258,8 +304,60 @@ contract FamilialGaugeTest is Test {
         (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
         uint256 aliceFXSBalPost2 = abi.decode(retval, (uint256));
         assertGt(aliceFXSBalPost2, aliceFXSBalPost1, "alice should have some rewards");
-        console2.log("aliceFXSBalPost2", aliceFXSBalPost2);
+        console2.log("aliceFXSBalPost1", aliceFXSBalPost2);
+
+        // transferrableFarm.getReward(address(alice));        
+        // // check the rewards
+        // (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
+        // uint256 aliceFXSBalPost2 = abi.decode(retval, (uint256));
+        // assertGt(aliceFXSBalPost2, aliceFXSBalPost1, "alice should have some rewards2");
+        // console2.log("aliceFXSBalPost1", aliceFXSBalPost2);
+
+        vm.stopPrank();
+
+        // gaugeController.reset(); // fake clear any existing votes
+        // /// Cast votes
+        // gaugeController.vote(address(transferrableFarm), 8 * 1e17);
+        // gaugeController.vote(address(frxEthFarm), 2 * 1e17);
+        // require(gaugeController.total_weight() == 1 * 1e18, "total weight should be 1");
+
+        // skip forward beyond the reward period
+        skip(7 days + 1);
+        gaugeController.checkpoint_gauge(address(frxFamilyDistributor));
+
+        vm.startPrank(address(alice));
+        // claim rewards
+        transferrableFarm.getReward(address(alice));
+        uint256 amtSentToFamily = fxsDistributor.amountSentThisRound(address(frxFamilyDistributor));
+        assertGe(amtSentToFamily, 79 ether, "family should have received 80% of the rewards");
+        uint256 amtSentToTransferrable = frxFamilyDistributor.amountSentThisRound(address(transferrableFarm));
+        uint256 amtSentToNonTransferrable = frxFamilyDistributor.amountSentThisRound(address(frxEthFarm));
+        assertEq(amtSentToFamily, amtSentToTransferrable + amtSentToNonTransferrable, "both farms should have received all sent to the family");
         
+        // check the rewards
+        (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
+        uint256 aliceFXSBalPost3 = abi.decode(retval, (uint256));
+        assertGt(aliceFXSBalPost3, aliceFXSBalPost2, "alice should have some rewards2");
+        console2.log("aliceFXSBalPost1", aliceFXSBalPost3);
+
+        // // check the rewards
+        // (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
+        // uint256 aliceFXSBalPost3 = abi.decode(retval, (uint256));
+        // assertGt(aliceFXSBalPost3, aliceFXSBalPost2, "alice should have some rewards");
+        // console2.log("aliceFXSBalPost2", aliceFXSBalPost3);
+
+        // check that balances of FXS were correctly distributed
+        uint256 postFXSDistributionBalTransferrableFarm = IERC20(fxs).balanceOf(address(transferrableFarm));
+        uint256 postFXSDistributionBalFrxEthFarm = IERC20(fxs).balanceOf(address(frxEthFarm));
+        uint256 postFXSDistributionBalFrxFamilyDistro = IERC20(fxs).balanceOf(address(frxFamilyDistributor));
+        uint256 postFXSDistributionBalFXSDistro = IERC20(fxs).balanceOf(address(fxsDistributor));
+        assertEq(postFXSDistributionBalFXSDistro, fxsDistributorBalance - 100 ether, "fxsDistributor should have 100 less fxs");
+        /**
+        *   
+        */
+        assertGe(postFXSDistributionBalTransferrableFarm + (aliceFXSBalPost3 - aliceFXSBalPost2), 79 ether, "80 fxs should have been distributed to transferrableFarm & partially claimed by alice");
+        assertGe(postFXSDistributionBalFrxEthFarm, frxEthFarmBalance + 19 ether, "20 fxs should have been distributed to frxEthFarm");
+        assertEq(frxFamilyGaugeBalance, postFXSDistributionBalFrxFamilyDistro, "family gauge should never retain tokens"); 
         vm.stopPrank();
     }
 

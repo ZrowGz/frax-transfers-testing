@@ -2406,8 +2406,8 @@
       }
     },
     "src/FraxFamilialGaugeDistributor.sol": {
-      "lastModificationDate": 1679084471070,
-      "contentHash": "4fdb5f66f0c5e7bc060c794cef93b575",
+      "lastModificationDate": 1679506732000,
+      "contentHash": "7f7cfe096a30afcc9e4f3802a1ce8c18",
       "sourceName": "src/FraxFamilialGaugeDistributor.sol",
       "solcConfig": {
         "settings": {
@@ -2449,7 +2449,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": "^0.8.17",
       "artifacts": {
         "FraxFamilialGaugeDistributor": {
@@ -2693,8 +2695,8 @@
       }
     },
     "src/TransferrableConvexFrxEthFarm.sol": {
-      "lastModificationDate": 1679256506945,
-      "contentHash": "fa0f3677f89b46ebfea8af61d148bc4b",
+      "lastModificationDate": 1679275770375,
+      "contentHash": "0945290ae1998b42c221564118cef15f",
       "sourceName": "src/TransferrableConvexFrxEthFarm.sol",
       "solcConfig": {
         "settings": {
@@ -2963,8 +2965,8 @@
       }
     },
     "test/FamilialGaugeTest.t.sol": {
-      "lastModificationDate": 1679260774428,
-      "contentHash": "c4d78dda63c2fc3f0292cc14eeae49e5",
+      "lastModificationDate": 1679506584787,
+      "contentHash": "a51662e860e09db351b71681c2209760",
       "sourceName": "test/FamilialGaugeTest.t.sol",
       "solcConfig": {
         "settings": {
@@ -3049,8 +3051,8 @@
         "src/FraxFamilialGaugeDistributor.sol",
         "src/FraxFamilialPitchGauge.sol",
         "test/mocks/FraxFXSRewardDistributor.sol",
-        "test/mocks/MockERC20.sol",
-        "test/mocks/MockGaugeController.sol"
+        "test/mocks/FraxGaugeController.sol",
+        "test/mocks/MockERC20.sol"
       ],
       "versionRequirement": ">=0.8.0",
       "artifacts": {
@@ -3141,7 +3143,7 @@
       }
     },
     "test/FraxFarmTest.t.sol": {
-      "lastModificationDate": 1679009445469,
+      "lastModificationDate": 1679009445000,
       "contentHash": "6cb698dc928ffcc3ca146b1415ffa53a",
       "sourceName": "test/FraxFarmTest.t.sol",
       "solcConfig": {
@@ -3232,8 +3234,8 @@
       }
     },
     "test/mocks/FraxFXSRewardDistributor.sol": {
-      "lastModificationDate": 1679085722836,
-      "contentHash": "75d99c2204ed28fad240f28525a3799b",
+      "lastModificationDate": 1679333689532,
+      "contentHash": "40eacf3c3ca51f86161a88486ce0d091",
       "sourceName": "test/mocks/FraxFXSRewardDistributor.sol",
       "solcConfig": {
         "settings": {
@@ -3275,7 +3277,9 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
       "versionRequirement": ">=0.6.11",
       "artifacts": {
         "Address": {
@@ -3325,9 +3329,66 @@
         }
       }
     },
+    "test/mocks/FraxGaugeController.sol": {
+      "lastModificationDate": 1679506439284,
+      "contentHash": "6ce83b739fde2620f43626f471701a40",
+      "sourceName": "test/mocks/FraxGaugeController.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/src/console2.sol"
+      ],
+      "versionRequirement": "=0.8.17",
+      "artifacts": {
+        "GaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxGaugeController.sol/GaugeController.json"
+        },
+        "VotingEscrow": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "FraxGaugeController.sol/VotingEscrow.json"
+        }
+      }
+    },
     "test/mocks/MockERC20.sol": {
-      "lastModificationDate": 1677822380666,
-      "contentHash": "410b5bfce5cd64d236f4f7f4da613a95",
+      "lastModificationDate": 1679271885166,
+      "contentHash": "c2a67bec8c30ca9822dc424de84f1124",
       "sourceName": "test/mocks/MockERC20.sol",
       "solcConfig": {
         "settings": {
@@ -3380,12 +3441,15 @@
         },
         "MockLp": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockERC20.sol/MockLp.json"
+        },
+        "MockVotes": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockERC20.sol/MockVotes.json"
         }
       }
     },
     "test/mocks/MockGaugeController.sol": {
-      "lastModificationDate": 1679260458925,
-      "contentHash": "deebbf46712f1548b082ba62b46ed1c9",
+      "lastModificationDate": 1679271546190,
+      "contentHash": "6ee722ff32d75ee21892ffe95db13056",
       "sourceName": "test/mocks/MockGaugeController.sol",
       "solcConfig": {
         "settings": {
@@ -3430,8 +3494,8 @@
       "imports": [],
       "versionRequirement": "^0.8.17",
       "artifacts": {
-        "MockFraxGaugeController": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockGaugeController.sol/MockFraxGaugeController.json"
+        "MockGaugeController": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockGaugeController.sol/MockGaugeController.json"
         }
       }
     },
@@ -3487,6 +3551,58 @@
       "artifacts": {
         "MockVaultOwner": {
           "0.8.17+commit.8df45f5f.Darwin.appleclang": "MockVaultOwner.sol/MockVaultOwner.json"
+        }
+      }
+    },
+    "test/mocks/vefxsvyper.sol": {
+      "lastModificationDate": 1679271120551,
+      "contentHash": "d41d8cd98f00b204e9800998ecf8427e",
+      "sourceName": "test/mocks/vefxsvyper.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100000,
+            "details": {
+              "jumpdestRemover": true,
+              "orderLiterals": true,
+              "deduplicate": true,
+              "constantOptimizer": true,
+              "yul": true,
+              "yulDetails": {
+                "stackAllocation": true,
+                "optimizerSteps": ""
+              }
+            }
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "viaIR": true,
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": null,
+      "artifacts": {
+        "vefxsvyper": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "vefxsvyper.sol/vefxsvyper.json"
         }
       }
     }

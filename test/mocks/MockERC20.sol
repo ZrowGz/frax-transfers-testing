@@ -276,3 +276,49 @@ contract MockLp is MockERC20 {
         return (_reserve0, _reserve1, _blockTimestampLast, _reserve0, _reserve1);
     }
 }
+// interface VotingEscrow {
+//     function balanceOf(address) external view returns (uint256);
+//     function get_last_user_slope(address) external view returns (int128);
+//     function locked__end(address) external view returns (uint256);
+//     function locked(address) external view returns (struct { int128 amount; uint256 end; });
+// }
+contract MockVotes is MockERC20 {
+    struct LockedBalance{
+        int128 amount;
+        uint256 end;
+    }
+
+    LockedBalance public lockedBalance;
+
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        uint8 _decimals
+    ) MockERC20(_name, _symbol, _decimals) {}
+
+    /**
+        * @notice Get the most recently recorded rate of voting power decrease for `addr`
+        * @param addr Address of the user wallet
+        * @return Value of the slope
+    */
+    function get_last_user_slope(address addr) external view returns (int128) {
+        // return 2069063926940;
+        return 3583101530994425; // pitch's voter proxy
+    }
+
+    function locked__end(address addr) external view returns (uint256) {
+        return 1796860800; // pitch's voter proxy
+    }
+
+    function locked(address user) external view returns (LockedBalance memory) {
+        return LockedBalance({
+            amount: 451986759525760867604886,
+            end: 1796860800
+        });
+        // return lockedBalance;
+        // return struct { int128 amount; uint256 end; }({
+        //     amount: 451986759525760867604886,
+        //     end: 1796860800
+        // });
+    }
+}
