@@ -1505,8 +1505,8 @@ contract FraxGaugeFXSRewardsDistributor is Owned, ReentrancyGuard {
     // Booleans
     bool public distributionsOn;
 
-    /// mock testing storage values
-    mapping(address => uint256) public amountSentThisRound;
+    /// mock testing storage values 
+    // mapping(address => uint256) public amountSentThisRound;
 
     /* ========== MODIFIERS ========== */
 
@@ -1560,54 +1560,39 @@ contract FraxGaugeFXSRewardsDistributor is Owned, ReentrancyGuard {
         
         // Calculate the elapsed time in weeks. 
         uint256 last_time_paid = last_time_gauge_paid[gauge_address];
-        console2.log("last_time_paid", last_time_paid);
 
         // Edge case for first reward for this gauge
         if (last_time_paid == 0){
-            console2.log("last_time_paid == 0");
             weeks_elapsed = 1;
         }
         else {
             // Truncation desired
-            console2.log("DISTRO: last_time_paid != 0");
             weeks_elapsed = (block.timestamp).sub(last_time_gauge_paid[gauge_address]) / ONE_WEEK;
 
             // Return early here for 0 weeks instead of throwing, as it could have bad effects in other contracts
             if (weeks_elapsed == 0) {
-                console2.log("weeks_elapsed == 0");
                 return (0, 0);
             }
         }
-        console2.log("weeks_elapsed", weeks_elapsed);
 
         // NOTE: This will always use the current global_emission_rate()
         reward_tally = 0;
         for (uint i = 0; i < (weeks_elapsed); i++){ 
-            console2.log("i", i);
-            console2.log("weeks_elapsed", weeks_elapsed);
             uint256 rel_weight_at_week;
-            // rel_weight_at_week = gauge_controller.gauge_relative_weight_write(gauge_address, block.timestamp);
-            // console2.log("relative weight at week IF", rel_weight_at_week);
             if (i == 0) {
                 // Mutative, for the current week. Makes sure the weight is checkpointed. Also returns the weight.
                 rel_weight_at_week = gauge_controller.gauge_relative_weight_write(gauge_address, block.timestamp);
-                console2.log("relative weight at week IF", rel_weight_at_week);
             }
             else {
                 // View
                 rel_weight_at_week = gauge_controller.gauge_relative_weight(gauge_address, (block.timestamp).sub(ONE_WEEK * i));
-                console2.log("relative weight at week ELSE", rel_weight_at_week);
             }
-            console2.log("global emission rate", gauge_controller.global_emission_rate());
             uint256 rwd_rate_at_week = (gauge_controller.global_emission_rate()).mul(rel_weight_at_week).div(1e18);
-            console2.log("rwd_rate_at_week", rwd_rate_at_week);
             reward_tally = reward_tally.add(rwd_rate_at_week.mul(ONE_WEEK));
-            console2.log("reward_tally", reward_tally);
         }
 
         // Update the last time paid
         last_time_gauge_paid[gauge_address] = block.timestamp;
-        console2.log("last_time_gauge_paid[gauge_address]", last_time_gauge_paid[gauge_address]);
 
         if (is_middleman[gauge_address]){
             // Cross chain: Pay out the rewards to the middleman contract
@@ -1618,15 +1603,11 @@ contract FraxGaugeFXSRewardsDistributor is Owned, ReentrancyGuard {
             FraxMiddlemanGauge(gauge_address).pullAndBridge(reward_tally);
         }
         else {
-            console2.log("FXS DISTRIBUTOR - reward tally ", reward_tally);
-            console2.log("FXS Balance of Frax distro", ERC20(reward_token_address).balanceOf(address(this)));
             // Mainnet: Pay out the rewards directly to the gauge
             TransferHelper.safeTransfer(reward_token_address, gauge_address, reward_tally);
-            amountSentThisRound[gauge_address] = reward_tally;
-            console2.log("amount sent this round to gauge", amountSentThisRound[gauge_address], gauge_address);
+            // amountSentThisRound[gauge_address] = reward_tally; /// MOCK ONLY
         }
-// 79.999999999999228800
-// 920.000000000000771200
+
         emit RewardDistributed(gauge_address, reward_tally);
     }
 

@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.17;
 
-import "lib/forge-std/src/console2.sol";
+// import "lib/forge-std/src/console2.sol";
 
 interface VotingEscrow {
     struct LockedBalance{
@@ -178,11 +178,8 @@ contract GaugeController is VotingEscrow{
     function _get_total() internal returns (uint256) {
         uint256 t = time_total;
         int128 _n_gauge_types = n_gauge_types;
-        console2.log("update t 1?", t > block.timestamp);
         if (t > block.timestamp) {
-            console2.log("CONTROLLER t>now", t, block.timestamp, t > block.timestamp);
             t -= WEEK;
-            console2.log("t -= WEEK", t);
         }
         uint256 pt = points_total[t];
         for (uint256 gauge_type = 0; gauge_type < 100; gauge_type++) {
@@ -193,13 +190,10 @@ contract GaugeController is VotingEscrow{
             _get_type_weight(int128(int256(gauge_type)));
         }
         for (uint256 i = 0; i < 500; i++) {
-            console2.log("update t 2?", i, t > block.timestamp);
             if (t > block.timestamp) {
-                console2.log("CONTROLLER t>now", t, block.timestamp);
                 break;
             }
             t += WEEK;
-            console2.log("t += WEEK", t);
             pt = 0;
             for (uint256 gauge_type = 0; gauge_type < 100; gauge_type++) {
                 if (gauge_type == uint256(uint128(_n_gauge_types))) {
@@ -210,16 +204,10 @@ contract GaugeController is VotingEscrow{
                 pt += type_sum * type_weight;
             }
             points_total[t] = pt;
-            console2.log("update t 3?", t, block.timestamp, t > block.timestamp);
             if (t > block.timestamp) {
-                console2.log("CONTROLLER now", block.timestamp);
-                console2.log("CONTROLLER time_total", time_total);
-                console2.log("CONTROLLER t", i, t);
                 time_total = t;
-                console2.log("CONTROLLER time_total now set to", time_total);
             }
         }
-        console2.log("CONTROLLER get_total", pt);
         return pt;
     }
 
@@ -246,7 +234,6 @@ contract GaugeController is VotingEscrow{
                     time_weight[gauge_addr] = t;
                 }
             }
-            console2.log("CONTROLLER get_weight", gauge_addr, pt.bias);
             return pt.bias;
         } else {
             return 0;
@@ -294,21 +281,16 @@ contract GaugeController is VotingEscrow{
     }
 
     function _gauge_relative_weight(address addr, uint256 time) internal view returns (uint256) {
-        console2.log("CONTROLLER internal gauge weight write");
         uint256 t = time / WEEK * WEEK;
         uint256 _total_weight = points_total[t];
         if (_total_weight > 0) {
-            console2.log("total weight > 0");
             int128 gauge_type = gauge_types_[addr] - 1;
             uint256 _type_weight = points_type_weight[gauge_type][t];
             uint256 _gauge_weight = points_weight[addr][t].bias;
-            console2.log("returning", MULTIPLIER * _type_weight * _gauge_weight / _total_weight);
             return MULTIPLIER * _type_weight * _gauge_weight / _total_weight;
         } else { 
-            console2.log("else");
             return 0;
         }
-        console2.log("done with internal");
     }
 
     function gauge_relative_weight(address addr, uint256 time) external view returns (uint256) {
@@ -316,19 +298,13 @@ contract GaugeController is VotingEscrow{
     }
 
     function gauge_relative_weight_write(address addr) external returns (uint256) {
-        console2.log("CONTROLLER gauge_relative_weight_write", addr);
         _get_weight(addr);
-        console2.log("got weight");
         _get_total();
-        console2.log("got total");
         return _gauge_relative_weight(addr, block.timestamp);    }
 
     function gauge_relative_weight_write(address addr, uint256 time) external returns (uint256) {
-        console2.log("CONTROLLER gauge_relative_weight_write", addr);
         _get_weight(addr);
-        console2.log("got weight");
         _get_total();
-        console2.log("got total");
         return _gauge_relative_weight(addr, time);
     }
 
@@ -434,8 +410,6 @@ contract GaugeController is VotingEscrow{
         _get_total();
         vote_user_slopes[msg.sender][_gauge_addr] = new_slope;
         last_user_vote[msg.sender][_gauge_addr] = block.timestamp;
-
-        console2.log("gaugeWeights", _gauge_addr, _user_weight, get_gauge_weight(_gauge_addr));
     }
 
     function get_gauge_weight(address addr) public view returns (uint256) {

@@ -85,45 +85,20 @@ contract FamilialGaugeTest is Test {
     uint256 public fxsDistributorBalance;
 
     function setUp() public {
-
-        /// Deploy the fake reward token
-        // rewardToken = new MockERC20("Reward Token", "RTKN", 18);
-
-        // deploy the fake reward distributor
-        // distributor = new Distributor(
-        //     address(this),
-        //     address(this),
-        //     address(this),
-        //     address(fxs),
-        //     address(gaugeController)
-        // );
-        // console2.log("distributor", address(distributor));
-        // deploy the middleman gauge
-        // frxFamilyGauge = new FraxFamilialPitchGauge(
-        //     "frxETHETH Family Gauge",
-        //     address(this),
-        //     address(this),
-        //     address(fxsDistributor),
-        //     address(gaugeController),
-        //     address(fxs)
-        // );
-        // console2.log("frxFamilyGauge", address(frxFamilyGauge));
-        
-        // gaugeController = new MockFraxGaugeController(
-        //     100 ether
-        // );
-        // console2.log("gaugeController", address(gaugeController));
+        // deploy a token that will count as if it were veFXS just for pretendsies
         votes = new MockVotes("Votes", "VOTES", 18);
-        console2.log("votes", address(votes));
 
+        // deploy the new gauge controller for testing with
         gaugeController = new GaugeController(
             address(votes), 
             address(votes)
         );
+        // add the gauge type (from actual FraxGaugeController deployment)
         gaugeController.add_type("Ethereum", 1000000000000000000);
-        gaugeController.change_global_emission_rate(165343915343915); // approx 100 FXS/wk
-        console2.log("gaugeController", address(gaugeController));
+        // set global emission rate to 100 FXS per week (roughly)
+        gaugeController.change_global_emission_rate(165343915343915);
 
+        // deploy the new reward distro for testing with
         fxsDistributor = new FraxGaugeFXSRewardsDistributor(
             address(this),
             address(this),
@@ -131,8 +106,8 @@ contract FamilialGaugeTest is Test {
             address(fxs),
             address(gaugeController)
         );
-        console2.log("fxsDistributor", address(fxsDistributor));
 
+        // deploy the familial token manager/reward distributor/controller
         frxFamilyDistributor = new FraxFamilialGaugeDistributor(
             "frxETHETH Family Gauge",
             address(this),
@@ -140,7 +115,6 @@ contract FamilialGaugeTest is Test {
             address(fxsDistributor),
             address(gaugeController)
         );
-        console2.log("frxFamilyDistributor", address(frxFamilyGauge));
 
         // Set the rewards parameters
         _rewardTokens.push(address(fxs));
@@ -154,7 +128,6 @@ contract FamilialGaugeTest is Test {
 
         // Deploy the logic for the transferrable fraxfarm
         transferrableFarm = new FraxUnifiedFarm_ERC20_V2(address(this), _rewardTokens, _rewardManagers, _rewardRates, _gaugeControllers, _rewardDistributors, cvxStkFrxEthLp);
-        console2.log("transferrableFarm", address(transferrableFarm));
 
         /// Set up the controller, familial, distributors, and old farm
         // Add the two child gauges to the `_gauges` array
@@ -167,7 +140,8 @@ contract FamilialGaugeTest is Test {
         // add the children to the family
         frxFamilyDistributor.addChildren(_childGauges);
         // shut off rewards to the non-transferrable farm at the distributor
-        // fxsDistributor.setGaugeState(address(transferrableFarm), false, false);
+        /// @dev in practice, we wouldn't be deploying a new controller & distributor. In that case, this would be needed:
+        /// note see above ^ fxsDistributor.setGaugeState(address(transferrableFarm), false, false);
         // add the family gauge to the distributor
         fxsDistributor.setGaugeState(address(frxFamilyDistributor), false, true);
 
@@ -178,9 +152,6 @@ contract FamilialGaugeTest is Test {
         frxEthFarm.changeTokenManager(address(fxs), address(frxFamilyDistributor));
         // set the non-transferrable farm to point to the correct addresses (reward token, rate, gaugecontroller, distributor
         frxEthFarm.setRewardVars(address(fxs), 100000000000000, address(0), address(frxFamilyDistributor));
-        // remove the gauge controller from the non-transferrable farm
-        // add the family gauge to the controller
-        // gaugeController.add_gauge(address(frxFamilyDistributor), int128(0), uint256(1000));
         vm.stopPrank();
 
         // create two users
@@ -209,8 +180,6 @@ contract FamilialGaugeTest is Test {
 
         // seed the contracts with some FXS to start
         IERC20(fxs).transfer(address(fxsDistributor), 1000 ether);
-        // IERC20(fxs).transfer(address(frxFamilyDistributor), 10000 ether);
-        // IERC20(fxs).transfer(address(frxEthFarm), 10000 ether);
         IERC20(fxs).transfer(address(transferrableFarm), 100 ether);
 
         // Create some stakes
@@ -228,7 +197,6 @@ contract FamilialGaugeTest is Test {
         assertGt(retbal, 9900 ether, "invalid minimum mint amount frxETHCRV");
 
         /// Wrap the curve LP tokens into cvxStkFrxEthLp
-        // cvxStkFrxEthLp.deposit(990 ether, address(alice));
         IDeposits(address(frxETHCRV)).approve(address(cvxStkFrxEthLp), type(uint256).max);
         cvxStkFrxEthLp.call(abi.encodeWithSignature("deposit(uint256,address)", retbal, address(alice)));
 
@@ -248,11 +216,6 @@ contract FamilialGaugeTest is Test {
         console2.log("senderInitialLockedLiquidity", senderInitialLockedLiquidity);
 
         vm.stopPrank();
-        // cast the votes for the familial gauges @ 80% of total emissions
-        // gaugeController.vote(address(frxFamilyDistributor), 8 * 1e17);
-        // // cast votes for fake gauge as 20% of total emissions
-        // gaugeController.vote(address(69420), 2 * 1e17);
-        // require(gaugeController.total_weight() == 1 ether, "total weight should be 1");
         transferrableFarm.sync();
         frxEthFarm.sync();
 
@@ -286,17 +249,6 @@ contract FamilialGaugeTest is Test {
         skip(7 days);
         gaugeController.checkpoint_gauge(address(frxFamilyDistributor));
 
-        // sync the farms
-        // transferrableFarm.sync();
-        // frxEthFarm.sync();
-        // gaugeController.reset();
-        // skip(1);    
-        
-        // // Cast votes
-        // gaugeController.vote(address(transferrableFarm), 8 * 1e17);
-        // gaugeController.vote(address(frxEthFarm), 2 * 1e17);
-        // require(gaugeController.total_weight() == 1 * 1e18, "total weight should be 1");
-
         // claim rewards
         transferrableFarm.getReward(address(alice));
 
@@ -306,34 +258,23 @@ contract FamilialGaugeTest is Test {
         assertGt(aliceFXSBalPost2, aliceFXSBalPost1, "alice should have some rewards");
         console2.log("aliceFXSBalPost1", aliceFXSBalPost2);
 
-        // transferrableFarm.getReward(address(alice));        
-        // // check the rewards
-        // (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-        // uint256 aliceFXSBalPost2 = abi.decode(retval, (uint256));
-        // assertGt(aliceFXSBalPost2, aliceFXSBalPost1, "alice should have some rewards2");
-        // console2.log("aliceFXSBalPost1", aliceFXSBalPost2);
-
-        vm.stopPrank();
-
-        // gaugeController.reset(); // fake clear any existing votes
-        // /// Cast votes
-        // gaugeController.vote(address(transferrableFarm), 8 * 1e17);
-        // gaugeController.vote(address(frxEthFarm), 2 * 1e17);
-        // require(gaugeController.total_weight() == 1 * 1e18, "total weight should be 1");
-
         // skip forward beyond the reward period
         skip(7 days + 1);
         gaugeController.checkpoint_gauge(address(frxFamilyDistributor));
 
-        vm.startPrank(address(alice));
         // claim rewards
         transferrableFarm.getReward(address(alice));
-        uint256 amtSentToFamily = fxsDistributor.amountSentThisRound(address(frxFamilyDistributor));
-        assertGe(amtSentToFamily, 79 ether, "family should have received 80% of the rewards");
-        uint256 amtSentToTransferrable = frxFamilyDistributor.amountSentThisRound(address(transferrableFarm));
-        uint256 amtSentToNonTransferrable = frxFamilyDistributor.amountSentThisRound(address(frxEthFarm));
-        /// there can be some dust left in the familial distro because of rounding errors.
-        assertGt(amtSentToTransferrable + amtSentToNonTransferrable, (100000 * amtSentToFamily) / 100001, "both farms should have received all sent to the family");
+
+        ///////////////// 
+        console2.log("amountSentThisRound removed for non-testing use");
+        /// @dev NOTE the `amountSentThisRound` is commented out - it is for debugging purposes only
+        /// @dev these values did check out during the test, but they are not necessary for real world use
+        // uint256 amtSentToFamily = fxsDistributor.amountSentThisRound(address(frxFamilyDistributor));
+        // assertGe(amtSentToFamily, 79 ether, "family should have received 80% of the rewards");
+        // uint256 amtSentToTransferrable = frxFamilyDistributor.amountSentThisRound(address(transferrableFarm));
+        // uint256 amtSentToNonTransferrable = frxFamilyDistributor.amountSentThisRound(address(frxEthFarm));
+        // /// there can be some dust left in the familial distro because of rounding errors.
+        // assertGt(amtSentToTransferrable + amtSentToNonTransferrable, (100000 * amtSentToFamily) / 100001, "both farms should have received all sent to the family");
         
         // check the rewards
         (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
@@ -341,468 +282,6 @@ contract FamilialGaugeTest is Test {
         assertGt(aliceFXSBalPost3, aliceFXSBalPost2, "alice should have some rewards2");
         console2.log("aliceFXSBalPost1", aliceFXSBalPost3);
 
-        // // check the rewards
-        // (, retval) = fxs.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-        // uint256 aliceFXSBalPost3 = abi.decode(retval, (uint256));
-        // assertGt(aliceFXSBalPost3, aliceFXSBalPost2, "alice should have some rewards");
-        // console2.log("aliceFXSBalPost2", aliceFXSBalPost3);
-
         vm.stopPrank();
     }
-
-    // // to prevent stack too deep errors, store informational values here
-    // struct TestState {
-    //     bytes retval;
-    //     uint256 retbal;
-    //     uint256 senderPreAdd;
-    //     uint256 senderBaseLockedLiquidity;
-    //     uint256 senderPostAdd;
-    //     uint256 senderInitialLockedLiquidity;
-    //     uint256 receiverInitialLockedLiquidity;
-    //     uint256 senderPostTransfer1;
-    //     uint256 senderPostTransfer2;
-    //     uint256 receiverPreTransfer1;
-    //     uint256 receiverPostTransfer1;
-    //     uint256 receiverPostTransfer2;
-    //     uint256 senderLock;
-    //     uint256 receiverLock1;
-    //     uint256 receiverLock2;
-    //     uint256 receiverLock3;
-    //     uint256 senderPostTransfer1Balance;
-    //     uint256 senderPostTransfer2Balance;
-    //     uint256 senderPreTransfer3;
-    //     uint256 receiverPostTransfer1Balance;
-    //     uint256 receiverPostTransfer2Balance;
-    //     uint256 receiverPreTransfer3;
-    //     uint256 senderPostTransfer3Balance;
-    //     uint256 receiverPostTransfer3Balance;
-    //     uint256 senderPostTransfer3;
-    //     uint256 receiverPostTransfer3;
-    //     uint256 transferAmount;
-    // }
-
-    // function testEnd2End() public {
-    //     TestState memory t;
-
-    //     t.transferAmount = 10 ether;
-
-    //     ///// transfer the lock to bob /////
-    //     skip(1 days);
-
-    //     /// get receiver's pre-transfer number of locks, should be 0
-    //     t.receiverPreTransfer1 = transferrableFarm.lockedStakesOfLength(address(bob));
-    //     t.receiverInitialLockedLiquidity = transferrableFarm.lockedLiquidityOf(address(bob));
-    //     transferrableFarm.getReward(address(alice));
-    //     ///// Transfer part of the LockedStake to bob - creates new kekId ///// 
-    //     (, t.receiverLock1) = alice.transferLocked(address(bob), t.senderLock, t.transferAmount, false, 0);
-        
-    //     /// Double check that this stake exists now & that sender didn't lose or add a LockedStake
-    //     t.senderPostTransfer1 = transferrableFarm.lockedStakesOfLength(address(alice));
-    //     t.receiverPostTransfer1 = transferrableFarm.lockedStakesOfLength(address(bob));
-    //     assertEq(t.senderPostTransfer1, t.senderPostAdd, "sender should have same # locks");
-    //     assertEq(t.receiverPostTransfer1, (t.receiverPreTransfer1 + 1), "receiver should have 1 more lock");
-    //     // check that liquidity has changed
-    //     t.senderPostTransfer1Balance = transferrableFarm.lockedLiquidityOf(address(alice));
-    //     t.receiverPostTransfer1Balance = transferrableFarm.lockedLiquidityOf(address(bob));
-    //     assertEq(t.senderPostTransfer1Balance, t.senderInitialLockedLiquidity - t.transferAmount, "sender should have 980 locked");
-    //     assertEq(t.receiverPostTransfer1Balance, t.receiverInitialLockedLiquidity + t.transferAmount, "receiver should have 10 locked");
-
-    //     ///// Try sending to a lockId that receiver doesn't have - SHOULD FAIL /////
-    //     vm.expectRevert();
-    //     alice.transferLocked(address(bob), t.senderLock, t.transferAmount, true, 69);
-
-    //     ///// Send more to same kek_id /////
-    //     skip(1 days);
-        
-    //     /// transfer to a specific receiver lockKek (the same as was created last time)
-    //     assertEq(transferrableFarm.lockedStakesOfLength(address(bob)), t.receiverPostTransfer1, "receiver should still have same number locks");
-    //     assertEq(transferrableFarm.lockedStakesOfLength(address(alice)), t.senderPostTransfer1, "sender should still have same number locks");
-
-    //     //// transfer to the previous added kekId
-    //     (, t.receiverLock2) = alice.transferLocked(address(bob), t.senderLock, t.transferAmount, true, t.receiverLock1);
-
-    //     /// Check that the total number of both sender & receiver LockedStakes remained the same
-    //     t.senderPostTransfer2 = transferrableFarm.lockedStakesOfLength(address(alice));
-    //     t.receiverPostTransfer2 = transferrableFarm.lockedStakesOfLength(address(bob));
-    //     assertEq(t.senderPostTransfer2, t.senderPostTransfer1, "Sender should have same num locks");
-    //     assertEq(t.receiverPostTransfer2, t.receiverPostTransfer1, "Receiver should have same num locks");
-    //     // check that liquidity has changed
-    //     t.senderPostTransfer2Balance = transferrableFarm.lockedLiquidityOf(address(alice));
-    //     t.receiverPostTransfer2Balance = transferrableFarm.lockedLiquidityOf(address(bob));
-    //     assertEq(t.senderPostTransfer2Balance, t.senderPostTransfer1Balance - t.transferAmount , "sender should have 970 locked");
-    //     assertEq(t.receiverPostTransfer2Balance, t.receiverPostTransfer1Balance + t.transferAmount, "receiver should have 20 locked");
-
-    //     ///// Test sending to an address that isn't a Convex Vault /////
-    //     vm.expectRevert();
-    //     alice.transferLocked(address(bob), t.senderLock, 10 ether, false, 0);
-
-    //     ///// Test sending entire remaining balance of sender's lockedStake liquidity /////
-    //     skip(20 days);
-    //     console2.log("SKIP FAR AHEAD TO NEW REWARD PERIOD");
-    //     t.senderPreTransfer3 = transferrableFarm.lockedStakesOfLength(address(alice));
-    //     t.receiverPreTransfer3 = transferrableFarm.lockedStakesOfLength(address(bob));
-    //     (, t.receiverLock3) = alice.transferLocked(address(bob), t.senderLock, (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity - (2 * t.transferAmount)), true, t.receiverLock2);
-    //     // check that liquidity has changed
-    //     t.senderPostTransfer3Balance = transferrableFarm.lockedLiquidityOf(address(alice));
-    //     t.receiverPostTransfer3Balance = transferrableFarm.lockedLiquidityOf(address(bob));
-    //     assertEq(t.senderPostTransfer3Balance, t.senderBaseLockedLiquidity, "all of sender's locked liquidity should be back to base level");
-    //     assertEq(t.receiverPostTransfer3Balance, (t.receiverInitialLockedLiquidity + (t.senderInitialLockedLiquidity - t.senderBaseLockedLiquidity)), "receiver should have all of sender's locked");
-
-    //     vm.stopPrank();
-
-    //     console2.log("E2E Test Success!");
-    // }
-
-    // function testOnLockReceivedNonCompliance() public {
-    //     vm.startPrank(address(alice));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known kekId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     skip(1 days);
-
-    //     /// Test sending to a non-compliant vault owner ///// 
-    //     vm.expectRevert();
-    //     (, uint256 receiverLockId) = alice.transferLocked(address(nonCompliantVault), senderLockId, 10 ether, false, 0);
-
-    //     vm.stopPrank();
-
-    //     console2.log("PASS = non-compliant vault FAILS on onLockReceived check");
-    // }
-
-    // function testOnLockReceivedCompliance() public {
-    //     vm.startPrank(address(address(alice)));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known lockId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     skip(1 days);
-
-    //     // initialize it as 69 so that it can be set to 0 by the return value
-    //     uint256 receiverLockId = 69;
-
-    //     // /// Test transfering to a compliant vault owner /////
-    //     (, receiverLockId) = alice.transferLocked(address(compliantVault), senderLockId, 10 ether, false, 0);
-    //     vm.stopPrank();
-
-    //     assertEq(receiverLockId, 0, "didn't reset the value correctly");
-
-    //     console2.log("PASS = compliant vault PASSES on onLockReceived check");
-    // }
-
-    // function testSetAllowanceAsOwner() public {
-    //     vm.startPrank(address(alice));
-
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     alice.setAllowance(address(bob), senderLockId, 100 ether);
-    //     assertEq(transferrableFarm.spenderAllowance(address(alice), senderLockId, address(bob)), 100 ether, "allowance should be set");
-    //     vm.stopPrank();
-    // }
-
-    // function testSetAllowanceAsNonOwner() public {
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     vm.prank(address(bob));
-    //     vm.expectRevert();
-    //     alice.setAllowance(address(bob), senderLockId, 100 ether);
-    // }
-
-    // function testIncreaseAllowanceAsOwner() public {
-    //     vm.startPrank(address(alice));
-
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-        
-    //     alice.setAllowance(address(bob), senderLockId, 100 ether);
-    //     alice.increaseAllowance(address(bob), senderLockId, 100 ether);
-    //     vm.stopPrank();
-    //     assertEq(transferrableFarm.spenderAllowance(address(alice), senderLockId, address(bob)), 200 ether, "allowance should be increased");
-    // }
-
-    // function testIncreaseAllowanceAsNonOwner() public {
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     vm.startPrank(address(bob));
-    //     vm.expectRevert();
-    //     alice.increaseAllowance(address(bob), senderLockId, 100 ether);
-    //     vm.stopPrank();
-    // }
-
-    // function testCannotIncreaseAllowanceFromZero() public {
-    //     vm.startPrank(address(alice));
-
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     vm.expectRevert();
-    //     alice.increaseAllowance(address(bob), senderLockId, 100 ether);
-    //     vm.stopPrank();
-    // }
-
-    // function testRemoveAllowanceAsOwner() public {
-    //     vm.startPrank(address(alice));
-
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     alice.setAllowance(address(bob), senderLockId, 100 ether);
-    //     alice.removeAllowance(address(bob), senderLockId);
-
-    //     vm.stopPrank();
-
-    //     assertEq(transferrableFarm.spenderAllowance(address(alice), senderLockId, address(bob)), 0, "allowance should be removed");
-    // }
-
-    // function testRemoveAllowanceAsNonOwner() public {
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     vm.startPrank(address(bob));
-    //     vm.expectRevert();
-    //     alice.removeAllowance(address(bob), senderLockId);
-
-    //     vm.stopPrank();
-    // }
-
-    // function testSetApprovalAsOwner() public {
-    //     vm.startPrank(address(alice));
-
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     alice.setApprovalForAll(address(bob), true);
-    //     // console2.log("isApproved", transferrableFarm.isApproved())
-    //     assertEq(transferrableFarm.spenderApprovalForAllLocks(address(alice), address(bob)), true, "approval should be set");
-        
-    //     vm.stopPrank();
-    // }
-
-    // function testSetApprovalAsNonOwner() public {
-
-    //     /// get number of locked stakes
-    //     uint256 senderLockId = transferrableFarm.lockedStakesOfLength(address(alice)) - 1;
-
-    //     vm.startPrank(address(bob));
-    //     vm.expectRevert();
-    //     alice.setApprovalForAll(address(bob), true);
-        
-    //     assertEq(transferrableFarm.spenderApprovalForAllLocks(address(alice), address(bob)), false, "approval not should be set");
-        
-    //     vm.stopPrank();
-    // }
-
-    // function testTransferLockedFromAsApprovedForAll() public {
-    //     vm.startPrank(address(alice));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known kekId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     alice.setApprovalForAll(address(this), true);
-    //     // console2.log("isApproved", transferrableFarm.isApproved())
-    //     assertEq(transferrableFarm.spenderApprovalForAllLocks(address(alice), address(this)), true, "approval should be set");
-        
-    //     vm.stopPrank();
-
-    //     skip(1 days);
-
-    //     // number of locks held by compliantVault pre-transfer
-    //     uint256 compliantLocksPre = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // transfer the lock from alice to compliantVault
-    //     transferrableFarm.transferLockedFrom(address(alice), address(compliantVault), senderLockId, 1 ether, false, 0);
-
-    //     // number of locks held by compliantVault post-transfer
-    //     uint256 compliantLocksPost = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // check that the lock was transferred
-    //     assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
-    // }
-
-    // function testTransferLockedFromWithAllAllowance() public {
-    //     vm.startPrank(address(alice));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known kekId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     alice.setAllowance(address(this), senderLockId, 100 ether);
-    //     assertEq(transferrableFarm.spenderAllowance(address(alice), senderLockId, address(this)), 100 ether, "allowance should be set");
-
-    //     vm.stopPrank();
-
-    //     skip(1 days);
-
-    //     // number of locks held by compliantVault pre-transfer
-    //     uint256 compliantLocksPre = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // transfer the lock from alice to compliantVault
-    //     transferrableFarm.transferLockedFrom(address(alice), address(compliantVault), senderLockId, 100 ether, false, 0);
-
-    //     // number of locks held by compliantVault post-transfer
-    //     uint256 compliantLocksPost = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // check that the lock was transferred
-    //     assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
-    // }
-
-    // function testTransferFromWithPartialAllowanceUse() public {
-    //     vm.startPrank(address(alice));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known kekId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     alice.setAllowance(address(this), senderLockId, 100 ether);
-    //     assertEq(transferrableFarm.spenderAllowance(address(alice), senderLockId, address(this)), 100 ether, "allowance should be set");
-
-    //     vm.stopPrank();
-
-    //     skip(1 days);
-
-    //     // number of locks held by compliantVault pre-transfer
-    //     uint256 compliantLocksPre = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // transfer the lock from alice to compliantVault
-    //     transferrableFarm.transferLockedFrom(address(alice), address(compliantVault), senderLockId, 1 ether, false, 0);
-
-    //     // number of locks held by compliantVault post-transfer
-    //     uint256 compliantLocksPost = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // check that the lock was transferred
-    //     assertEq(compliantLocksPost, compliantLocksPre + 1, "lock should be transferred");
-    // }
-
-    // function testTransferLockedFromAsNotApproved() public {
-    //     vm.startPrank(address(alice));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known kekId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     // alice.setApprovalForAll(address(this), true);
-    //     // // console2.log("isApproved", transferrableFarm.isApproved())
-    //     // assertEq(transferrableFarm.spenderApprovalForAllLocks(address(alice), address(this)), true, "approval should be set");
-        
-    //     vm.stopPrank();
-
-    //     skip(1 days);
-
-    //     // number of locks held by compliantVault pre-transfer
-    //     uint256 compliantLocksPre = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // transfer the lock from alice to compliantVault
-    //     vm.expectRevert();
-    //     transferrableFarm.transferLockedFrom(address(alice), address(compliantVault), senderLockId, 1 ether, false, 0);
-
-    //     // number of locks held by compliantVault post-transfer
-    //     uint256 compliantLocksPost = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // check that the lock was transferred
-    //     assertEq(compliantLocksPost, compliantLocksPre, "no lock should be transferred");
-    // }
-
-    // function testTransferLockedFromWithInsufficientAllowance() public {
-    //     vm.startPrank(address(alice));
-
-    //     frxEthMinter.call{value: 1000*1e18}(abi.encodeWithSignature("submit()"));
-    //     (,bytes memory retval) = frxEth.call(abi.encodeWithSignature("balanceOf(address)", address(alice)));
-    //     uint256 retbal = abi.decode(retval, (uint256));
-    //     assertGe(retbal, 990 ether, "invalid mint amount frxETH");
-
-    //     // deposit it as LP into the curve pool
-    //     IDeposits(address(frxEth)).approve(curveLpMinter, type(uint256).max);
-    //     IDeposits(curveLpMinter).add_liquidity([uint256(0), uint256(1000 ether)], 990 ether);
-    //     retbal = IDeposits(frxETHCRV).balanceOf(address(alicealice));
-    //     assertGt(retbal, 990 ether, "invalid minimum mint amount frxETHCRV");
-
-    //     // create a known kekId
-    //     uint256 senderLockId = alice.stakeLockedCurveLp(990 ether, (60*60*24*300));
-
-    //     alice.setAllowance(address(bob), senderLockId, 1 ether);
-    //     assertEq(transferrableFarm.spenderAllowance(address(alice), senderLockId, address(bob)), 1 ether, "allowance should be set");
-
-    //     vm.stopPrank();
-
-    //     skip(1 days);
-
-    //     // number of locks held by compliantVault pre-transfer
-    //     uint256 compliantLocksPre = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // transfer the lock from alice to compliantVault
-    //     vm.expectRevert();
-    //     transferrableFarm.transferLockedFrom(address(alice), address(compliantVault), senderLockId, 10 ether, false, 0);
-
-    //     // number of locks held by compliantVault post-transfer
-    //     uint256 compliantLocksPost = transferrableFarm.lockedStakesOfLength(address(compliantVault));
-
-    //     // check that the lock was transferred
-    //     assertEq(compliantLocksPost, compliantLocksPre, "no lock should be transferred");
-    // }
 }
