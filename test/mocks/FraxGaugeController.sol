@@ -216,7 +216,7 @@ contract GaugeController is VotingEscrow{
                 console2.log("CONTROLLER time_total", time_total);
                 console2.log("CONTROLLER t", i, t);
                 time_total = t;
-                console2.log("CONTROLLER time_total", time_total);
+                console2.log("CONTROLLER time_total now set to", time_total);
             }
         }
         console2.log("CONTROLLER get_total", pt);

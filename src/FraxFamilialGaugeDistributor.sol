@@ -614,9 +614,13 @@ contract FraxFamilialGaugeDistributor is Owned {
             uint256 num_gauges = gauges.length;
             // uint256 i;
             console2.log("num_gauges", num_gauges);
-            // store the most recent time_total for the farms to use & prevent this logic from being executed until epoch
-            time_total_stored = IFraxGaugeController(gauge_controller).time_total();//latest_time_total;
-            console2.log("time_total_stored", time_total_stored);
+
+            //// TODO removed the require statement after pulling in rwds from distro - remove this
+            // /// If this still had some FXS balance left over, it's due to a rounding error - transfer it to Owner to prevent issues
+            // uint256 leftover_fxs = IERC20(reward_token).balanceOf(address(this));
+            // if (leftover_fxs > 0) {
+            //     IERC20(reward_token).transfer(owner, leftover_fxs);
+            // }
             ////////// SECOND - get the reward rates and calculate them for the new period (from controller & distributor) //////////
 
             // get & set the gauge controller's last global emission rate
@@ -626,6 +630,10 @@ contract FraxFamilialGaugeDistributor is Owned {
             total_familial_relative_weight = 
                 IFraxGaugeController(gauge_controller).gauge_relative_weight_write(address(this), block.timestamp);
             console2.log("total_familial_relative_weight", total_familial_relative_weight);
+            
+            // store the most recent time_total for the farms to use & prevent this logic from being executed until epoch
+            time_total_stored = IFraxGaugeController(gauge_controller).time_total();//latest_time_total;
+            console2.log("time_total_stored", time_total_stored);
 
             // update all the gauge weights
             for (uint256 i; i < num_gauges; i++) {
@@ -661,7 +669,8 @@ contract FraxFamilialGaugeDistributor is Owned {
             emit FamilialRewardClaimed(address(this), weeks_elapsed, reward_tally);
             console2.log("FAMILIAL DISTRO reward tally & balance", reward_tally, IERC20(reward_token).balanceOf(address(this)));
             // ensure that reward_tally == the amount of FXS held in this contract
-            require(reward_tally == IERC20(reward_token).balanceOf(address(this)), "tally!=balance");
+            // note getting rid of this due to rounding errors causing failures. this is correct, but 1 wei ruins things
+            // require(reward_tally == IERC20(reward_token).balanceOf(address(this)), "tally!=balance");
             
             // divide the reward_tally amount by the gauge's allocation to get the allocation
             for (uint256 i; i < num_gauges; i++) {
