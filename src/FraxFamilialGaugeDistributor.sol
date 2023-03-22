@@ -635,6 +635,9 @@ contract FraxFamilialGaugeDistributor is Owned {
             time_total_stored = IFraxGaugeController(gauge_controller).time_total();//latest_time_total;
             console2.log("time_total_stored", time_total_stored);
 
+            // for the new reward period, zero out the total familial combined weight
+            familial_total_combined_weight = 0;
+            
             // update all the gauge weights
             for (uint256 i; i < num_gauges; i++) {
                 console2.log("DO GAUGE COMBINED WEIGHT LOOP", i);
